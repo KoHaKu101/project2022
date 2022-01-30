@@ -77,8 +77,9 @@
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
+            <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
 
-            <a href="#about" class="get-started-btn scrollto">เข้าสู่ระบบ</a>
+            {{-- <a href="#about" class="get-started-btn scrollto">เข้าสู่ระบบ</a> --}}
         </div>
     </header><!-- End Header -->
     <style>
@@ -391,6 +392,9 @@
                 <div class="section-title">
                     <h2>ติดต่อ</h2>
                 </div>
+                @php
+                    $locationmap = '16.051926472973367,103.64722590286577';
+                @endphp
                 <div class="row" data-aos="fade-up" data-aos-delay="100">
                     <div class="col-lg-6">
                         <div class="row">
@@ -398,32 +402,61 @@
                                 <div class="info-box">
                                     <i class="bx bx-map"></i>
                                     <h3>Our Address</h3>
-                                    <p>A108 Adam Street, New York, NY 535022</p>
+                                    <iframe width="80%" height="460"
+                                        src="https://maps.google.com/maps?q={{ $locationmap }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 ">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="info-box">
+                                <div class="info-box ">
                                     <i class="bx bx-envelope"></i>
                                     <h3>Email Us</h3>
                                     <p>info@example.com<br>contact@example.com</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="info-box">
+                                <div class="info-box ">
                                     <i class="bx bx-phone-call"></i>
                                     <h3>Call Us</h3>
                                     <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
                                 </div>
                             </div>
+                            <div class="col-md-12 mt-4 ">
+                                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                                    <div class="row">
+                                        <div class="col form-group">
+                                            <input type="text" name="name" class="form-control" id="name"
+                                                placeholder="Your Name" required>
+                                        </div>
+                                        <div class="col form-group">
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="Your Email" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="subject" id="subject"
+                                            placeholder="Subject" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" rows="5" placeholder="Message"
+                                            required></textarea>
+                                    </div>
+                                    <div class="my-3">
+                                        <div class="loading">Loading</div>
+                                        <div class="error-message"></div>
+                                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                                    </div>
+                                    <div class="text-center"><button type="submit">Send Message</button></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section><!-- End Contact Section -->
 
@@ -431,58 +464,7 @@
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6 footer-contact">
-                        <h3>Presento<span>.</span></h3>
-                        <p>
-                            A108 Adam Street <br>
-                            New York, NY 535022<br>
-                            United States <br><br>
-                            <strong>Phone:</strong> +1 5589 55488 55<br>
-                            <strong>Email:</strong> info@example.com<br>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-2 col-md-6 footer-links">
-                        <h4>Useful Links</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 footer-newsletter">
-                        <h4>Join Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-                        <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
         <div class="container d-md-flex py-4">
-
             <div class="me-md-auto text-center text-md-start">
                 <div class="copyright">
                     &copy; Copyright <strong><span>Presento</span></strong>. All Rights Reserved
@@ -495,22 +477,49 @@
                     Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                 </div>
             </div>
-            <div class="social-links text-center text-md-end pt-3 pt-md-0">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-            </div>
         </div>
     </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
+    {{-- modal login --}}
+    <div class="modal fade" id="modallogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">เข้าสู่ระบบ / Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="closmodallogin()"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">ชื่อผู้ใช้ / อีเมล</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="ชื่อผู้ใช้ / อีเมล" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">รหัสผ่าน</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="รหัสผ่าน" />
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" />
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <div class="modal-footer d-block">
+                            <p class="float-start">Not yet account <a href="#">Sign Up</a></p>
+                            <button type="submit" class="btn btn-success float-end">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    {{-- end modal login --}}
     <!-- Vendor JS Files -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-
     <script src="assets/vendor/purecounter/purecounter.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -522,6 +531,15 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/sweetalert2@11.js"></script>
+    <script>
+        function showmodallogin() {
+            $("#modallogin").modal("show");
+        }
+
+        function closemodallogin() {
+            $("#modallogin").modal('hide');
+        }
+    </script>
 
 
 </body>
