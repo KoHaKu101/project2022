@@ -18,5 +18,6 @@ use App\Http\Controllers\LoginController;
 Route::get('/', function () {
     return view('homepage/homepage');
 });
-Route::get('homepage',[LoginController::class,'homepage'])->name('homepage');
-Route::post("login",[LoginController::class,'login'])->name("login");
+Route::get('homepage'       ,[LoginController::class,'homepage'])   ->name('homepage');
+Route::post("login"         ,[LoginController::class,'login'])      ->name("login");
+Route::post("register"      ,[LoginController::class,'register'])   ->name("register");

@@ -30,4 +30,13 @@ class Register extends Model
          'MODIFY_BY',
          'MODIFY_TIME',
     ];
+        protected $hidden = [
+        'PASSWORD',
+        'remember_token',
+    ];
+
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
