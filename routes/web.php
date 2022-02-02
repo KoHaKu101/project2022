@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('homepage/homepage');
 });
+Route::get('homepage',[LoginController::class,'homepage'])->name('homepage');
+Route::post("login",[LoginController::class,'login'])->name("login");
