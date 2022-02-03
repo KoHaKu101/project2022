@@ -35,7 +35,11 @@
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
-        <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
+        @if (isset(Auth::user()->USERNAME))
+            <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->USERNAME }}</button>
+        @else
+            <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
+        @endif
 
         {{-- <a href="#about" class="get-started-btn scrollto">เข้าสู่ระบบ</a> --}}
     </div>

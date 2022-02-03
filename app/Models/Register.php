@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Register extends Model
+class Register extends Authenticatable
 {
     use HasFactory;
 
@@ -15,26 +15,26 @@ class Register extends Model
     public $timestamps = false;
     protected $primaryKey = "UNID";
     protected $keyType = 'BigInteger';
-    public $table ='SCH_USER';
+    public $table = 'SCH_USER';
 
     protected $fillable = [
-         'UNID',
-         'USERNAME',
-         'EMAIL',
-         'EMAIL_VERIFIED_AT',
-         'PASSWORD',
-         'STATUS',
-         'ROLE',
-         'CREATE_BY',
-         'CREATE_TIME',
-         'MODIFY_BY',
-         'MODIFY_TIME',
-    ];
-        protected $hidden = [
-        'PASSWORD',
-        'remember_token',
+        'UNID',
+        'USERNAME',
+        'EMAIL',
+        'EMAIL_VERIFIED_AT',
+        'password',
+        'STATUS',
+        'ROLE',
+        'CREATE_BY',
+        'CREATE_TIME',
+        'MODIFY_BY',
+        'MODIFY_TIME',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',

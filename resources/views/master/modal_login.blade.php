@@ -46,9 +46,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">ชื่อผู้ใช้ / อีเมล</label>
+                                        <label class="form-label">ชื่อผู้ใช้</label>
                                         <input type="text" class="form-control" id="USERNAME" name="USERNAME"
-                                            placeholder="ชื่อผู้ใช้ / อีเมล" required>
+                                            placeholder="ชื่อผู้ใช้" required>
                                     </div>
                                 </div>
                             </div>
