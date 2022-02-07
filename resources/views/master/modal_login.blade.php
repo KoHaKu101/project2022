@@ -95,6 +95,22 @@
                         <form action="{{ route('register') }}" method="POST" id="FRM_REGISTER" hidden>
                             @csrf
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">ชื่อจริง</label>
+                                        <input type="text" class="form-control" id="NEW_FIRST_NAME"
+                                            name="NEW_FIRST_NAME" placeholder="ชื่อจริง" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">นามสกุล</label>
+                                        <input type="text" class="form-control" id="NEW_LAST_NAME"
+                                            name="NEW_LAST_NAME" placeholder="นามสกุล" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">ชื่อผู้ใช้</label>
