@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form action="{{ route('register') }}" method="POST" id="FRM_REGISTER" hidden>
+                        <form method="POST" id="FRM_REGISTER" data-route="{{ route('register') }}" hidden>
                             @csrf
                             <div class="row">
                                 <div class="col-md-6">
@@ -116,6 +116,7 @@
                                         <label class="form-label">ชื่อผู้ใช้</label>
                                         <input type="text" class="form-control" id="NEW_USERNAME" name="NEW_USERNAME"
                                             placeholder="ชื่อผู้ใช้" required>
+
                                     </div>
                                 </div>
                             </div>
@@ -125,24 +126,45 @@
                                         <label class="form-label">อีเมล</label>
                                         <input type="email" class="form-control" id="NEW_EMAIL" name="NEW_EMAIL"
                                             placeholder="อีเมล" required>
+
                                     </div>
                                 </div>
                             </div>
+                            <style>
+                                label.text-danger-edit {
+                                    color: red;
+                                }
+
+                                input.text-danger-edit {
+                                    background-color: #f8d7da;
+                                    border-color: #f5c2c7;
+                                }
+
+                            </style>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">รหัสผ่าน</label>
-                                        <input type="password" class="form-control" id="NEW_PASSWORD"
+                                    <div class="mb-3 form-group ">
+                                        <label class="form-label ER_NEW_PASSWORD">รหัสผ่าน</label>
+                                        <input type="password" class="form-control ER_NEW_PASSWORD" id="NEW_PASSWORD"
                                             name="NEW_PASSWORD" placeholder="รหัสผ่าน" required>
+                                        <p class="text-danger HIDE_NEW_PASSWORD" hidden>
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            รหัสผ่านผิดพลาด
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">ยืนยันรหัสผ่าน</label>
-                                        <input type="password" class="form-control" id="CONFIRM_PASSWORD"
-                                            name="CONFIRM_PASSWORD" placeholder="รหัสผ่าน" required>
+                                        <label class="form-label ER_NEW_PASSWORD">ยืนยันรหัสผ่าน</label>
+                                        <input type="password" class="form-control ER_NEW_PASSWORD"
+                                            id="CONFIRM_PASSWORD" name="CONFIRM_PASSWORD" placeholder="รหัสผ่าน"
+                                            required>
+                                        <p class="text-danger HIDE_CONFIRM_PASSWORD" hidden>
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            รหัสผ่านผิดพลาด
+                                        </p>
                                     </div>
                                 </div>
                             </div>

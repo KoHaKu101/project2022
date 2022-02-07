@@ -1,9 +1,18 @@
 <!-- ======= Header ======= -->
+<style>
+    #header .logo img {
+        max-height: 75px;
+    }
+
+</style>
+
 <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center">
-        <h1 class="logo me-auto"><a href="index.html">ศูนย์พัฒนาเด็กเล็ก<span></span></a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt=""></a>-->
+        <h1 class="logo me-auto">
+            <a href="{{ route('homepage') }}">
+                <img src="{{ asset('assets/image/logoschool/makelogo.png') }}">
+            </a>
+        </h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
                 <li><a class="nav-link scrollto active" href="#hero">หน้าแรก</a></li>
@@ -32,24 +41,23 @@
                 <li><a class="nav-link scrollto" href="#">บุคลากร</a></li>
                 <li><a class="nav-link scrollto " href="#">ภาพกิจกรรม</a></li>
                 <li><a class="nav-link scrollto" href="#">ติดต่อ</a></li>
+
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
         @if (isset(Auth::user()->USERNAME))
-            {{-- <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->FIRST_NAME }}
-                <i class="fa fa-chevron-circle-down ms-2"></i></button> --}}
             <div class="dropdown">
                 <button class="btn btn-danger get-started-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->FIRST_NAME }}
+                    data-bs-toggle="dropdown" aria-expanded="false">{{ Auth::user()->FIRST_NAME }}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    @if (Auth::user()->ROLE == 'ADMIN')
+                        <li><a class="dropdown-item" href="#">แก้ไขเว็บไซต์</a></li>
+                    @endif
                     <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
                     <li><a class="dropdown-item" href="{{ route('logout') }}">ออกจากระบบ</a></li>
                 </ul>
             </div>
-
         @else
             <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
         @endif
