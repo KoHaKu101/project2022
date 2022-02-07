@@ -44,9 +44,6 @@ class LoginController extends Controller
         $USERNAME = $request->USERNAME;
         $password = $request->password;
         $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $password];
-        // dd(REGISTER::where('USERNAME', '=', $USERNAME)->get());
-        dd(Auth::attempt($LOGIN_SET));
-
         if (Auth::attempt($LOGIN_SET)) {
             $request->session()->regenerate();
             Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ');
@@ -77,6 +74,8 @@ class LoginController extends Controller
             'password' => Hash::make($CURRENT_PASSWORD),
             'STATUS' => 'OPEN',
             'ROLE' => 'USER',
+            'FIRST_NAME' => $request->NEW_FIRST_NAME,
+            'LAST_NAME' => $request->NEW_LAST_NAME,
             'CREATE_BY' => $request->NEW_USERNAME,
             'CREATE_TIME' => Carbon::now(),
         ]);

@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('STATUS', 50);
             $table->string('ROLE', 50);
+            $table->string('FIRST_NAME', 150);
+            $table->string('LAST_NAME', 150);
             $table->rememberToken();
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();

@@ -36,7 +36,7 @@
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
         @if (isset(Auth::user()->USERNAME))
-            <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->USERNAME }}</button>
+            <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->FIRST_NAME }}</button>
         @else
             <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
         @endif
