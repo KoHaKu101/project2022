@@ -44,14 +44,15 @@ class LoginController extends Controller
         $USERNAME = $request->USERNAME;
         $password = $request->password;
         $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $password];
-        if (Auth::attempt($LOGIN_SET)) {
-            $request->session()->regenerate();
-            Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ');
-            return redirect()->route('homepage');
-        } else {
+        if (!Auth::validate($LOGIN_SET)) {
             Alert::error('เข้าสู่ระบบไม่สำเร็จ', 'ไม่พบชื่อผู้ใช้ หรือ รหัสผ่านผิดพลาด');
             return redirect()->route('homepage');
         }
+        $remember = $request->remember == 'on' ? true : false;
+        Auth::attempt($LOGIN_SET, $remember);
+        $request->session()->regenerate();
+        Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ');
+        return redirect()->route('homepage');
     }
     public function register(Request $request)
     {
@@ -66,7 +67,6 @@ class LoginController extends Controller
 
         $CURRENT_PASSWORD = $PASSWORD;
         $USERNAME = $request->NEW_USERNAME;
-
         Register::insert([
             'UNID' => $UNID,
             'USERNAME' => $USERNAME,
@@ -93,5 +93,10 @@ class LoginController extends Controller
     public function homepage()
     {
         return view('homepage.homepage');
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('homepage');
     }
 }

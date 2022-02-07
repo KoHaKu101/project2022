@@ -36,7 +36,20 @@
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
         @if (isset(Auth::user()->USERNAME))
-            <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->FIRST_NAME }}</button>
+            {{-- <button type="button" class="btn btn-danger get-started-btn">{{ Auth::user()->FIRST_NAME }}
+                <i class="fa fa-chevron-circle-down ms-2"></i></button> --}}
+            <div class="dropdown">
+                <button class="btn btn-danger get-started-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->FIRST_NAME }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="{{ route('logout') }}">ออกจากระบบ</a></li>
+                </ul>
+            </div>
+
         @else
             <button type="button" class="btn btn-danger get-started-btn" onclick="showmodallogin()">เข้าสู่ระบบ</button>
         @endif
