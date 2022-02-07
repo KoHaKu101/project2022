@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Register;
-use Illuminate\Support\Facades\Hash;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Carbon;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
+
 class LoginController extends Controller
 {
     public function randUNID($table)
@@ -22,8 +23,8 @@ class LoginController extends Controller
         } while (
             !empty(
                 DB::table($table)
-                    ->where('UNID', $number)
-                    ->first(['UNID'])
+                ->where('UNID', $number)
+                ->first(['UNID'])
             )
         );
         return $number;
@@ -57,7 +58,7 @@ class LoginController extends Controller
     }
     public function register(Request $request)
     {
-        $UNID = $this->randUNID('SCH_USER');
+        $UNID = $this->randUNID('NKD_USER');
         $PASSWORD = $request->NEW_PASSWORD;
         $CONFIRM_PASSWORD = $request->CONFIRM_PASSWORD;
 

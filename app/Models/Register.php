@@ -15,7 +15,7 @@ class Register extends Authenticatable
     public $timestamps = false;
     protected $primaryKey = "UNID";
     protected $keyType = 'BigInteger';
-    public $table = 'SCH_USER';
+    public $table = 'NKD_USER';
 
     protected $fillable = [
         'UNID',
