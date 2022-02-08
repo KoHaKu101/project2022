@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\EditController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +15,12 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-    return view('homepage/homepage');
+    return view('homepage');
 });
 Route::get('homepage', [LoginController::class, 'homepage'])->name('homepage');
 Route::post("login", [LoginController::class, 'login'])->name("login");
 Route::post("register", [LoginController::class, 'register'])->name("register");
 Route::get("logout", [LoginController::class, 'logout'])->name("logout");
+
+// editpage
+Route::get('edit/home',[EditController::class,'home'])->name('edit.home');

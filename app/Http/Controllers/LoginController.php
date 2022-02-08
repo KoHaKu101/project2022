@@ -36,28 +36,34 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $validated = $request->validate(
+        $message = [
+            'USERNAME.required' => 'กรุณากรอกชื่อผู้ใช้',
+            'password.required' => 'กรุณากรอกรหัสผ่าน',
+        ];
+        $Validated = Validator::make(
+            $request->all(),
             [
                 'USERNAME' => 'required',
-                'password' => 'required|confirmed|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+                'password' => 'required',
             ],
-            [
-                'USERNAME.required' => 'กรุณาใส่ข้อมูล',
-                'password.required' => 'กรุณาใส่ข้อมูลให้ถูกต้อง',
-            ],
+           $message
         );
+
+        if($Validated->fails()){
+            $response = $Validated->messages();
+
+            return response()->json(['id'=>$response,'massage' => 'กรุณาตรวจสอบข้อมูลให้ครบถ้วน','alert'=>'error'],200);
+        }
         $USERNAME = $request->USERNAME;
         $password = $request->password;
-        $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $password];
-        if (!Auth::validate($LOGIN_SET)) {
-            Alert::error('เข้าสู่ระบบไม่สำเร็จ', 'ไม่พบชื่อผู้ใช้ หรือ รหัสผ่านผิดพลาด');
-            return redirect()->route('homepage');
-        }
         $remember = $request->remember == 'on' ? true : false;
+        $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $password];
+        if(!Auth::attempt($LOGIN_SET, $remember)){
+            return response()->json(['massage' => 'รหัสผ่านหรือชื่อผู้ใช้ผิดพลาด','alert'=>'error'],200);
+        }
         Auth::attempt($LOGIN_SET, $remember);
         $request->session()->regenerate();
-        Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ');
-        return redirect()->route('homepage');
+        return response()->json(['massage' => 'เข้าสู่ระบบสำเร็จ','alert'=>"success"]);
     }
     public function register(Request $request)
     {
@@ -68,10 +74,7 @@ class LoginController extends Controller
             'confirmed' => 'รหัสผ่านไม่เหมือนกัน',
             'regex' => 'รหัสผ่านต้องมี ตัวเลขและตัวอักษร',
             'same' => 'รหัสผ่านไม่เหมือนกัน',
-
-
         ];
-
         $Validated = Validator::make(
             $request->all(),
             [
@@ -79,51 +82,38 @@ class LoginController extends Controller
                 'NEW_LAST_NAME' => 'required',
                 'NEW_USERNAME' => 'required',
                 'NEW_EMAIL' => 'required',
-                'NEW_PASSWORD' => 'required|confirmed|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$/',
-                'CONFIRM_PASSWORD' => 'required|same:password|min:8',
+                'NEW_PASSWORD' => 'required|same:CONFIRM_PASSWORD|min:8|regex:/(^[a-z0-9 ]+$)+/',
+                'CONFIRM_PASSWORD' => 'required|same:NEW_PASSWORD|min:8',
             ],
            $message
         );
-
         if($Validated->fails()){
             $response = $Validated->messages();
             $alert = 'error';
+            return response()->json(['massage' => $response,'alert'=>$alert],200);
         }
+        $UNID = $this->randUNID('NKD_USER');
+        $PASSWORD = $request->NEW_PASSWORD;
+        $USERNAME = $request->NEW_USERNAME;
+        Register::insert([
+            'UNID' => $UNID,
+            'USERNAME' => $USERNAME,
+            'EMAIL' => $request->NEW_EMAIL,
+            'password' => Hash::make($PASSWORD),
+            'STATUS' => 'OPEN',
+            'ROLE' => 'USER',
+            'FIRST_NAME' => $request->NEW_FIRST_NAME,
+            'LAST_NAME' => $request->NEW_LAST_NAME,
+            'CREATE_BY' => $request->NEW_USERNAME,
+            'CREATE_TIME' => Carbon::now(),
+        ]);
 
-    return response()->json(['massage' => $response,'alert'=>$alert],200);
-        // $UNID = $this->randUNID('NKD_USER');
-        // $PASSWORD = $request->NEW_PASSWORD;
-        // $CONFIRM_PASSWORD = $request->CONFIRM_PASSWORD;
-
-        // if ($PASSWORD != $CONFIRM_PASSWORD) {
-        //     Alert::error('เกิดข้อผิดพลาด', 'รหัสไม่ตรงกัน');
-        //     return Redirect()->back();
-        // }
-
-        // $CURRENT_PASSWORD = $PASSWORD;
-        // $USERNAME = $request->NEW_USERNAME;
-        // Register::insert([
-        //     'UNID' => $UNID,
-        //     'USERNAME' => $USERNAME,
-        //     'EMAIL' => $request->NEW_EMAIL,
-        //     'password' => Hash::make($CURRENT_PASSWORD),
-        //     'STATUS' => 'OPEN',
-        //     'ROLE' => 'USER',
-        //     'FIRST_NAME' => $request->NEW_FIRST_NAME,
-        //     'LAST_NAME' => $request->NEW_LAST_NAME,
-        //     'CREATE_BY' => $request->NEW_USERNAME,
-        //     'CREATE_TIME' => Carbon::now(),
-        // ]);
-
-        // $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $CURRENT_PASSWORD];
-        // if (Auth::attempt($LOGIN_SET)) {
-        //     $request->session()->regenerate();
-        //     Alert::success('เข้าสู่ระบบสำเร็จ', 'ยินดีต้อนรับ');
-        //     return redirect()->route('homepage');
-        // } else {
-        //     Alert::error('เข้าสู่ระบบไม่สำเร็จ', 'เกิดข้อผิดพลาด');
-        //     return redirect()->route('homepage');
-        // }
+        $LOGIN_SET = ['USERNAME' => $USERNAME, 'password' => $PASSWORD];
+        if (Auth::attempt($LOGIN_SET)) {
+            $request->session()->regenerate();
+            $alert = 'success';
+            return response()->json(['massage' => 'เข้าสู่ระบบสำเร็จ','alert'=>$alert]);
+        }
     }
 
     public function logout()

@@ -15,7 +15,7 @@
         </h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="nav-link scrollto active" href="#hero">หน้าแรก</a></li>
+                <li><a class="nav-link scrollto active" href="{{ route('homepage') }}">หน้าแรก</a></li>
                 <li class="dropdown">
                     <a href="#">
                         <span>ข้อมูลพื้นฐานโรงเรียน</span>
@@ -52,7 +52,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     @if (Auth::user()->ROLE == 'ADMIN')
-                        <li><a class="dropdown-item" href="#">แก้ไขเว็บไซต์</a></li>
+                        <li><a class="dropdown-item" href="{{ route('edit.home') }}">แก้ไขเว็บไซต์</a></li>
                     @endif
                     <li><a class="dropdown-item" href="#">Action</a></li>
                     <li><a class="dropdown-item" href="{{ route('logout') }}">ออกจากระบบ</a></li>
