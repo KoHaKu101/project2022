@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EditController;
+use App\Http\Controllers\SlideController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,3 +25,5 @@ Route::get("logout", [LoginController::class, 'logout'])->name("logout");
 
 // editpage
 Route::get('edit/home',[EditController::class,'home'])->name('edit.home');
+// slide
+Route::post('slide/number',[SlideController::class,'number'])->name('slide.number');

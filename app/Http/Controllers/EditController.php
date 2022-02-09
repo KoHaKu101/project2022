@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Settingnumber;
+use App\Models\SlideImg;
 class EditController extends Controller
 {
     public function randUNID($table)
@@ -25,6 +26,11 @@ class EditController extends Controller
     }
     public function home()
     {
-        return view('masteredit.master');
+        $DATA_SLIDE = Settingnumber::where('TYPE_SETTING', '=', 'SLIDE')->first();
+        $IMG_SLIDE = isset($DATA_SLIDE) ? SlideImg::where("UNID_SETTING_NUMBER",'=',$DATA_SLIDE->UNID )->where("STATUS",'=',"OPEN")->get() : false;
+        $LIMIT_NUMBER = isset($DATA_SLIDE->TYPE_NUMBER) ? $DATA_SLIDE->TYPE_NUMBER : '5';
+
+
+        return view('masteredit.master',compact('LIMIT_NUMBER','IMG_SLIDE'));
     }
 }

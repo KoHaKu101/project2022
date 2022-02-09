@@ -3,8 +3,10 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Atlantis Lite - Bootstrap 4 Admin Dashboard</title>
+    <title>ศูนย์พัฒนาเด็กเล็ก บ้านหนองคูโคก</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <link rel="icon" href="{{ url('assets/image/logoschool/logo1.png') }}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
@@ -18,7 +20,7 @@
                 "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands",
                     "simple-line-icons"
                 ],
-                urls: ['../assets/css/fonts.min.css']
+                urls: ["{{ asset('assets/atlantis/css/fonts.min.css') }}"]
             },
             active: function() {
                 sessionStorage.fonts = true;
@@ -107,10 +109,10 @@
 
             }
 
-            /* .owl-carousel .owl-item img {
-                width: auto !important;
-                height: 300px;
-            } */
+            .btn-self {
+                font-size: 16px;
+                padding: 4px 13px;
+            }
 
         </style>
         <div class="sidebar sidebar-style-2">
@@ -174,57 +176,44 @@
                 <div class="page-inner py-3">
                     <div class="card">
                         <div class="card-header bg-purple text-white">
-                            <h4>ภาพไสด์</h4>
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6">
+                                    <h1>ภาพสไลด์ ทั้งหมด {{ $LIMIT_NUMBER }} </h1>
+                                </div>
+                                <div class="col-sm-6 col-md-6 text-right">
+                                    <button class="btn btn-warning " onclick="addslide()">เพิ่มจำนวนสไลด์</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                {{-- <div class="col-md-4">
-                                    <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                        class="w-100">
-                                    <h4 class="text-center">ภาพไสด์ที่ 1</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                        class="w-100">
-                                    <h4 class="text-center">ภาพไสด์ที่ 2</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                        class="w-100">
-                                    <h4 class="text-center">ภาพไสด์ที่ 3</h4>
-                                </div> --}}
                                 <div class="owl-carousel owl-theme text-center">
-                                    <div class="item">
-                                        <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                            class="w-100">
-                                        <h4>ภาพไสด์ที่ 1</h4>
 
-                                    </div>
-                                    <div class="item">
-                                        <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                            class="w-100">
-                                        <h4>ภาพไสด์ที่ 2</h4>
+                                    @for ($i = 1; $i <= $LIMIT_NUMBER; $i++)
+                                        @php
+                                            $IMG__PATH = 'slide_noimg.png';
 
-                                    </div>
-                                    <div class="item">
-                                        <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                            class="w-100">
-                                        <h4>ภาพไสด์ที่ 3</h4>
+                                            if ($IMG_SLIDE) {
+                                                $IMG = $IMG_SLIDE->where('IMG_NUMBER', '=', $i)->first();
+                                                $IMG__PATH = isset($IMG->IMG_FILE) ? $IMG->IMG_FILE : 'slide1.jpg';
+                                            }
 
-                                    </div>
-                                    <div class="item">
-                                        <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                            class="w-100">
-                                        <h4>ภาพไสด์ที่ 4</h4>
-
-                                    </div>
-                                    <div class="item">
-                                        <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}"
-                                            class="w-100">
-                                        <h4>ภาพไสด์ที่ 5</h4>
-
-                                    </div>
-
+                                        @endphp
+                                        <div class="item">
+                                            <img src="{{ asset('assets/image/slideshow/' . $IMG__PATH) }}"
+                                                class="w-100">
+                                            <h4>ภาพไสด์ที่ {{ $i }}</h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <button type="button"
+                                                        class="btn btn-warning btn-sm text-center btn-self btn-block"
+                                                        onclick="modalslide(this)" data-number="{{ $i }}">
+                                                        แก้ไข
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endfor
                                 </div>
                             </div>
                         </div>
@@ -258,35 +247,73 @@
                     </div>
                 </footer>
             </div>
+        </div>
+        <div class="modal fade" id="modalslide" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="modal-header bg-primary">
+                                <h3 class="modal-title" id="MODAL_NAME_SLIDE"></h3>
+                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" id="FRM_LOGIN" data-route="{{ route('login') }}">
+                                    @csrf
+                                    <input type="hidden" id="NUMBER_SLIDE" name="NUMBER_SLIDE">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <input type="file" class="form-control " id="FILE_IMG" name="FILE_IMG"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3 ">
+                                                <button type="submit" class="btn btn-success w-100">อัพโหลด</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <img id="category-img-tag" class="w-100"
+                                                    style="height: 432px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Custom template | don't include it in your project! -->
-
-            <!-- End Custom template -->
+                </div>
+            </div>
         </div>
         <!--   Core JS Files   -->
         <script src="{{ asset('assets/atlantis/js/core/jquery.3.2.1.min.js') }}"></script>
         <script src="{{ asset('assets/atlantis/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/atlantis/js/core/bootstrap.min.js') }}"></script>
-
         <!-- jQuery UI -->
         <script src="{{ asset('assets/atlantis/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
         <script src="{{ asset('assets/atlantis/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
-
         <!-- jQuery Scrollbar -->
         <script src="{{ asset('assets/atlantis/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-
         <!-- Sweet Alert -->
         <script src="{{ asset('assets/atlantis/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
-        <!-- Atlantis JS -->
         <script src="{{ asset('assets/atlantis/js/atlantis.min.js') }}"></script>
         <script src="{{ asset('assets/js/OwlCarousel2-2.3.4/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
+        <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
+        @include('sweetalert::alert')
+        <script src="{{ asset('assets/js/ajaxsetup.js') }}"></script>
         <script>
             $('.owl-carousel').owlCarousel({
-                loop: true,
+                loop: false,
                 margin: 10,
                 nav: true,
-
                 responsive: {
                     0: {
                         items: 1
@@ -299,6 +326,62 @@
                     }
                 }
             })
+
+            function addslide() {
+
+                Swal.fire({
+                    text: 'ใส่จะนวนสไลด์ที่ต้องการ',
+                    input: 'number'
+                }).then(function(result) {
+                    if (result.value) {
+                        var url = "{{ route('slide.number') }}?number=" + result.value;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            success: function(response) {
+                                if (response.message == 'true') {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'บันทึกข้อมูลสำเร็จ',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'เกิดข้อผิดพลาด',
+                                        text: 'กรุณาลองใหม่หรือติดต่อผู้ดูแลระบบ',
+                                    })
+                                }
+                            }
+                        });
+
+                    }
+                })
+            }
+
+            function modalslide(thisdata) {
+                var number_slide = $(thisdata).data("number");
+                var modal_header = "ภาพสไสลด์ที่" + number_slide;
+                $('#MODAL_NAME_SLIDE').html(modal_header);
+                $("#NUMBER_SLIDE").val(number_slide);
+                $('#modalslide').modal("show");
+            }
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#category-img-tag').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#FILE_IMG").change(function() {
+                readURL(this);
+            });
         </script>
 </body>
 
