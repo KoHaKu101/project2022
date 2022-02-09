@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 class EditController extends Controller
 {
     public function randUNID($table)
@@ -23,8 +23,8 @@ class EditController extends Controller
         );
         return $number;
     }
-     public function home()
+    public function home()
     {
-        return view('editpage.home');
+        return view('masteredit.master');
     }
 }
