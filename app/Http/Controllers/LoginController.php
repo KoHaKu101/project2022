@@ -81,7 +81,7 @@ class LoginController extends Controller
             [
                 'NEW_FIRST_NAME' => 'required',
                 'NEW_LAST_NAME' => 'required',
-                'NEW_USERNAME' => 'required|unique:NKD_USER,USERNAME|max150',
+                'NEW_USERNAME' => 'required|unique:NKD_USER,USERNAME|max:150',
                 'NEW_EMAIL' => 'required',
                 'NEW_PASSWORD' => 'required|same:CONFIRM_PASSWORD|min:8|regex:/(^[a-z0-9 ]+$)+/',
                 'CONFIRM_PASSWORD' => 'required|same:NEW_PASSWORD|min:8',
