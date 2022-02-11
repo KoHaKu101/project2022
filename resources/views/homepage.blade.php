@@ -21,7 +21,6 @@
                             if ($COUNT_SLIDE > 0) {
                                 $LIMIT_NUMBER = count($IMG_SLIDE);
                             }
-
                         @endphp
                         @for ($i_silde = 0; $i_silde < $LIMIT_NUMBER; $i_silde++)
                             <button type="button" data-bs-target="#carouselExampleCaptions"
