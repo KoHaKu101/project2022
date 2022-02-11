@@ -10,7 +10,7 @@ class HomepageController extends Controller
   public function homepage()
     {
         $DATA_SLIDE     = Settingnumber::where('TYPE_SETTING', '=', 'SLIDE')->get();
-        $IMG_SLIDE      = count($DATA_SLIDE->TYPE_NUMBER) > 0 ? Img::where("IMG_TYPE",'=','SLIDE')->where("STATUS",'=',"OPEN")->get() : false;
+        $IMG_SLIDE      = count($DATA_SLIDE) > 0 ? Img::where("IMG_TYPE",'=','SLIDE')->where("STATUS",'=',"OPEN")->get() : false;
         $IMG_DIRECTOR   = Img::where('IMG_TYPE','=','DIRECTOR')->first();
 
 
