@@ -63,14 +63,23 @@
     </section>
     <main id="main">
         <!-- ======= About Section ======= -->
+        <style>
+            .img-notfound {
+                height: 299px;
+                widows: 243px;
+            }
+
+        </style>
         @php
             $IMG_DIRECTOR = isset($IMG_DIRECTOR->IMG_FILE) ? $IMG_DIRECTOR->IMG_FILE . $IMG_DIRECTOR->IMG_EXT : 'no_img.png';
+            $STYLE_IMG = isset($IMG_DIRECTOR->IMG_FILE) ? 'img-notfound' : '';
         @endphp
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
                 <div class="row no-gutters">
                     <div class="content col-xl-5 d-flex align-items-stretch">
-                        <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}" class="rounded mx-auto d-block">
+                        <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}"
+                            class="rounded mx-auto d-block {{ $STYLE_IMG }} ">
                     </div>
                     <div class="col-xl-7 d-flex align-items-stretch">
                         <div class="icon-boxes d-flex flex-column justify-content-center">
