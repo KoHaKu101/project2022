@@ -16,7 +16,10 @@
             <div class="col-md-12">
                 <div id="carouselExampleCaptions" class="carousel slide img-slide-show" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        @for ($i_silde = 0; $i_silde < 5; $i_silde++)
+                        @php
+                            $LIMIT_NUMBER = count($DATA_SLIDE->TYPE_NUMBER) > 0 ? count($IMG_SLIDE) : 5;
+                        @endphp
+                        @for ($i_silde = 0; $i_silde < $LIMIT_NUMBER; $i_silde++)
                             <button type="button" data-bs-target="#carouselExampleCaptions"
                                 data-bs-slide-to="{{ $i_silde }}"
                                 {{ $i_silde == 0 ? 'class=active aria-current=true' : '' }}
