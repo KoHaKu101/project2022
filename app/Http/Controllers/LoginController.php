@@ -74,13 +74,14 @@ class LoginController extends Controller
             'confirmed' => 'รหัสผ่านไม่เหมือนกัน',
             'regex' => 'รหัสผ่านต้องมี ตัวเลขและตัวอักษร',
             'same' => 'รหัสผ่านไม่เหมือนกัน',
+            'unique'=>'มีชื่อผู้ใช้นี้อยู่แล้ว'
         ];
         $Validated = Validator::make(
             $request->all(),
             [
                 'NEW_FIRST_NAME' => 'required',
                 'NEW_LAST_NAME' => 'required',
-                'NEW_USERNAME' => 'required',
+                'NEW_USERNAME' => 'required|unique:posts|max150',
                 'NEW_EMAIL' => 'required',
                 'NEW_PASSWORD' => 'required|same:CONFIRM_PASSWORD|min:8|regex:/(^[a-z0-9 ]+$)+/',
                 'CONFIRM_PASSWORD' => 'required|same:NEW_PASSWORD|min:8',
