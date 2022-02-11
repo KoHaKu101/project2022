@@ -70,7 +70,7 @@
             <div class="container" data-aos="fade-up">
                 <div class="row no-gutters">
                     <div class="content col-xl-5 d-flex align-items-stretch">
-                        <img src="{{ asset('assets/image/people/director.png') }}" class="rounded mx-auto d-block">
+                        <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}" class="rounded mx-auto d-block">
                     </div>
                     <div class="col-xl-7 d-flex align-items-stretch">
                         <div class="icon-boxes d-flex flex-column justify-content-center">
