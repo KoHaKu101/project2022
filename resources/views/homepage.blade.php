@@ -16,28 +16,30 @@
             <div class="col-md-12">
                 <div id="carouselExampleCaptions" class="carousel slide img-slide-show" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-                            aria-label="Slide 4"></button>
+                        @for ($i_silde = 0; $i_silde < $LIMIT_NUMBER; $i_silde++)
+                            <button type="button" data-bs-target="#carouselExampleCaptions"
+                                data-bs-slide-to="{{ $i_silde }}"
+                                {{ $i_silde == 0 ? 'class=active aria-current=true' : '' }}
+                                aria-label="Slide {{ $i_silde + 1 }}"></button>
+                        @endfor
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{{ asset('assets/image/slideshow/slide1.jpg') }}" class="d-block w-100 ">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/image/slideshow/slide2.jpeg') }}" class="d-block w-100 ">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/image/slideshow/slide3.jpeg') }}" class="d-block w-100 ">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{ asset('assets/image/slideshow/slide_noimg.png') }}" class="d-block w-100 ">
-                        </div>
+                        @php
+                            $IMG__PATH = 'slide_noimg.png';
+                            $IMG_NUMBER = 0;
+                        @endphp
+                        @for ($i = 1; $i <= $LIMIT_NUMBER; $i++)
+                            @php
+                                if ($IMG_SLIDE) {
+                                    $IMG = $IMG_SLIDE->where('IMG_NUMBER', '=', $i)->first();
+                                    $IMG_NUMBER = $IMG->IMG_NUMBER;
+                                    $IMG__PATH = $IMG->IMG_FILE . $IMG->IMG_EXT;
+                                }
+                            @endphp
+                            <div class="carousel-item {{ $IMG_NUMBER == 1 ? 'active' : '' }}">
+                                <img src="{{ asset('assets/image/slideshow/' . $IMG__PATH) }}" class="d-block w-100 ">
+                            </div>
+                        @endfor
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
                         data-bs-slide="prev">
@@ -55,6 +57,9 @@
     </section>
     <main id="main">
         <!-- ======= About Section ======= -->
+        @php
+            $IMG_DIRECTOR = isset($IMG_DIRECTOR->IMG_FILE) ? $IMG_DIRECTOR->IMG_FILE . $IMG_DIRECTOR->IMG_EXT : 'no_img.png';
+        @endphp
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
                 <div class="row no-gutters">

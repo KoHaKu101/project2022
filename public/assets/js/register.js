@@ -16,7 +16,9 @@ $("#FRM_REGISTER").submit(function(e) {
                         $.each(response.massage, function(id, textname) {
                             $('.HIDE_' + id).removeAttr("hidden");
                             $('.ER_' + id).addClass("text-danger-edit");
+                            $('.HIDE_'+id).html('<i class="fas fa-exclamation-circle"></i>'+textname);
                         });
+
                         Swal.fire({
                             icon: response.alert,
                             title: 'เกิดข้อผิดพลาด !',

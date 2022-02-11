@@ -13,12 +13,14 @@ class CreateSlideImg extends Migration
      */
     public function up()
     {
-        Schema::create('SLIDE_IMG', function (Blueprint$table) {
+        Schema::create('IMG', function (Blueprint$table) {
             $table->BigInteger('UNID')->primary();
             $table->BigInteger('UNID_SETTING_NUMBER');
             $table->integer('IMG_NUMBER')->nullable();
             $table->string('IMG_FILE')->nullable();
-            $table->string('STATUS',50);
+            $table->string('IMG_EXT',50)->nullable();
+            $table->string('IMG_TYPE',50);
+            $table->string('STATUS',50)->nullable();
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();
@@ -33,6 +35,6 @@ class CreateSlideImg extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('SLIDE_IMG');
+        Schema::dropIfExists('IMG');
     }
 }

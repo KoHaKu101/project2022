@@ -1,9 +1,18 @@
  function showmodallogin() {
             $("#modallogin").modal("show");
+            $("#FRM_REGISTER").attr("hidden", true);
+            $("#FRM_FORGET_PASS").attr("hidden", true);
+            $("#FRM_LOGIN").attr("hidden",false);
         }
 
         function closemodallogin() {
-            $("#modallogin").modal('hide');
+
+             $('#modallogin').on('hidden.bs.modal', function() {
+                $('#FRM_LOGIN')[0].reset();
+                $('#FRM_REGISTER')[0].reset();
+                $('#FRM_FORGET_PASS')[0].reset();
+
+            });
         }
 
         function hideandshow(thisdata) {

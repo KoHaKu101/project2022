@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Img;
 use App\Models\Register;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Settingnumber;
 class LoginController extends Controller
 {
     public function randUNID($table)
@@ -30,10 +32,7 @@ class LoginController extends Controller
         );
         return $number;
     }
-     public function homepage()
-    {
-        return view('homepage');
-    }
+
     public function login(Request $request)
     {
         $message = [
@@ -74,7 +73,8 @@ class LoginController extends Controller
             'confirmed' => 'รหัสผ่านไม่เหมือนกัน',
             'regex' => 'รหัสผ่านต้องมี ตัวเลขและตัวอักษร',
             'same' => 'รหัสผ่านไม่เหมือนกัน',
-            'unique'=>'มีชื่อผู้ใช้นี้อยู่แล้ว'
+            'NEW_USERNAME.unique'=>'มีชื่อผู้ใช้นี้อยู่แล้ว',
+            'NEW_EMAIL.unique'=>'มีชื่ออีเมลนี้อยู่แล้ว'
         ];
         $Validated = Validator::make(
             $request->all(),
@@ -82,7 +82,7 @@ class LoginController extends Controller
                 'NEW_FIRST_NAME' => 'required',
                 'NEW_LAST_NAME' => 'required',
                 'NEW_USERNAME' => 'required|unique:NKD_USER,USERNAME|max:150',
-                'NEW_EMAIL' => 'required',
+                'NEW_EMAIL' => 'required|unique:NKD_USER,EMAIL',
                 'NEW_PASSWORD' => 'required|same:CONFIRM_PASSWORD|min:8|regex:/(^[a-z0-9 ]+$)+/',
                 'CONFIRM_PASSWORD' => 'required|same:NEW_PASSWORD|min:8',
             ],

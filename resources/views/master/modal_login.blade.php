@@ -143,7 +143,7 @@
                                             name="NEW_USERNAME" placeholder="ชื่อผู้ใช้" required>
                                         <p class="text-danger HIDE_NEW_USERNAME" hidden>
                                             <i class="fas fa-exclamation-circle"></i>
-                                            รหัสผ่านผิดพลาด
+                                            ชื่อผู้ใช้ซ้ำ กรุณาลองใหม่
                                         </p>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@
                                             name="NEW_EMAIL" placeholder="อีเมล" required>
                                         <p class="text-danger HIDE_NEW_EMAIL" hidden>
                                             <i class="fas fa-exclamation-circle"></i>
-                                            รหัสผ่านผิดพลาด
+                                            อิเมลผิดพลาด
                                         </p>
                                     </div>
                                 </div>

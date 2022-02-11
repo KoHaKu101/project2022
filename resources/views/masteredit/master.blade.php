@@ -87,6 +87,7 @@
                                         </div>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item" href="{{ route('homepage') }}">หน้าแสดงผล</a>
                                         <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                                     </li>
                                 </div>
@@ -188,32 +189,106 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="owl-carousel owl-theme text-center">
+                                    @php
+                                        $IMG__PATH = 'slide_noimg.png';
 
+                                    @endphp
                                     @for ($i = 1; $i <= $LIMIT_NUMBER; $i++)
                                         @php
-                                            $IMG__PATH = 'slide_noimg.png';
-
                                             if ($IMG_SLIDE) {
                                                 $IMG = $IMG_SLIDE->where('IMG_NUMBER', '=', $i)->first();
-                                                $IMG__PATH = isset($IMG->IMG_FILE) ? $IMG->IMG_FILE : 'slide1.jpg';
+                                                $IMG__PATH = isset($IMG->IMG_FILE) ? $IMG->IMG_FILE . $IMG->IMG_EXT : 'slide_noimg.png';
                                             }
-
                                         @endphp
                                         <div class="item">
                                             <img src="{{ asset('assets/image/slideshow/' . $IMG__PATH) }}"
                                                 class="w-100">
                                             <h4>ภาพไสด์ที่ {{ $i }}</h4>
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <button type="button"
-                                                        class="btn btn-warning btn-sm text-center btn-self btn-block"
-                                                        onclick="modalslide(this)" data-number="{{ $i }}">
-                                                        แก้ไข
-                                                    </button>
-                                                </div>
+                                                @if (isset($IMG->IMG_FILE))
+                                                    <div class="col-md-6">
+                                                        <button type="button"
+                                                            class="btn btn-warning btn-sm text-center btn-self btn-block"
+                                                            onclick="modalslide(this)"
+                                                            data-number="{{ $i }}">
+                                                            แก้ไข
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm text-center btn-self btn-block"
+                                                            onclick="delete_slide_img(this)"
+                                                            data-number="{{ $i }}">
+                                                            ลบรูป
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-12">
+                                                        <button type="button"
+                                                            class="btn btn-warning btn-sm text-center btn-self btn-block"
+                                                            onclick="modalslide(this)"
+                                                            data-number="{{ $i }}">
+                                                            แก้ไข
+                                                        </button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @endfor
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        .indent {
+                            text-indent: 2.5em;
+                        }
+
+                    </style>
+                    <div class="card">
+                        <div class="card-header bg-purple">
+                            <div class="row text-white">
+                                <div class="col-md-12">
+                                    <h1>สาส์นจากผู้อำนวยการ</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-5 text-center">
+                                    <form action="{{ route('director.upload') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}"
+                                            id="SHOW_DIRECTOR" style="height:299px;width:243px">
+                                        <div class="form-inline">
+                                            <input type="file" class="form-control form-control-sm " id="IMG_DIRECTOR"
+                                                name="IMG_DIRECTOR">
+                                            <button type="submit" class="btn btn-success btn-sm "
+                                                style="font-size:16px">
+                                                บันทึก</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h3 class="indent">
+                                                ขอขอบคุณผู้ปกครองนักเรียน
+                                                นักศึกษาที่ให้ความไว้วางใจวิทยาลัยที่ให้ความร่วมมืออย่างดีในกิจกรรมต่างๆ
+                                                ของวิทยาลัยฯ
+                                                ขอขอบใจนักเรียนนักศึกษาทุกคนที่ปฏิบัติตนอยู่ในระเบียบของวิทยาลัย
+                                                อยู่ในโอวาทของทุกคน เป็นนักเรียนนักศึกษาที่ วิทยาลัยภาคภูมิใจ
+                                            </h3>
+                                            <br>
+                                            <br>
+                                            <h1 class="text-center text-primary">
+                                                นายอาคม จันทร์นาม<br>
+                                                ผู้อำนวยการศูนย์พัฒนาเด็กเล็ก บ้านหนองคูโคก
+                                            </h1>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +336,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" id="FRM_LOGIN" data-route="{{ route('login') }}">
+                                <form method="POST" id="FRM_UPLOAD" action="{{ route('slide.upload') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" id="NUMBER_SLIDE" name="NUMBER_SLIDE">
                                     <div class="row">
@@ -310,6 +386,44 @@
         @include('sweetalert::alert')
         <script src="{{ asset('assets/js/ajaxsetup.js') }}"></script>
         <script>
+            function delete_slide_img(thisdata) {
+                var number_img = $(thisdata).data('number');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ยืนยันการลบไฟล์',
+                    showCloseButton: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#5cb85c',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '<i class="fa fa-trash"></i> ยืนยัน',
+                    cancelButtonText: '<i class="fa fa-times"></i> ยกเลิก',
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        var url = "{{ route('slide.remove') }}";
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                'IMG_NUMBER': number_img
+                            },
+                            success: function(response) {
+                                if (response.massage) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'ลบไฟล์สำเร็จ',
+                                        showCloseButton: true,
+                                        showCancelButton: false,
+                                        confirmButtonColor: '#5cb85c',
+                                        confirmButtonText: '<i class="fa fa-check"></i> ยืนยัน',
+                                    }).then(function(result) {
+                                        location.reload();
+                                    })
+                                }
+                            }
+                        });
+                    }
+                })
+            }
             $('.owl-carousel').owlCarousel({
                 loop: false,
                 margin: 10,
@@ -370,17 +484,26 @@
                 $('#modalslide').modal("show");
             }
 
-            function readURL(input) {
+            function readURL(input, id_img) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        $('#category-img-tag').attr('src', e.target.result);
+                        $('#' + id_img).attr('src', e.target.result);
+
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
             }
             $("#FILE_IMG").change(function() {
-                readURL(this);
+                var id_img = 'category-img-tag';
+                readURL(this, id_img);
+                $('#' + id_img).css('height', '432px', 'width', '768px');
+
+            });
+            $('#IMG_DIRECTOR').change(function() {
+                var id_img = 'SHOW_DIRECTOR';
+                readURL(this, id_img);
+                $('#' + id_img).css('height', '299px', 'width', '243px');
             });
         </script>
 </body>
