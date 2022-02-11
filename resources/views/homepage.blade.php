@@ -72,7 +72,7 @@
         </style>
         @php
             $IMG_DIRECTOR = isset($IMG_DIRECTOR->IMG_FILE) ? $IMG_DIRECTOR->IMG_FILE . $IMG_DIRECTOR->IMG_EXT : 'no_img.png';
-            $STYLE_IMG = isset($IMG_DIRECTOR->IMG_FILE) ? 'img-notfound' : '';
+            $STYLE_IMG = isset($IMG_DIRECTOR->IMG_FILE) ? '' : 'img-notfound';
         @endphp
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
