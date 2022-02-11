@@ -228,7 +228,7 @@
                                                             class="btn btn-warning btn-sm text-center btn-self btn-block"
                                                             onclick="modalslide(this)"
                                                             data-number="{{ $i }}">
-                                                            แก้ไข
+                                                            เพิ่มรูป
                                                         </button>
                                                     </div>
                                                 @endif
