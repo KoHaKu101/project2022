@@ -18,7 +18,7 @@
                     <div class="carousel-indicators">
                         @php
                             $LIMIT_NUMBER = 5;
-                            if (count($DATA_SLIDE) > 0) {
+                            if (count($DATA_SLIDE ?? '') > 0) {
                                 $LIMIT_NUMBER = count($IMG_SLIDE);
                             }
 
