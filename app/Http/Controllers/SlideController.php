@@ -73,7 +73,7 @@ class SlideController extends Controller
             $UNID_SETTING_NUMBER = $DATA_SETTING->UNID;
         }
         $FILE_NAME = 'slide'.$IMG_NUMBER;
-        $filePath = public_path('assets\image\slideshow');
+        $filePath = public_path('assets/image/slideshow');
         $fix_w = 1569;
         $fix_h = 1176;
         $type = 'SLIDE';
@@ -88,7 +88,7 @@ class SlideController extends Controller
         $DATA_IMG = Img::where('IMG_NUMBER','=',$IMG_NUMBER)->first();
         $FILE_NAME = $DATA_IMG->IMG_FILE;
         $EXT = $DATA_IMG->IMG_EXT;
-        $filePath = public_path('assets\image\slideshow/'.$FILE_NAME.$EXT);
+        $filePath = public_path('assets/image/slideshow/'.$FILE_NAME.$EXT);
         unlink($filePath);
         $DATA_IMG->delete();
         return response()->json(['massage'=>'true']);

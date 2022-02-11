@@ -55,7 +55,7 @@ class DirectorController extends Controller
         }
 
         $FILE_NAME  = 'director';
-        $filePath   = public_path('assets\image\people');
+        $filePath   = public_path('assets/image/people');
         $type       = 'DIRECTOR';
         $fix_w      =  243 ;
         $fix_h      =  299 ;
