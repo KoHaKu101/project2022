@@ -17,7 +17,7 @@ use App\Http\Controllers\HomepageController;
 |
  */
 
-Route::get('/', [HomepageController::class, 'homepage'])->name('homepage');
+Route::get('/', [HomepageController::class, 'homepage']);
 
 Route::get('homepage', [HomepageController::class, 'homepage'])->name('homepage');
 //login and Register
