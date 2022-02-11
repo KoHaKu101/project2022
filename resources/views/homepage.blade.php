@@ -17,7 +17,11 @@
                 <div id="carouselExampleCaptions" class="carousel slide img-slide-show" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                         @php
-                            $LIMIT_NUMBER = count($DATA_SLIDE) > 0 ? count($IMG_SLIDE) : 5;
+                            $LIMIT_NUMBER = 5;
+                            if (count($DATA_SLIDE) > 0) {
+                                $LIMIT_NUMBER = count($IMG_SLIDE);
+                            }
+
                         @endphp
                         @for ($i_silde = 0; $i_silde < $LIMIT_NUMBER; $i_silde++)
                             <button type="button" data-bs-target="#carouselExampleCaptions"
