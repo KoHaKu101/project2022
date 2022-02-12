@@ -7,8 +7,9 @@ use App\Models\Settingnumber;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Image;
+
 use App\Models\Img;
+use File;
 class SlideController extends Controller
 {
     public function randUNID($table)
