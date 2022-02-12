@@ -9,7 +9,7 @@ use App\Models\Img;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-// use Image;
+use File;
 class ImageController extends Controller
 {
     public function randUNID($table)
@@ -34,6 +34,9 @@ class ImageController extends Controller
         $EXT        = '.'.$image->extension();
         $width      = $img->width();
         $height     = $img->height();
+        if(!file_exists($filePath)){
+            File::makeDirectory($filePath);
+        }
         if($width <= $fix_w || $height <= $fix_h){
             $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$EXT);
         }

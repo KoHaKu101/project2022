@@ -89,7 +89,7 @@ class SlideController extends Controller
         $FILE_NAME = $DATA_IMG->IMG_FILE;
         $EXT = $DATA_IMG->IMG_EXT;
         $filePath = public_path('assets/image/slideshow/'.$FILE_NAME.$EXT);
-        unlink($filePath);
+        File::delete($filePath);
         $DATA_IMG->delete();
         return response()->json(['massage'=>'true']);
     }
