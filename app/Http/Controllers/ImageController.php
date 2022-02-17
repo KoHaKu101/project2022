@@ -9,7 +9,7 @@ use App\Models\Img;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use File;
+use Illuminate\Support\Facades\File;
 class ImageController extends Controller
 {
     public function randUNID($table)

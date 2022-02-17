@@ -16,36 +16,27 @@
             <div class="col-md-12">
                 <div id="carouselExampleCaptions" class="carousel slide img-slide-show" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                        @php
-                            $LIMIT_NUMBER = 5;
-                            if ($COUNT_SLIDE > 0) {
-                                $LIMIT_NUMBER = count($IMG_SLIDE);
-                            }
-                        @endphp
-                        @for ($i_silde = 0; $i_silde < $LIMIT_NUMBER; $i_silde++)
+                        @foreach ($IMG_SLIDE as $key => $row)
                             <button type="button" data-bs-target="#carouselExampleCaptions"
-                                data-bs-slide-to="{{ $i_silde }}"
-                                {{ $i_silde == 0 ? 'class=active aria-current=true' : '' }}
-                                aria-label="Slide {{ $i_silde + 1 }}"></button>
-                        @endfor
+                                data-bs-slide-to="{{ $key }}"
+                                {{ $key == 0 ? 'class=active aria-current=true' : '' }}
+                                aria-label="Slide {{ $key + 1 }}"></button>
+                        @endforeach
                     </div>
                     <div class="carousel-inner">
                         @php
                             $IMG__PATH = 'slide_noimg.png';
                             $IMG_NUMBER = 0;
                         @endphp
-                        @for ($i = 1; $i <= $LIMIT_NUMBER; $i++)
+                        @foreach ($IMG_SLIDE as $key => $row)
                             @php
-                                if ($IMG_SLIDE) {
-                                    $IMG = $IMG_SLIDE->where('IMG_NUMBER', '=', $i)->first();
-                                    $IMG_NUMBER = $IMG->IMG_NUMBER;
-                                    $IMG__PATH = $IMG->IMG_FILE . $IMG->IMG_EXT;
-                                }
+                                $IMG_ACTIVE = $row->IMG_NUMBER == 1 ? 'active' : '';
+                                $IMG__PATH = $row->IMG_FILE . $row->IMG_EXT;
                             @endphp
-                            <div class="carousel-item {{ $IMG_NUMBER == 1 ? 'active' : '' }}">
+                            <div class="carousel-item {{ $IMG_ACTIVE }}">
                                 <img src="{{ asset('assets/image/slideshow/' . $IMG__PATH) }}" class="d-block w-100 ">
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
                         data-bs-slide="prev">
@@ -71,14 +62,13 @@
 
         </style>
         @php
-            $IMG_DIRECTOR = isset($IMG_DIRECTOR->IMG_FILE) ? $IMG_DIRECTOR->IMG_FILE . $IMG_DIRECTOR->IMG_EXT : 'no_img.png';
-            $STYLE_IMG = isset($IMG_DIRECTOR->IMG_FILE) ? '' : 'img-notfound';
+            $STYLE_IMG = isset($DIRECTOR_IMG->IMG_FILE) ? '' : 'img-notfound';
         @endphp
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
                 <div class="row no-gutters">
                     <div class="content col-xl-5 d-flex align-items-stretch">
-                        <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}"
+                        <img src="{{ asset('assets/image/people/' . $DIRECTOR_IMG) }}"
                             class="rounded mx-auto d-block {{ $STYLE_IMG }} ">
                     </div>
                     <div class="col-xl-7 d-flex align-items-stretch">
@@ -89,18 +79,13 @@
                                         <b>สาส์นจากผู้อำนวยการ <br></b>
                                     </h2>
                                     <h5 class="indent">
-                                        ขอขอบคุณผู้ปกครองนักเรียน
-                                        นักศึกษาที่ให้ความไว้วางใจวิทยาลัยที่ให้ความร่วมมืออย่างดีในกิจกรรมต่างๆ
-                                        ของวิทยาลัยฯ
-                                        ขอขอบใจนักเรียนนักศึกษาทุกคนที่ปฏิบัติตนอยู่ในระเบียบของวิทยาลัย
-                                        อยู่ในโอวาทของทุกคน
-                                        เป็นนักเรียนนักศึกษาที่ วิทยาลัยภาคภูมิใจ
+                                        {{ isset($DIRECTOR_TEXT->POST_TEXT) ? $DIRECTOR_TEXT->POST_TEXT : '' }}
                                         <br>
                                         <br>
                                     </h5>
                                     <h3 class="text-center text-primary">
-                                        นายอาคม จันทร์นาม <br>
-                                        ผู้อำนวยการศูนย์พัฒนาเด็กเล็ก บ้านหนองคูโคก <br>
+                                        {{ isset($DIRECTOR_TEXT->POST_NAME) ? $DIRECTOR_TEXT->POST_NAME : '' }} <br>
+                                        {{ isset($DIRECTOR_TEXT->POST_SCHOOL) ? $DIRECTOR_TEXT->POST_SCHOOL : '' }} <br>
                                     </h3>
                                 </div>
                             </div>
@@ -114,93 +99,72 @@
         <section id="tabs" class="tabs">
             <div class="container" data-aos="fade-up">
                 <ul class="nav nav-tabs row d-flex">
-                    <li class="nav-item col-6">
-                        <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
-                            <i class="ri-gps-line"></i>
-                            <h4 class="d-none d-lg-block">ความเป็นมาศูนย์พัฒนาเด็กเล็ก</h4>
-                        </a>
-                    </li>
-                    <li class="nav-item col-6">
-                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
-                            <i class="ri-body-scan-line"></i>
-                            <h4 class="d-none d-lg-block">คำขวัญศูนย์พัฒนาเด็กเล็ก</h4>
-                        </a>
-                    </li>
+                    @foreach ($ABOUT_SCHOOL as $index => $row_about)
+                        @php
+                            $ABOUT_NUMBER = count($ABOUT_SCHOOL);
+                            $COL_COSTOM = $ABOUT_NUMBER == 1 ? 'col-lg-12' : ($ABOUT_NUMBER == 2 ? 'col-lg-' . +6 : ($ABOUT_NUMBER > 2 ? 'col-lg-' . +3 : 'col-lg-12'));
+                            $ACTIVE_ABOUT = $row_about->ABOUT_NUMBER == 1 ? 'active show' : '';
+                        @endphp
+                        <li class="nav-item {{ $COL_COSTOM }}">
+                            <a class="nav-link {{ $ACTIVE_ABOUT }}" data-bs-toggle="tab"
+                                data-bs-target="{{ '#about_tab-' . $row_about->ABOUT_NUMBER }}">
+                                <i class="ri-gps-line"></i>
+                                <h4 class="d-lg-block">{{ $row_about->ABOUT_NAME }}</h4>
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active show" id="tab-1">
-                        <div class="row">
-                            <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0" data-aos="fade-up" data-aos-delay="100">
-                                <h3>ความเป็นมาศูนย์พัฒนาเด็กเล็ก</h3>
-                                <p class="fst-italic">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                                <ul>
-                                    <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.</li>
-                                    <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit
-                                        in
-                                        voluptate velit.</li>
-                                    <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                        trideta
-                                        storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
-                                </ul>
-                                <p>
-                                    Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                    in
-                                    reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat
-                                    non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum
-                                </p>
-                            </div>
-                            <div class="col-lg-6 order-1 order-lg-2 text-center" data-aos="fade-up" data-aos-delay="200">
-                                <img src="assets/img/tabs-1.jpg" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-2">
-                        <div class="row">
-                            <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-                                <h3>คำขวัญศูนย์พัฒนาเด็กเล็ก</h3>
-                                <p>
-                                    Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                    in
-                                    reprehenderit in voluptate
-                                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                                    cupidatat
-                                    non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum
-                                </p>
-                                <p class="fst-italic">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore
-                                    magna aliqua.
-                                </p>
-                                <ul>
-                                    <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.</li>
-                                    <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit
-                                        in
-                                        voluptate velit.</li>
-                                    <li><i class="ri-check-double-line"></i> Provident mollitia neque rerum
-                                        asperiores
-                                        dolores quos qui a. Ipsum neque dolor voluptate nisi sed.</li>
-                                    <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                                        trideta
-                                        storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-6 order-1 order-lg-2 text-center">
-                                <img src="assets/img/tabs-2.jpg" alt="" class="img-fluid">
+                    @foreach ($ABOUT_SCHOOL as $sub_index => $row_subabout)
+                        @php
+                            $ACTIVE_SUB_ABOUT = $row_subabout->ABOUT_NUMBER == 1 ? 'active show' : '';
+                        @endphp
+                        <div class="tab-pane {{ $ACTIVE_SUB_ABOUT }}"
+                            id="{{ 'about_tab-' . $row_subabout->ABOUT_NUMBER }}">
+                            <div class="row">
+                                @if ($row_subabout->ABOUT_IMG == null)
+                                    <div class="col-lg-12 order-2 order-lg-1 mt-3 mt-lg-0" data-aos="fade-up"
+                                        data-aos-delay="100">
+                                        <h3>{{ $row_subabout->ABOUT_NAME }}</h3>
+                                        <p>
+                                            {{ $row_subabout->ABOUT_TEXT }}
+                                        </p>
+                                    </div>
+                                @elseif($row_subabout->ABOUT_IMG_POSITION == 'LEFT')
+                                    <div class="col-lg-6 order-2 order-lg-1 text-center" data-aos="fade-up"
+                                        data-aos-delay="100">
+                                        <img src="{{ asset('assets/image/about/' . $row_subabout->ABOUT_IMG . $row_subabout->ABOUT_IMG_EXT) }}"
+                                            alt="{{ $row_subabout->ABOUT_NAME }}" class="img-fluid">
+                                    </div>
+                                    <div class="col-lg-6 order-1 order-lg-2 mt-3 mt-lg-0" data-aos="fade-up"
+                                        data-aos-delay="100">
+                                        <h3>{{ $row_subabout->ABOUT_NAME }}</h3>
+                                        <p>
+                                            {{ $row_subabout->ABOUT_TEXT }}
+                                        </p>
+                                    </div>
+
+                                @elseif($row_subabout->ABOUT_IMG_POSITION == 'RIGHT')
+                                    <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0" data-aos="fade-up"
+                                        data-aos-delay="100">
+                                        <h3>{{ $row_subabout->ABOUT_NAME }}</h3>
+                                        <p>
+                                            {{ $row_subabout->ABOUT_TEXT }}
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-6 order-1 order-lg-2 text-center" data-aos="fade-up"
+                                        data-aos-delay="100">
+                                        <img src="{{ asset('assets/image/about/' . $row_subabout->ABOUT_IMG . $row_subabout->ABOUT_IMG_EXT) }}"
+                                            alt="{{ $row_subabout->ABOUT_NAME }}" class="img-fluid">
+                                    </div>
+
+                                @else
+                                @endif
+
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </section><!-- End Tabs Section -->

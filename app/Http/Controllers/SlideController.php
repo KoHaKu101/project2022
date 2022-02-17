@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Img;
-use File;
+use Illuminate\Support\Facades\File;
 class SlideController extends Controller
 {
     public function randUNID($table)
@@ -86,7 +86,7 @@ class SlideController extends Controller
     }
     public function remove(Request $request){
         $IMG_NUMBER = $request->IMG_NUMBER;
-        $DATA_IMG = Img::where('IMG_NUMBER','=',$IMG_NUMBER)->first();
+        $DATA_IMG = Img::where('IMG_TYPE','=','SLIDE')->where('IMG_NUMBER','=',$IMG_NUMBER)->first();
         $FILE_NAME = $DATA_IMG->IMG_FILE;
         $EXT = $DATA_IMG->IMG_EXT;
         $filePath = public_path('assets/image/slideshow/'.$FILE_NAME.$EXT);

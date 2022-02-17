@@ -1,11 +1,15 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AboutSchoolController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\LoginController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\PostController;
+use App\Models\AboutSchool;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,9 +31,17 @@ Route::get("logout", [LoginController::class, 'logout'])->name("logout");
 
 // editpage
 Route::get('edit/home',[EditController::class,'home'])->name('edit.home');
+
 // slide
 Route::post('slide/number',[SlideController::class,'number'])->name('slide.number');
 Route::post('slide/upload',[SlideController::class,'upload'])->name('slide.upload');
 Route::post('slide/remove',[SlideController::class,'remove'])->name('slide.remove');
 //director
 Route::post('director/upload',[DirectorController::class,'upload'])->name('director.upload');
+//post
+Route::post('post/director',[PostController::class,'director'])->name('post.director');
+//about
+Route::post('about/insert',[AboutSchoolController::class,'insert'])->name('about.insert');
+Route::post('about/update',[AboutSchoolController::class,'update'])->name('about.update');
+Route::post('about/delete',[AboutSchoolController::class,'delete'])->name('about.delete');
+Route::get('about/show',[AboutSchoolController::class,'show'])->name('about.show');
