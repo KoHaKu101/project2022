@@ -10,7 +10,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" id="FRM_DIRECTOR" action="{{ route('post.director') }}">
+                        <form method="POST" id="FRM_DIRECTOR" action="{{ route('director.post') }}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">

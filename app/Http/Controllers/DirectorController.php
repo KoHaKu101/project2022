@@ -8,6 +8,8 @@ use App\Models\Settingnumber;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Post;
+
 class DirectorController extends Controller
 {
     public function randUNID($table)
@@ -44,7 +46,7 @@ class DirectorController extends Controller
   public function upload(Request $request){
         $image = $request->file('IMG_DIRECTOR');
            if(!getimagesize($image)){
-            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น');
+            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น')->autoClose($milliseconds = 1000);
             return redirect()->back();
            }
         $DATA_SETTING = Settingnumber::where('TYPE_SETTING','=','DIRECTOR')->first();
@@ -62,8 +64,48 @@ class DirectorController extends Controller
         $IMG_NUMBER =  1;
         $upload_img = new ImageController();
         $upload_img->img_resize($image,$filePath,$FILE_NAME,$fix_w,$fix_h,$UNID_SETTING_NUMBER,$type,$IMG_NUMBER);
-         alert()->success('บันทึกสำเร็จ');
+         alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
         return redirect()->back();
 
+    }
+    public function post(Request $request){
+        $POST_TEXT = $request->POST_TEXT;
+        $POST_NAME = $request->POST_NAME;
+        $POST_SCHOOL = $request->POST_SCHOOL;
+        $DATA_POST = Post::where('POST_TYPE','=','DIRECTOR')->first();
+        if(isset($DATA_POST->UNID)){
+            $UNID = $DATA_POST->UNID;
+            Post::where('UNID','=',$UNID)->update([
+                'POST_TEXT' => $POST_TEXT,
+                'POST_LINK' => '',
+                'POST_NAME' => $POST_NAME,
+                'POST_SCHOOL' => $POST_SCHOOL,
+                'POST_DAY' => date('d'),
+                'POST_MONTH' => date('n'),
+                'POST_YEAR' => date('Y'),
+                'POST_STATUS' => 'OPEN',
+                'MODIFY_BY' => Auth::user()->UNSERNAME,
+                'MODIFY_TIME' => carbon::now(),
+            ]);
+        }else{
+            $UNID = $this->randUNID('POST');
+            Post::insert([
+                'UNID' => $UNID,
+                'POST_TYPE' => 'DIRECTOR',
+                'POST_TEXT' => $POST_TEXT,
+                'POST_LINK' => '',
+                'POST_NAME' => $POST_NAME,
+                'POST_SCHOOL' => $POST_SCHOOL,
+                'POST_DAY' => date('d'),
+                'POST_MONTH' => date('n'),
+                'POST_YEAR' => date('Y'),
+                'POST_STATUS' => 'OPEN',
+                'CREATE_BY' => Auth::user()->UNSERNAME,
+                'CREATE_TIME' => carbon::now(),
+            ]);
+        }
+
+        alert()->success('บันทึกข้อมูลสำเร็จ')->autoClose($milliseconds = 1000);
+        return redirect()->back();
     }
 }

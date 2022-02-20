@@ -31,8 +31,18 @@ class SlideController extends Controller
     }
     private function table_setting($NUMBER){
             $DATA_SETTING = Settingnumber::where("TYPE_SETTING",'=',"SLIDE")->first();
-            if(isset($DATA_SETTING->NUMBER)){
+            $NUMBER_SETTING = $DATA_SETTING->TYPE_NUMBER;
+            if(isset($NUMBER_SETTING)){
                 $UNID = $DATA_SETTING->UNID;
+                if($NUMBER < $NUMBER_SETTING){
+                    Img::where('IMG_TYPE','=','SLIDE')->where('IMG_NUMBER','>',$NUMBER)->update([
+                    'STATUS' => "OFF",
+                    ]);
+                }else if($NUMBER >= $NUMBER_SETTING){
+                    Img::where('IMG_TYPE','=','SLIDE')->where('IMG_NUMBER','>=',$NUMBER)->update([
+                    'STATUS' => "OPEN",
+                    ]);
+                }
                 Settingnumber::where("UNID",'=',$UNID)->update([
                     'TYPE_NUMBER' => $NUMBER,
                     'MODIFY_BY' => Auth::user()->USERNAME,
@@ -52,18 +62,20 @@ class SlideController extends Controller
             return $UNID;
     }
     public function number(Request $request){
-        if(is_numeric($request->NUMBER)){
-            $this->table_setting($request->NUMBER);
-            return response()->json(["message"=>'true']);
+        if(is_numeric($request->number)){
+            $UNID = $this->table_setting($request->number);
+            if($UNID != null){
+                return response()->json(['alert'=>'success','title'=>'เพิ่มข้อมูลสำเร็จ','text'=>' ']);
+            }
 
         }else{
-            return response()->json(["message"=>'false']);
+            return response()->json(['alert'=>'error','title'=>'เกิดข้อผิดพลาด','text'=>'กรุณาลองใหม่หรือติดต่อผู้ดูแลระบบ']);
         }
     }
     public function upload(Request $request){
         $image = $request->file('FILE_IMG');
            if(!getimagesize($image)){
-            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น');
+            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น')->autoClose($milliseconds = 1000);
             return redirect()->back();
            }
         $IMG_NUMBER = $request->NUMBER_SLIDE;
@@ -81,7 +93,7 @@ class SlideController extends Controller
         $upload_img = new ImageController();
         $upload_img->img_resize($image,$filePath,$FILE_NAME,$fix_w,$fix_h,$UNID_SETTING_NUMBER,$type,$IMG_NUMBER);
 
-        alert()->success('บันทึกสำเร็จ');
+        alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
         return redirect()->back();
     }
     public function remove(Request $request){

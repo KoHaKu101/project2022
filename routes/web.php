@@ -38,8 +38,13 @@ Route::post('slide/upload',[SlideController::class,'upload'])->name('slide.uploa
 Route::post('slide/remove',[SlideController::class,'remove'])->name('slide.remove');
 //director
 Route::post('director/upload',[DirectorController::class,'upload'])->name('director.upload');
+Route::post('director/post',[DirectorController::class,'post'])->name('director.post');
+
 //post
-Route::post('post/director',[PostController::class,'director'])->name('post.director');
+Route::post('post/insert')->name('post.insert');
+Route::post('post/update')->name('post.update');
+Route::post('post/delete')->name('post.delete');
+
 //about
 Route::post('about/insert',[AboutSchoolController::class,'insert'])->name('about.insert');
 Route::post('about/update',[AboutSchoolController::class,'update'])->name('about.update');

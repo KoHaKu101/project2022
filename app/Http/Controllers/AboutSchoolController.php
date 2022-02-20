@@ -109,15 +109,18 @@ class AboutSchoolController extends Controller
     public function delete(Request $request){
         $UNID = $request->UNID;
         $DATA_ABOUT = AboutSchool::where('UNID','=',$UNID)->first();
-        if(!isset($DATA_ABOUT->ABOUT_IMG)){
+        if(isset($DATA_ABOUT->ABOUT_IMG)){
             $FILE_NAME = $DATA_ABOUT->ABOUT_IMG;
             $EXT = $DATA_ABOUT->ABOUT_IMG_EXT;
             $filePath = public_path('assets/image/about/'.$FILE_NAME.$EXT);
             File::delete($filePath);
+        }else{
+            return response()->json(['alert'=>'error','title' =>'เกิดข้อผิดพลาด','text' =>'กรุณาลองใหม่']);
         }
          $DATA_ABOUT->delete();
-        alert()->success('ลบสำเร็จ');
-        return redirect()->back();
+            return response()->json(['alert'=>'success','title' =>'ลบรายการสำเร็จ','text' =>'']);
+
+
     }
     public function imgupload($image,$FILE_NAME){
             $w = 546;

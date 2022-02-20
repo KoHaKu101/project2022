@@ -5,11 +5,11 @@
             <div class="card">
                 <div class="card-header bg-purple text-white">
                     <div class="row">
-                        <div class="col-sm-6 col-md-6">
-                            <h1>ภาพสไลด์ ทั้งหมด {{ $LIMIT_NUMBER }} </h1>
-                        </div>
-                        <div class="col-sm-6 col-md-6 text-right">
-                            <button class="btn btn-warning " onclick="addslide()">เพิ่มจำนวนสไลด์</button>
+                        <div class="col-md-12">
+                            <div class="form-inline">
+                                <h1>ภาพสไลด์ ทั้งหมด {{ $LIMIT_NUMBER }} </h1>
+                                <button class="btn btn-warning ml-auto" onclick="addnumber_slide()">เพิ่มจำนวนสไลด์</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -18,7 +18,6 @@
                         <div class="owl-carousel owl-theme text-center">
                             @php
                                 $IMG__PATH = 'slide_noimg.png';
-
                             @endphp
                             @for ($i = 1; $i <= $LIMIT_NUMBER; $i++)
                                 @php
@@ -34,14 +33,14 @@
                                         @if (isset($IMG->IMG_FILE))
                                             <div class="col-md-6">
                                                 <button type="button"
-                                                    class="btn btn-warning btn-sm text-center btn-self btn-block"
+                                                    class="btn btn-warning btn-sm text-center btn-self btn-block my-2"
                                                     onclick="modalslide(this)" data-number="{{ $i }}">
                                                     แก้ไข
                                                 </button>
                                             </div>
                                             <div class="col-md-6">
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm text-center btn-self btn-block"
+                                                    class="btn btn-danger btn-sm text-center btn-self btn-block my-2"
                                                     onclick="delete_slide_img(this)" data-number="{{ $i }}">
                                                     ลบรูป
                                                 </button>
@@ -49,7 +48,7 @@
                                         @else
                                             <div class="col-md-12">
                                                 <button type="button"
-                                                    class="btn btn-warning btn-sm text-center btn-self btn-block"
+                                                    class="btn btn-warning btn-sm text-center btn-self btn-block my-2"
                                                     onclick="modalslide(this)" data-number="{{ $i }}">
                                                     เพิ่มรูป
                                                 </button>
@@ -84,7 +83,6 @@
                                     <img src="{{ asset('assets/image/people/' . $IMG_DIRECTOR) }}" id="SHOW_DIRECTOR"
                                         style="height:299px;width:243px">
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -94,7 +92,7 @@
                                         <div class="form-inline">
                                             <input type="file" class="form-control form-control-sm " id="IMG_DIRECTOR"
                                                 name="IMG_DIRECTOR" required>
-                                            <button type="submit" class="btn btn-success btn-sm my-2 ml-2 text-byme">
+                                            <button type="submit" class="btn btn-success btn-sm my-2 ml-auto text-byme">
                                                 บันทึก</button>
                                         </div>
                                     </form>
@@ -109,12 +107,13 @@
                     <div class="card" style="height:475px">
                         <div class="card-header bg-purple">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h1 class="text-white">สาส์นจากผู้อำนวยการ</h1>
-                                </div>
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-warning btn-sm text-byme" onclick="director()">
-                                        แก้ไขข้อความ</button>
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <h1 class="text-white">สาส์นจากผู้อำนวยการ</h1>
+                                        <button type="button" class="btn btn-warning btn-sm text-byme ml-auto"
+                                            onclick="director()">
+                                            แก้ไขข้อความ</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,16 +142,77 @@
                     <div class="card">
                         <div class="card-header bg-purple">
                             <div class="row">
-                                <div class="col-md-6 text-left text-white">
-                                    <h1>เกี่ยวกับโรงเรียน</h1>
+                                <div class="col-md-12 text-white">
+                                    <div class="form-inline">
+                                        <h1>เกี่ยวกับโรงเรียน</h1>
+                                        <button type="button" class="btn btn-warning text-byme ml-auto"
+                                            onclick="modal_about(this)" data-name="เพิ่มข้อมูล">
+                                            <i class="fas fa-plus"></i>
+                                            เพิ่มข้อมูล
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 text-right">
-                                    <button type="button" class="btn btn-warning text-byme" onclick="modal_about(this)"
-                                        data-name="เพิ่มข้อมูล">
-                                        <i class="fas fa-plus"></i>
-                                        เพิ่มข้อมูล
-                                    </button>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach ($ABOUT_SCHOOL as $index => $row_about)
+                                    <div class="col-sm-6 col-md-6 col-lg-4 text-center">
+                                        <button type="button" class="btn btn-primary btn-lg my-2"
+                                            style="font-size: 1.1625rem;" data-name="{{ $row_about->ABOUT_NAME }}"
+                                            data-unid="{{ $row_about->UNID }}" onclick="modal_about_data(this)">
+                                            {{ $row_about->ABOUT_NAME }}
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-purple">
+                            <div class="row ">
+                                <div class="col-md-12 text-white">
+                                    <div class="form-inline">
+                                        <h1>ข่าวสาร</h1>
+                                        <div class="form-group  ">
+                                            <h1 class="mr-2"> ประจำเดือน :</h1>
+                                            <select class="form-control text-byme " style="padding: 0.1rem 1rem">
+                                                @php
+                                                    $months_full_th = ['0' => 'ทั้งหมด', '1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน', '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม'];
+                                                @endphp
+                                                @for ($n_month = 0; $n_month <= 12; $n_month++)
+                                                    <option value="{{ $n_month }}"
+                                                        {{ $n_month == date('n') ? 'selected' : '' }}>
+                                                        {{ $months_full_th[$n_month] }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="form-group  mr-auto">
+                                            <h1 class="mr-2"> ประเภทข้อมูล :</h1>
+                                            <select class="form-control text-byme " style="padding: 0.1rem 1rem">
+                                                <option value="TYPE_DEFAULT" selected>ข้อมูลทั่วไป</option>
+                                                <option value="TYPE_PDF"> ข้อมูล PDF</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group  ml-auto">
+                                            <button type="button" class="btn btn-warning text-byme"
+                                                onclick="modal_post(this)" data-name="เพิ่มข่าวสาร">
+                                                <i class="fas fa-plus"></i>
+                                                เพิ่มข่าวสาร
+                                            </button>
+                                        </div>
+
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="card-body">
@@ -177,91 +237,141 @@
     @include('masteredit.footer')
     @include('editpage.modalhome.slide')
     @include('editpage.modalhome.director')
-    <div class="modal fade" id="modal_about" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @include('editpage.modalhome.about')
+    <!-- Button trigger modal -->
+    <div class="modal fade" id="modal_post" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="modal-header bg-primary">
-                            <h3 class="modal-title" id="MODAL_NAME_ABOUT"></h3>
+                            <h3 class="modal-title" id="modal_post_title"></h3>
                             <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <form method="POST" id="FRM_ABOUT" action="{{ route('about.insert') }}"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" id="ABOUT_POSITION" name="ABOUT_POSITION" value="RIGHT">
-                                <input type="hidden" id="ABOUT_UNID" name="ABOUT_UNID">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="form-group has-error">
-                                            <label>หัวข้อ</label>
-                                            <input type="text" class="form-control " id="ABOUT_NAME" name="ABOUT_NAME"
-                                                placeholder="กรุณาใส่หัวขอ เช่น ความเป็นมาของศูนย์" required>
-                                        </div>
-                                    </div>
-                                    <style>
-                                        .btn-disabled {
-                                            cursor: not-allowed;
-                                        }
+                        <style>
+                            .nav-link-success {
+                                background-color: #31ce36 !important;
+                                border-color: #31ce36 !important;
+                                color: #fff !important;
+                            }
 
-                                    </style>
-                                    <div class="col-md-5">
+                            .btn-clay {
+                                background-color: #7c7c7c !important;
+                                border-color: #7c7c7c !important;
+                                color: #fff !important;
+
+                            }
+
+                            .btn-clay:hover {
+                                background-color: #31ce36 !important;
+                                border-color: #31ce36 !important;
+                                color: #fff !important;
+
+                            }
+
+                            .selected-btn {
+                                background-color: #31ce36 !important;
+                                border-color: #31ce36 !important;
+                                color: #fff !important;
+                            }
+
+                            .text-byme-lg {
+                                font-size: 20px;
+                            }
+
+                            .a-nopoint {
+                                cursor: default;
+                            }
+
+                        </style>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="wizard-container wizard-round col-md-12">
+                                    <div class="wizard-body ">
                                         <div class="row">
-                                            <div class="form-group">
-                                                <label>ตำแหน่งของภาพ</label>
+                                            <ul class="wizard-menu nav nav-pills nav-primary ml-auto mr-auto">
+                                                <li class="step">
+                                                    <a class="nav-link active text-byme a-nopoint" id="step1_active"
+                                                        aria-expanded="true">
+                                                        <i class="fa fa-user mr-2"></i>ขั้นตอนแรก ประเถทข้อมูล
+                                                    </a>
+                                                </li>
+                                                <li class="step">
+                                                    <a class="nav-link text-byme a-nopoint" id="step2_active">
+                                                        <i class="fa fa-file mr-2"></i> ขั้นตอนสอง ตำแหน่งรูปภาพ
+                                                    </a>
+                                                </li>
+                                                <li class="step">
+                                                    <a class="nav-link text-byme a-nopoint" id="step3_active">
+                                                        <i class="fa fa-map-signs mr-2"></i> ใส่ข้อมูล</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="tab-content my-3">
+                                            <div class="tab-pane active" id="step1">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <button type="button" class="btn btn-primary btn-block"
-                                                            onclick="about_postion(this)" id="BTN_LEFT"
-                                                            data-position="LEFT">ภาพอยู่ซ้ายมือ</button>
-                                                    </div>
-                                                    <div class="col-md-6 text-right">
-                                                        <button type="button" class="btn btn-primary btn-block btn-disabled"
-                                                            onclick="about_postion(this)" id="BTN_RIGHT"
-                                                            data-position="RIGHT" disabled>ภาพอยู่ขวามือ</button>
+                                                    <div class="col-md-12 text-center">
+                                                        <h2>ขั้นตอนแรก ประเถทข้อมูล</h2>
                                                     </div>
                                                 </div>
-
+                                                <div class="row my-4">
+                                                    <div class="col-md-6 text-right ">
+                                                        <button type="button" class="btn btn-clay btn-lg text-byme-lg"
+                                                            data-typepost="DEFAULT" id="BTN_DEFAULT"
+                                                            onclick="post_step1(this)">
+                                                            แบบข้อความ</button>
+                                                    </div>
+                                                    <div class="col-md-6 text-left">
+                                                        <button type="button" class="btn btn-clay btn-lg text-byme-lg"
+                                                            data-typepost="PDF" id="BTN_PDF" onclick="post_step1(this)">
+                                                            ไฟล์ หรือ pdf</button>
+                                                    </div>
+                                                </div>
                                             </div>
-
+                                            <div class="tab-pane" id="step2">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <h2>ขั้นตอนสอง ตำแหน่งรูปภาพ</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="step3">
+                                                <input type="hidden" id="TYPE_POST">
+                                                <form data-route="{{ route('post.insert') }}" id="POST_TYPE_DEFAULT"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" id="POSITION_IMG_POST" name="POSITION_IMG_POST">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <h2>ขั้นตอนแรก ประเถทข้อมูล</h2>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6" id="DIV_RIGHT">
-                                        <div class="form-group has-error">
-                                            <label>ข้อมูล</label>
-                                            <textarea class="form-control" rows="14" required
-                                                placeholder="กรุณาใส่ข้อมูลในนี้" id="ABOUT_TEXT"
-                                                name="ABOUT_TEXT"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6" id="DIV_LEFT">
-                                        <div class="form-group ">
-                                            <label>ภาพ</label>
-                                            <input type="file" class="form-control" id="ABOUT_IMG" name="ABOUT_IMG">
-                                            <div class="div_img">
-                                                <img src="{{ asset('assets/image/postmassage/no_img.png') }}"
-                                                    id="SHOWABOUT_IMG" style="width: -webkit-fill-available;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger mr-auto text-byme" data-dismiss="modal"
-                                aria-label="Close"><i class="fas fa-times mx-2"></i>ยกเลิก</button>
-                            <button type="button" class="btn btn-danger" hidden id="BTN_DELETE_ABOUT" data-unid=""
-                                onclick="deleteabout(this)">
-                                <i class="fas fa-trash mx-2"></i>ลบ
+                                aria-label="Close" id="POST_BTN_CLOSE">
+                                <i class="fas fa-times mx-2"></i>ยกเลิก
                             </button>
-                            <button type="button" class="btn btn-success text-byme" id="BTN_SUBMIT_ABOUT"
-                                onclick="submit_about()">
-                                <i class="fas fa-save mx-2"></i>บันทึก</button>
+                            <button type="button" class="btn btn-danger mr-auto text-byme" data-step="1" id="BTN_RETURN"
+                                onclick="return_step(this)" hidden>
+                                <i class="fa fa-arrow-left mx-2"></i>ย้อนกลับ
+                            </button>
+                            <button type="button" class="btn btn-primary text-byme" data-step="2" id="BTN_NEXT"
+                                onclick="next_step(this)">
+                                <i class="fa fa-arrow-right mr-2" aria-hidden="true"></i>ต่อไป
+                            </button>
+                            <button type="button" class="btn btn-success text-byme" id="POST_BTN_SUBMIT"
+                                onclick="post_submit()" hidden>
+                                <i class="fas fa-save mr-2" aria-hidden="true"></i>บันทึก
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -273,105 +383,77 @@
     </div>
 @endsection
 @section('java')
-    <script src="{{ asset('assets/js/edit/home/slide.js') }}"></script>
     <script src="{{ asset('assets/js/edit/home/director.js') }}"></script>
     <script src="{{ asset('assets/js/edit/home/imgshow.js') }}"></script>
+    @include('editpage.javamixphp.about')
+    @include('editpage.javamixphp.slide')
     <script>
-        $('#modal_about').on('hidden.bs.modal', function() {
-
-            var url_insert = "{{ route('about.insert') }}";
-            var asset_make = "{{ asset('/') }}" + 'assets/image/postmassage/no_img.png';
-            $('.div_img').html('<img src="' + asset_make +
-                '"id = "SHOWABOUT_IMG" style = "width: -webkit-fill-available;" > ');
-            $('#BTN_SUBMIT_ABOUT').html('<i class="fas fa-save mx-2"></i>บันทึก');
-            $('#BTN_RIGHT').click();
-            $('#FRM_ABOUT').attr('action', url_insert);
-            $('#BTN_DELETE_ABOUT').attr('data-unid', '');
-            $('#ABOUT_UNID').val('');
-            $('#BTN_DELETE_ABOUT').attr('hidden', true);
-            $('#FRM_ABOUT')[0].reset();
-        })
-
-        function modal_about(thisdata) {
-            var MODAL_TITLE = $(thisdata).data('name');
-            $('#MODAL_NAME_ABOUT').html(MODAL_TITLE);
-            $('#modal_about').modal('show');
-        }
-
-        function modal_about_data(thisdata) {
-            var MODAL_TITLE = $(thisdata).data('name');
-            var UNID = $(thisdata).data('unid');
-            var url = "{{ route('about.show') }}";
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    ABOUT_UNID: UNID
-                },
-                success: function(response) {
-                    if (response.status == 'error') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาด',
-                            text: 'กรุณาติดต่อแอดมินหรือลองใหม่อีกครั้ง',
-                        });
-                    } else {
-                        var url_update = "{{ route('about.update') }}";
-                        $('#MODAL_NAME_ABOUT').html('แก้ไข : ' +
-                            MODAL_TITLE);
-                        $('#ABOUT_UNID').val(UNID);
-                        $('#ABOUT_NAME').val(response.ABOUT_NAME);
-                        $('#ABOUT_TEXT').val(response.ABOUT_TEXT);
-                        $('#BTN_DELETE_ABOUT').attr('data-unid', UNID);
-                        $('#FRM_ABOUT').attr('action', url_update);
-                        var asset_make = "{{ asset('/') }}" + 'assets/image/postmassage/no_img.png';
-                        if (response.ABOUT_IMG != '') {
-                            asset_make = "{{ asset('/assets/image/about') }}/" + response.ABOUT_IMG;
-                        }
-                        $('.div_img').html('<img src="' + asset_make +
-                            '"id = "SHOWABOUT_IMG" style = "width: -webkit-fill-available;" > ');
-                        $('#BTN_' + response.ABOUT_POSTION).click();
-                        $('#BTN_SUBMIT_ABOUT').html('<i class="fas fa-edit mx-2"></i>แก้ไข');
-                        $('#BTN_DELETE_ABOUT').attr('hidden', false);
-                        $('#modal_about').modal('show');
-                    }
-                }
-            });
-
-        }
-
-        function about_postion(thisdata) {
-            var position_show = $(thisdata).data('position');
-            var position_hide = position_show == 'RIGHT' ? 'LEFT' : 'RIGHT';
-            $("#DIV_" + position_hide).before($("#DIV_" + position_show));
-            $('#BTN_' + position_show).attr('disabled', true);
-            $('#BTN_' + position_show).addClass('btn-disabled');
-            $('#BTN_' + position_hide).attr('disabled', false);
-            $('#BTN_' + position_hide).addClass('btn-disabled');
-            $('#ABOUT_POSITION').val(position_show);
-        }
-        $("#ABOUT_IMG").change(function() {
-            var id_img_left = 'SHOWABOUT_IMG';
-            readURL(this, id_img_left);
+        $(document).ready(function() {
+            // function modal_post(thisdata) {
+            // var title = $(thisdata).data('name');
+            var title = "เพิ่มข่าวสาร";
+            $('#modal_post_title').html(title);
+            $('#modal_post').modal('show');
+            // }
         });
 
-        function submit_about() {
-            $('#FRM_ABOUT').submit();
+        function post_step1(thisdata) {
+            var type_post = $(thisdata).data('typepost');
+            if (type_post == 'DEFAULT') {
+                $('#BTN_DEFAULT').addClass('selected-btn');
+                $('#BTN_PDF').removeClass('selected-btn');
+                $('#TYPE_POST').val(type_post);
+            } else if (type_post == 'PDF') {
+                $('#BTN_PDF').addClass('selected-btn');
+
+                $('#BTN_DEFAULT').removeClass('selected-btn');
+                $('#TYPE_POST').val(type_post);
+            }
         }
 
-        function deleteabout(thisdata) {
-            var UNID = $(thisdata).data('unid');
-            var url = "{{ route('about.delete') }}";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    UNID: UNID
-                },
-                success: function(response) {
-                    console.log('success');
-                }
-            });
+        function next_step(thisdata) {
+            var step = $(thisdata).data('step');
+            if (step == 2) {
+                $('#POST_BTN_CLOSE').attr('hidden', true);
+                $('#BTN_RETURN').attr('hidden', false);
+                $('#BTN_NEXT').data('step', 3);
+                $('#step1,#step1_active').removeClass('active');
+                $('#step2,#step2_active').addClass('active');
+                $('#step1_active').addClass('nav-link-success');
+            } else if (step == 3) {
+                $('#POST_BTN_SUBMIT').attr('hidden', false);
+                $('#BTN_NEXT').attr('hidden', true);
+                $('#BTN_RETURN').data('step', 2);
+                $('#step2,#step2_active').removeClass('active');
+                $('#step3,#step3_active').addClass('active');
+                $('#step2_active').addClass('nav-link-success');
+
+            }
+        }
+
+        function return_step(thisdata) {
+            var step = $(thisdata).data('step');
+            if (step == 1) {
+                $('#POST_BTN_CLOSE').attr('hidden', false);
+                $('#BTN_RETURN').attr('hidden', true);
+                $('#BTN_NEXT').data('step', 2);
+                $('#step2,#step2_active').removeClass('active');
+                $('#step1,#step1_active').addClass('active');
+                $('#step1_active').removeClass('nav-link-success');
+            } else if (step == 2) {
+                $('#POST_BTN_SUBMIT').attr('hidden', true);
+                $('#BTN_NEXT').attr('hidden', false);
+                $('#BTN_NEXT').data('step', 3);
+                $('#BTN_RETURN').data('step', 1);
+                $('#step3').removeClass('active');
+                $('#step3,#step3_active').removeClass('active');
+                $('#step2,#step2_active').addClass('active');
+                $('#step2_active').removeClass('nav-link-success');
+            }
+        }
+
+        function post_submit() {
+
         }
     </script>
 @endsection
