@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
+
 class AboutSchoolController extends Controller
 {
     public function randUNID($table)
@@ -43,16 +44,12 @@ class AboutSchoolController extends Controller
         $image      = $request->file('ABOUT_IMG');
         if($image != null){
         $FILE_NAME  = 'About'.$NUMBER_ABOUT;
-
             $this->imgupload($image,$FILE_NAME);
-
-
             $EXT        = '.'.$image->extension();
         }else{
             $FILE_NAME= '';
             $EXT = '';
         }
-
             AboutSchool::insert([
                 'UNID' => $this->randUNID('ABOUT_SCHOOL'),
                 'ABOUT_NUMBER' => $NUMBER_ABOUT,
@@ -87,7 +84,6 @@ class AboutSchoolController extends Controller
         }else{
             $DATA_ABOUT = AboutSchool::where('UNID','=',$UNID)->first();
             $FILE_NAME = $DATA_ABOUT->ABOUT_IMG;
-
             $EXT        = '.'.$image->extension();
             $this->imgupload($image,$FILE_NAME);
             AboutSchool::where('UNID','=',$UNID)->update([
@@ -119,13 +115,14 @@ class AboutSchoolController extends Controller
         }
          $DATA_ABOUT->delete();
             return response()->json(['alert'=>'success','title' =>'ลบรายการสำเร็จ','text' =>'']);
-
-
     }
     public function imgupload($image,$FILE_NAME){
             $w = 546;
             $h = 410;
             $filePath   = public_path('assets/image/about');
+            if(!file_exists($filePath)){
+              File::makeDirectory($filePath);
+            }
             $img        = Image::make($image->path());
             $EXT        = '.'.$image->extension();
             $width      = $img->width();

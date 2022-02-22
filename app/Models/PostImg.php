@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class PostImg extends Model
 {
     use HasFactory;
     const CREATED_AT = 'CREATE_TIME';
@@ -14,21 +14,13 @@ class Post extends Model
     public $timestamps = false;
     protected $primaryKey = "UNID";
     protected $keyType = 'BigInteger';
-    public $table = 'POST';
+    public $table = 'POST_IMG';
 
      protected $fillable = [
         'UNID',
-        'POST_TYPE',
-        'POST_HEADER',
-        'POST_BODY',
-        'POST_IMG_LOGO',
+        'UNID_REF',
+        'POST_IMG_NAME',
         'POST_IMG_EXT',
-        'POST_PDF',
-        'POST_PDF_EXT',
-        'POST_DAY',
-        'POST_MONTH',
-        'POST_YEAR',
-        'POST_STATUS',
         'CREATE_BY',
         'CREATE_TIME',
         'MODIFY_BY',

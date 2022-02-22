@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Dircetor extends Model
 {
     use HasFactory;
     const CREATED_AT = 'CREATE_TIME';
@@ -14,24 +14,25 @@ class Post extends Model
     public $timestamps = false;
     protected $primaryKey = "UNID";
     protected $keyType = 'BigInteger';
-    public $table = 'POST';
+    public $table = 'DIRCETOR';
 
      protected $fillable = [
         'UNID',
-        'POST_TYPE',
-        'POST_HEADER',
-        'POST_BODY',
-        'POST_IMG_LOGO',
-        'POST_IMG_EXT',
-        'POST_PDF',
-        'POST_PDF_EXT',
-        'POST_DAY',
-        'POST_MONTH',
-        'POST_YEAR',
-        'POST_STATUS',
+        'DIRCETOR_TEXT',
+        'DIRCETOR_TEXT_NAME',
+        'DIRCETOR_SCHOOL',
+        'STATUS',
+        'DIRCETOR_IMG',
+        'DIRCETOR_IMG_EXT',
         'CREATE_BY',
         'CREATE_TIME',
         'MODIFY_BY',
         'MODIFY_TIME',
     ];
+
+
+
+
+
+
 }

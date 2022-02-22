@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSlideImg extends Migration
+class CreateAboutschool extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateSlideImg extends Migration
      */
     public function up()
     {
-        Schema::create('IMG', function (Blueprint $table) {
+        Schema::create('ABOUT_SCHOOL', function (Blueprint $table) {
             $table->BigInteger('UNID')->primary();
-            $table->BigInteger('UNID_SETTING_NUMBER');
-            $table->integer('IMG_NUMBER')->nullable();
-            $table->string('IMG_FILE')->nullable();
-            $table->string('IMG_EXT',50)->nullable();
-            $table->string('IMG_TYPE',50);
-            $table->string('STATUS',50)->nullable();
+            $table->integer('ABOUT_NUMBER');
+            $table->string('ABOUT_NAME',250);
+            $table->text('ABOUT_TEXT');
+            $table->string('ABOUT_IMG')->nullable();
+            $table->string('ABOUT_IMG_EXT',100)->nullable();
+            $table->string('ABOUT_IMG_POSITION',100)->nullable();
+            $table->string('ABOUT_STATUS',50);
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();
@@ -35,6 +36,6 @@ class CreateSlideImg extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('IMG');
+        Schema::dropIfExists('ABOUT_SCHOOL');
     }
 }

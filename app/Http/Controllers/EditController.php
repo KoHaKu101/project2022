@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Request;
+
 use App\Models\Settingnumber;
 use App\Models\Img;
-use GuzzleHttp\Psr7\Request;
-use App\Models\Post;
+use App\Models\Dircetor;
 use App\Models\AboutSchool;
+use App\Models\Post;
 class EditController extends Controller
 {
     public function randUNID($table)
@@ -33,12 +35,19 @@ class EditController extends Controller
         $IMG_SLIDE = isset($DATA_SLIDE->UNID) ? Img::where('UNID_SETTING_NUMBER','=',$DATA_SLIDE->UNID )->where('STATUS','=','OPEN')->get() : false;
         $LIMIT_NUMBER = isset($DATA_SLIDE->TYPE_NUMBER) ? $DATA_SLIDE->TYPE_NUMBER : '5';
 
-        $DIRECTOR_IMG = Img::where('IMG_TYPE','=','DIRECTOR' )->where('STATUS','=','OPEN')->first();
-        $IMG_DIRECTOR = isset($DIRECTOR_IMG->IMG_FILE) ? $DIRECTOR_IMG->IMG_FILE.$DIRECTOR_IMG->IMG_EXT : 'no_img.png';
+        $DATA_DIRCETOR  = Dircetor::first();
+        $DIRECTOR_IMG   = isset($DATA_DIRCETOR->DIRCETOR_IMG) ? $DATA_DIRCETOR->DIRCETOR_IMG . $DATA_DIRCETOR->DIRCETOR_IMG_EXT : 'no_img.png';
 
-        $DIRECTOR_TEXT = Post::where('POST_TYPE','=','DIRECTOR')->first();
         $ABOUT_SCHOOL   = AboutSchool::select('UNID','ABOUT_NAME','ABOUT_NUMBER')->orderBy('ABOUT_NUMBER')->get();
-        return view('editpage.home',compact('LIMIT_NUMBER','IMG_SLIDE','IMG_DIRECTOR','DIRECTOR_TEXT','ABOUT_SCHOOL'));
+        $DATA_POST      = Post::where('POST_TYPE','=','PDF')->paginate(9);
+        return view('editpage.home',compact('LIMIT_NUMBER','IMG_SLIDE','DIRECTOR_IMG','DATA_DIRCETOR','ABOUT_SCHOOL','DATA_POST'));
     }
-
+    public function showpost(Request $request){
+        $POST_TYPE = $request->POST_TYPE;
+        $DATA_POST = Post::where('POST_TYPE','=',$POST_TYPE)->orderby('POST_DAY','ASC')->get();
+        $html = '';
+        foreach ($DATA_POST as $index => $row) {
+            $html+= '' ;
+        }
+    }
 }

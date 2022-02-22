@@ -16,7 +16,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>ข้อความ</label>
-                                        <textarea class="form-control" id="POST_TEXT" name="POST_TEXT"
+                                        <textarea class="form-control" id="DIRCETOR_TEXT" name="DIRCETOR_TEXT"
                                             rows="5"></textarea>
                                     </div>
                                 </div>
@@ -25,13 +25,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>ชื่อผู้อำนวยการ</label>
-                                        <input type="text" class="form-control" id="POST_NAME" name="POST_NAME">
+                                        <input type="text" class="form-control" id="DIRCETOR_NAME"
+                                            name="DIRCETOR_NAME">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>ชื่อโรงเรียน</label>
-                                        <input type="text" class="form-control" id="POST_SCHOOL" name="POST_SCHOOL">
+                                        <input type="text" class="form-control" id="DIRCETOR_SCHOOL"
+                                            name="DIRCETOR_SCHOOL">
                                     </div>
                                 </div>
                             </div>

@@ -62,7 +62,7 @@
 
         </style>
         @php
-            $STYLE_IMG = isset($DIRECTOR_IMG->IMG_FILE) ? '' : 'img-notfound';
+            $STYLE_IMG = isset($DATA_DIRCETOR->DIRCETOR_IMG) ? '' : 'img-notfound';
         @endphp
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
@@ -79,13 +79,15 @@
                                         <b>สาส์นจากผู้อำนวยการ <br></b>
                                     </h2>
                                     <h5 class="indent">
-                                        {{ isset($DIRECTOR_TEXT->POST_TEXT) ? $DIRECTOR_TEXT->POST_TEXT : '' }}
+                                        {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT) ? $DATA_DIRCETOR->DIRCETOR_TEXT : '' }}
                                         <br>
                                         <br>
                                     </h5>
                                     <h3 class="text-center text-primary">
-                                        {{ isset($DIRECTOR_TEXT->POST_NAME) ? $DIRECTOR_TEXT->POST_NAME : '' }} <br>
-                                        {{ isset($DIRECTOR_TEXT->POST_SCHOOL) ? $DIRECTOR_TEXT->POST_SCHOOL : '' }} <br>
+                                        {{ isset($DATA_DIRCETOR->DIRCETOR_NAME) ? $DATA_DIRCETOR->DIRCETOR_NAME : '' }}
+                                        <br>
+                                        {{ isset($DATA_DIRCETOR->DIRCETOR_SCHOOL) ? $DATA_DIRCETOR->DIRCETOR_SCHOOL : '' }}
+                                        <br>
                                     </h3>
                                 </div>
                             </div>
@@ -96,6 +98,13 @@
             </div>
         </section><!-- End About Section -->
         <!-- ======= Tabs Section ======= -->
+        <style>
+            a.active.show {
+                background-color: #a364d3 !important;
+                border-color: #a364d3 !important;
+            }
+
+        </style>
         <section id="tabs" class="tabs">
             <div class="container" data-aos="fade-up">
                 <ul class="nav nav-tabs row d-flex">
@@ -105,8 +114,8 @@
                             $COL_COSTOM = $ABOUT_NUMBER == 1 ? 'col-lg-12' : ($ABOUT_NUMBER == 2 ? 'col-lg-' . +6 : ($ABOUT_NUMBER > 2 ? 'col-lg-' . +3 : 'col-lg-12'));
                             $ACTIVE_ABOUT = $row_about->ABOUT_NUMBER == 1 ? 'active show' : '';
                         @endphp
-                        <li class="nav-item {{ $COL_COSTOM }}">
-                            <a class="nav-link {{ $ACTIVE_ABOUT }}" data-bs-toggle="tab"
+                        <li class="nav-item {{ $COL_COSTOM }} ">
+                            <a class="nav-link {{ $ACTIVE_ABOUT }} " data-bs-toggle="tab"
                                 data-bs-target="{{ '#about_tab-' . $row_about->ABOUT_NUMBER }}">
                                 <i class="ri-gps-line"></i>
                                 <h4 class="d-lg-block">{{ $row_about->ABOUT_NAME }}</h4>
@@ -228,91 +237,91 @@
                         @if ($post >= 6)
                         @break
                     @endif
-                    @endfor
+                @endfor
+            </div>
+            <div class="row">
+                <div class="col-md-10">
                 </div>
-                <div class="row">
-                    <div class="col-md-10">
+                <div class="col-md-2 ">
+                    <a href="#" class="btn btn-primary mr-4">
+                        <i class="fas fa-hand-point-right me-2"></i>อ่านข่าวทั้งหมด</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>ติดต่อ</h2>
+            </div>
+            @php
+                $locationmap = '16.051926472973367,103.64722590286577';
+            @endphp
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="info-box">
+                                <i class="bx bx-map"></i>
+                                <h3>Our Address</h3>
+                                <iframe width="80%" height="460"
+                                    src="https://maps.google.com/maps?q={{ $locationmap }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col-md-2 ">
-                        <a href="#" class="btn btn-primary mr-4">
-                            <i class="fas fa-hand-point-right me-2"></i>อ่านข่าวทั้งหมด</a>
+                </div>
+                <div class="col-lg-6 ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-box ">
+                                <i class="bx bx-envelope"></i>
+                                <h3>Email Us</h3>
+                                <p>info@example.com<br>contact@example.com</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box ">
+                                <i class="bx bx-phone-call"></i>
+                                <h3>Call Us</h3>
+                                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-4 ">
+                            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                                <div class="row">
+                                    <div class="col form-group">
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            placeholder="Your Name" required>
+                                    </div>
+                                    <div class="col form-group">
+                                        <input type="email" class="form-control" name="email" id="email"
+                                            placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="subject" id="subject"
+                                        placeholder="Subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" name="message" rows="5" placeholder="Message"
+                                        required></textarea>
+                                </div>
+                                <div class="my-3">
+                                    <div class="loading">Loading</div>
+                                    <div class="error-message"></div>
+                                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                                </div>
+                                <div class="text-center"><button type="submit">Send Message</button></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
-            <div class="container" data-aos="fade-up">
-                <div class="section-title">
-                    <h2>ติดต่อ</h2>
-                </div>
-                @php
-                    $locationmap = '16.051926472973367,103.64722590286577';
-                @endphp
-                <div class="row" data-aos="fade-up" data-aos-delay="100">
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="info-box">
-                                    <i class="bx bx-map"></i>
-                                    <h3>Our Address</h3>
-                                    <iframe width="80%" height="460"
-                                        src="https://maps.google.com/maps?q={{ $locationmap }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
-                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                                </div>
-                            </div>
+        </div>
+    </section><!-- End Contact Section -->
 
-                        </div>
-                    </div>
-                    <div class="col-lg-6 ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-box ">
-                                    <i class="bx bx-envelope"></i>
-                                    <h3>Email Us</h3>
-                                    <p>info@example.com<br>contact@example.com</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-box ">
-                                    <i class="bx bx-phone-call"></i>
-                                    <h3>Call Us</h3>
-                                    <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mt-4 ">
-                                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                                    <div class="row">
-                                        <div class="col form-group">
-                                            <input type="text" name="name" class="form-control" id="name"
-                                                placeholder="Your Name" required>
-                                        </div>
-                                        <div class="col form-group">
-                                            <input type="email" class="form-control" name="email" id="email"
-                                                placeholder="Your Email" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="subject" id="subject"
-                                            placeholder="Subject" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea class="form-control" name="message" rows="5" placeholder="Message"
-                                            required></textarea>
-                                    </div>
-                                    <div class="my-3">
-                                        <div class="loading">Loading</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                                    </div>
-                                    <div class="text-center"><button type="submit">Send Message</button></div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- End Contact Section -->
-
-    </main><!-- End #main -->
+</main><!-- End #main -->
 @endsection

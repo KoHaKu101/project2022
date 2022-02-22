@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Aboutschool extends Migration
+class CreateTag extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class Aboutschool extends Migration
      */
     public function up()
     {
-        Schema::create('ABOUT_SCHOOL', function (Blueprint$table) {
+        Schema::create('TAG', function (Blueprint $table) {
             $table->BigInteger('UNID')->primary();
-            $table->integer('ABOUT_NUMBER');
-            $table->string('ABOUT_NAME',250);
-            $table->text('ABOUT_TEXT');
-            $table->string('ABOUT_IMG')->nullable();
-            $table->string('ABOUT_IMG_EXT',100)->nullable();
-            $table->string('ABOUT_IMG_POSITION',100)->nullable();
-            $table->string('ABOUT_STATUS',50);
+            $table->string('TAG_NAME',150);
+            $table->string('TAG_STATUS',50);
+
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();
@@ -36,6 +32,6 @@ class Aboutschool extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ABOUT_SCHOOL');
+        Schema::dropIfExists('TAG');
     }
 }
