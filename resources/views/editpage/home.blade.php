@@ -174,18 +174,19 @@
                     <div class="card">
                         <div class="card-header bg-purple">
                             <div class="row ">
-                                <div class="col-md-12 text-white">
+                                <div class=" col-md-12 text-white">
                                     <div class="form-inline">
                                         <h1>ข่าวสาร</h1>
-                                        <div class="form-group  ">
+                                        <div class="form-group">
                                             <h1 class="mr-2"> ประจำเดือน :</h1>
-                                            <select class="form-control text-byme " style="padding: 0.1rem 1rem">
+                                            <select class="form-control text-byme " style="padding: 0.1rem 1rem"
+                                                id="SELECT_MONTH_POST" name="SELECT_MONTH_POST">
                                                 @php
                                                     $months_full_th = ['0' => 'ทั้งหมด', '1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน', '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม'];
                                                 @endphp
                                                 @for ($n_month = 0; $n_month <= 12; $n_month++)
                                                     <option value="{{ $n_month }}"
-                                                        {{ $n_month == date('n') ? 'selected' : '' }}>
+                                                        {{ $n_month == $POST_MONTH ? 'selected' : '' }}>
                                                         {{ $months_full_th[$n_month] }}
                                                     </option>
                                                 @endfor
@@ -194,9 +195,13 @@
                                         <div class="form-group  mr-auto">
                                             <h1 class="mr-2"> ประเภทข้อมูล :</h1>
                                             <select class="form-control text-byme " style="padding: 0.1rem 1rem"
-                                                id="SELECT_TYPE_POST">
-                                                <option value="DEFAULT" selected>ข้อมูลทั่วไป</option>
-                                                <option value="PDF"> ข้อมูล PDF</option>
+                                                id="SELECT_TYPE_POST" name="SELECT_TYPE_POST">
+                                                <option value="DEFAULT" {{ $POST_TYPE == 'DEFAULT' ? 'selected' : '' }}>
+                                                    ข้อมูลทั่วไป
+                                                </option>
+                                                <option value="PDF" {{ $POST_TYPE == 'PDF' ? 'selected' : '' }}>
+                                                    ข้อมูลPDF
+                                                </option>
 
                                             </select>
                                         </div>
@@ -210,22 +215,33 @@
 
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row" id="SHOW_POST">
-                                @foreach ($DATA_POST as $index_post => $row_post)
-                                    <div class="col-sm-6 col-md-6 col-lg-4 text-center">
-                                        <button type="button" class="btn btn-primary btn-lg my-2"
-                                            style="font-size: 1.1625rem;" data-name="{{ $row_post->POST_HEADER }}"
-                                            data-unid="{{ $row_post->UNID }}" onclick="modal_about_data(this)">
-                                            {{ $row_post->POST_HEADER }}
-                                        </button>
-                                    </div>
-                                @endforeach
+                            <div class="row">
                                 <div class="col-md-12">
-                                    {{ $DATA_POST->appends()->links('pagination.default') }}
+                                    <div class="row" id="SHOW_POST">
+                                        @foreach ($DATA_POST as $index_post => $row_post)
+                                            <div class="col-sm-6 col-md-6 col-lg-4 text-center">
+                                                <button type="button" class="btn btn-primary btn-lg my-2"
+                                                    style="font-size: 1.1625rem;"
+                                                    data-name="{{ $row_post->POST_HEADER }}"
+                                                    data-unid="{{ $row_post->UNID }}" onclick="modal_about_data(this)">
+                                                    {{ $row_post->POST_HEADER }}
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="card-footer" style="border-top: 2px solid !important;">
+                            <div class="row">
+                                <div class="col-md-12" id="PAGINATOR_POST">
+                                    {{ $DATA_POST->links('paginator.default') }}
+
                                 </div>
                             </div>
                         </div>
@@ -299,6 +315,7 @@
                                                         aria-expanded="true">
                                                         <i class="fa fa-user mr-2"></i>ขั้นตอนแรก ประเถทข้อมูล
                                                     </a>
+
                                                 </li>
                                                 <li class="step">
                                                     <a class="nav-link text-byme a-nopoint" id="step2_active">
@@ -376,6 +393,46 @@
                                                             <h2>ใส่ข้อมูล</h2>
                                                         </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label>
+                                                                <h3>ภาพแสดงตัวอย่าง</h3>
+                                                            </label>
+                                                            <input type="file" accept="image/*" class="form-control"
+                                                                id="POST_LOGO" name="POST_LOGO">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label>
+                                                                <h3>ภาพกิจกรรม / ภาพประกอบ </h3>
+                                                                **(สามารถเพิ่มหลายรูปได้ โดยการ กด Ctrl ค้างไว้ แล้ว
+                                                                คลิกเมาส์ซ้าย)**
+                                                            </label>
+                                                            <input type="file" class="form-control" id="POST_IMG"
+                                                                name="POST_IMG[]" accept="image/*" multiple>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label>
+                                                                <h3>หัวข้อข่าวสาร</h3>
+                                                            </label>
+                                                            <input type="text" class="form-control" id="POST_HEADER"
+                                                                name="POST_HEADER" placeholder="หัวข้อข่าวสาร">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label>
+                                                                <h3>คำอธิบาย</h3>
+                                                            </label>
+                                                            <textarea class="form-control" rows="10" id="POST_BODY"
+                                                                name="POST_BODY" placeholder="คำอธิบาย"></textarea>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label>
+                                                                <h3>ประเภทข่าวสาร</h3>
+                                                            </label>
+                                                            <select class="form-control" id="POST_TAG" name="POST_TAG">
+                                                                <option value="PR">ประชาสัมพันธ์</option>
+                                                                <option value="EMP">งานบุคคล</option>
+                                                            </select>
+                                                        </div>
                                                 </form>
                                                 <form action="{{ route('post.insert.pdf') }}" id="FRM_POST_PDF"
                                                     method="POST" enctype="multipart/form-data" hidden>
@@ -392,8 +449,9 @@
                                                                 <h3>ภาพแสดงตัวอย่าง</h3>
                                                             </label>
                                                             <input type="file" class="form-control" id="POST_LOGO"
-                                                                name="POST_LOGO" required>
+                                                                name="POST_LOGO" accept="image/*">
                                                         </div>
+
                                                         <div class="col-md-12">
                                                             <label>
                                                                 <h3>อัปโหลดไฟล์PDF</h3>
@@ -460,6 +518,7 @@
 @section('java')
     <script src="{{ asset('assets/js/edit/home/director.js') }}"></script>
     <script src="{{ asset('assets/js/edit/home/imgshow.js') }}"></script>
+
     @include('editpage.javamixphp.about')
     @include('editpage.javamixphp.slide')
     <script>
@@ -471,9 +530,10 @@
         }
 
         function post_step2(thisdata) {
-            var class_position = $(thisdata).data('position');
+            var position = $(thisdata).data('position');
             $('.post_position').removeClass('selected-btn');
-            $('.' + class_position).addClass('selected-btn');
+            $('.' + position).addClass('selected-btn');
+            $('#POST_IMG_POSITION').val(position);
         }
 
         function post_step1(thisdata) {
@@ -504,7 +564,6 @@
             var check_step_1_default = $('#POST_TYPE_DEFAULT').val();
             var check_step_1_pdf = $('#POST_TYPE_PDF').val();
             if (check_step_1_default != '' || check_step_1_pdf != '') {
-
                 if (step == 2) {
                     $('#POST_BTN_CLOSE').attr('hidden', true);
                     $('#BTN_RETURN').attr('hidden', false);
@@ -513,21 +572,28 @@
                     $('#step2,#step2_active').addClass('active');
                     $('#step1_active').addClass('nav-link-success');
                 } else if (step == 3) {
-                    $('#POST_BTN_SUBMIT').attr('hidden', false);
-                    $('#BTN_NEXT').attr('hidden', true);
+                    var check_position = $('#POST_IMG_POSITION').val();
                     if (check_step_1_pdf != '') {
-                        $('#POST_BTN_CLOSE').attr('hidden', true);
-                        $('#BTN_RETURN').attr('hidden', false);
-                        $('#step1_active').addClass('nav-link-success');
-                        $('#step1').removeClass('active');
+                        $('#POST_BTN_CLOSE,#BTN_NEXT').attr('hidden', true);
+                        $('#POST_BTN_SUBMIT,#BTN_RETURN').attr('hidden', false);
                         $('#BTN_RETURN').data('step', 1);
-
-                    } else {
+                        $('#step1,#step2,#step2_active').removeClass('active');
+                        $('#step3,#step3_active').addClass('active');
+                        $('#step1_active,#step2_active').addClass('nav-link-success');
+                    } else if (check_position != '') {
+                        $('#POST_BTN_SUBMIT').attr('hidden', false);
+                        $('#BTN_NEXT').attr('hidden', true);
                         $('#BTN_RETURN').data('step', 2);
+                        $('#step2,#step2_active').removeClass('active');
+                        $('#step3,#step3_active').addClass('active');
+                        $('#step2_active').addClass('nav-link-success');
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                            timer: 1500
+                        });
                     }
-                    $('#step2,#step2_active').removeClass('active');
-                    $('#step3,#step3_active').addClass('active');
-                    $('#step2_active').addClass('nav-link-success');
                 }
             } else {
                 Swal.fire({
@@ -580,19 +646,54 @@
                 $('#FRM_POST_PDF').submit();
             }
         }
-        $('#SELECT_TYPE_POST').change(function() {
-            var url = "{{ route('edit.show.post') }}";
+        $('#SELECT_TYPE_POST,#SELECT_MONTH_POST').change(function() {
+            var month = $('#SELECT_MONTH_POST').val();
+            var type = $('#SELECT_TYPE_POST').val();
+            url = "{{ route('edit.home') }}?select_month_post=" + month + "&select_type_post=" + type + "";
+            console.log(url);
+            location.href = url;
+        })
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var check_page = $(this).attr('href');
+            var page = $(this).attr('href').split('page=')[1];
+            if (check_page == '#') {
+                var page = 1;
+            }
+
+            fetch_data(page);
+        });
+
+        function fetch_data(page) {
+            var url = "{{ route('edit.fetch.post') }}?page=" + page + "";
+            var month = $('#SELECT_MONTH_POST').val();
             var type = $('#SELECT_TYPE_POST').val();
             $.ajax({
-                type: "POST",
                 url: url,
+                type: 'POST',
                 data: {
-                    POST_TYPE: type
+                    select_month_post: month,
+                    select_type_post: type,
                 },
                 success: function(response) {
+                    var id_url = "{{ route('edit.home') }}?page=" + page + "";
+                    var next_url = "{{ route('edit.home') }}?page=" + response.next_page + "";
+                    var previous_url = "{{ route('edit.home') }}?page=" + response.previous_page + "";
+
+                    $('#SHOW_POST').html(response.fetchpost);
+                    $('.number_paginate').find('a').removeClass('active');
+                    if (page == 1) {
+                        $('.number_paginate').find('[href*="#"]').addClass('active');
+                    } else {
+                        $('.number_paginate').find('[href*="' + id_url + '"]').addClass('active');
+
+                    }
+                    $('.next').attr('href', next_url);
+                    $('.previous_url').attr('href', previous_url);
 
                 }
             });
-        })
+        }
     </script>
 @endsection

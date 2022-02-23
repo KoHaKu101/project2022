@@ -89,4 +89,11 @@ class PostController extends Controller
         alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
         return redirect()->back();
     }
+     public function insert_default(Request $request){
+         dd($request);
+         $POST_TYPE = $request->POST_TYPE_PDF;
+        $POST_HEADER = $request->POST_HEADER;
+        $POST_BODY = $request->POST_BODY;
+        $POST_TAG = $request->POST_TAG ;
+     }
 }

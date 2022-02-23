@@ -32,7 +32,7 @@ Route::get("logout", [LoginController::class, 'logout'])->name("logout");
 
 // editpage
 Route::get('edit/home',[EditController::class,'home'])->name('edit.home');
-Route::post('edit/show/post',[EditController::class,'showpost'])->name('edit.show.post');
+Route::post('edit/fetch/post',[EditController::class,'fetchpost'])->name('edit.fetch.post');
 //
 // slide
 Route::post('slide/number',[SlideController::class,'number'])->name('slide.number');
