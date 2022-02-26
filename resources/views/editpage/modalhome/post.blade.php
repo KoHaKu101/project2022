@@ -137,14 +137,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_LOGODEFAULT_DIV">
                                                             <label>
                                                                 <h3>ภาพแสดงตัวอย่าง</h3>
                                                             </label>
                                                             <input type="file" accept="image/*" class="form-control"
                                                                 id="POST_LOGO" name="POST_LOGO">
+                                                            <label class="float-right POST_LOGODEFAULT_LABLE" hidden>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_IMGDEFAULT_DIV">
                                                             <label>
                                                                 <h3>ภาพกิจกรรม / ภาพประกอบ </h3>
                                                                 **(สามารถเพิ่มหลายรูปได้ โดยการ กด Ctrl ค้างไว้ แล้ว
@@ -152,20 +154,26 @@
                                                             </label>
                                                             <input type="file" class="form-control" id="POST_IMG"
                                                                 name="POST_IMG[]" accept="image/*" multiple>
+                                                            <label class="float-right POST_IMGDEFAULT_LABLE" hidden>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_HEADERDEFAULT_DIV">
                                                             <label>
                                                                 <h3>หัวข้อข่าวสาร</h3>
                                                             </label>
                                                             <input type="text" class="form-control" id="POST_HEADER"
                                                                 name="POST_HEADER" placeholder="หัวข้อข่าวสาร">
+                                                            <label class="float-right POST_HEADERDEFAULT_LABLE" hidden>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_BODYDEFAULT_DIV">
                                                             <label>
                                                                 <h3>คำอธิบาย</h3>
                                                             </label>
                                                             <textarea class="form-control" rows="10" id="POST_BODY"
                                                                 name="POST_BODY" placeholder="คำอธิบาย"></textarea>
+                                                            <label class="float-right POST_BODYDEFAULT_LABLE" hidden>
+                                                            </label>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <label>
@@ -177,9 +185,10 @@
                                                                 <option value="EMP">งานบุคคล</option>
                                                             </select>
                                                         </div>
+                                                    </div>
                                                 </form>
-                                                <form action="{{ route('post.insert.pdf') }}" id="FRM_POST_PDF"
-                                                    method="POST" enctype="multipart/form-data" hidden>
+                                                <form action="#" id="FRM_POST_PDF" method="POST"
+                                                    enctype="multipart/form-data" hidden>
                                                     @csrf
                                                     <input type="hidden" id="POST_TYPE_PDF" name="POST_TYPE_PDF">
                                                     <div class="row">
@@ -188,34 +197,42 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_LOGOPDF_DIV">
                                                             <label>
                                                                 <h3>ภาพแสดงตัวอย่าง</h3>
                                                             </label>
                                                             <input type="file" class="form-control" id="POST_LOGO"
-                                                                name="POST_LOGO" accept="image/*">
+                                                                name="POST_LOGO" accept="image/*" required>
+                                                            <label class="float-right POST_LOGOPDF_LABLE" hidden>
+                                                            </label>
                                                         </div>
 
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_FILEPDF_DIV">
                                                             <label>
                                                                 <h3>อัปโหลดไฟล์PDF</h3>
                                                             </label>
                                                             <input type="file" class="form-control" id="POST_FILE"
                                                                 name="POST_FILE" required>
+                                                            <label class="float-right POST_FILEPDF_LABLE" hidden>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_HEADERPDF_DIV">
                                                             <label>
                                                                 <h3>หัวข้อข่าวสาร</h3>
                                                             </label>
                                                             <input type="text" class="form-control" id="POST_HEADER"
                                                                 name="POST_HEADER" placeholder="หัวข้อข่าวสาร">
+                                                            <label class="float-right POST_HEADERPDF_LABLE" hidden>
+                                                            </label>
                                                         </div>
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 POST_BODYPDF_DIV">
                                                             <label>
                                                                 <h3>คำอธิบาย</h3>
                                                             </label>
                                                             <textarea class="form-control" rows="5" id="POST_BODY"
                                                                 name="POST_BODY" placeholder="คำอธิบาย"></textarea>
+                                                            <label class="float-right POST_BODYPDF_LABLE" hidden>
+                                                            </label>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <label>

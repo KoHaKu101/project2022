@@ -193,9 +193,10 @@
                                             </select>
                                         </div>
                                         <div class="form-group  mr-auto">
-                                            <h1 class="mr-2"> ประเภทข้อมูล :</h1>
+                                            <h1 class="mr-2"> ประเภทข้อมูล : </h1>
                                             <select class="form-control text-byme " style="padding: 0.1rem 1rem"
-                                                id="SELECT_TYPE_POST" name="SELECT_TYPE_POST">
+                                                id="SELECT_TYPE_POST" name="SELECT_TYPE_POST"
+                                                {{ $FOCUS == 'PDF' || $FOCUS == 'DEFAULT' ? 'autofocus' : '' }}>
                                                 <option value="DEFAULT" {{ $POST_TYPE == 'DEFAULT' ? 'selected' : '' }}>
                                                     ข้อมูลทั่วไป
                                                 </option>
@@ -212,7 +213,6 @@
                                                 เพิ่มข่าวสาร
                                             </button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                                                             <div class="col-4">
                                                                 <div class="icon-big text-center">
                                                                     <img src="{{ asset('assets/image/post/logo/' . $row_post->POST_IMG_LOGO . $row_post->POST_IMG_EXT) }}"
-                                                                        style="width: 80px ">
+                                                                        style="width: 100px ">
                                                                 </div>
                                                             </div>
                                                             <div class="col-8 col-stats">
@@ -256,8 +256,6 @@
                                         @endforeach
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                         <div class="card-footer" style="border-top: 2px solid !important;">
@@ -278,7 +276,8 @@
                             <h1>ติดต่อ</h1>
                         </div>
                         @php
-                            $locationmap = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'MAP')->first()->CONTRACT_DATA;
+                            $CONTRACT_MAP = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'MAP')->first();
+                            $locationmap = isset($CONTRACT_MAP->CONTRACT_DATA) ? $CONTRACT_MAP->CONTRACT_DATA : '';
                             $CONTRACT_EMAIL = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'EMAIL');
                             $CONTRACT_TEL = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'TEL');
                         @endphp

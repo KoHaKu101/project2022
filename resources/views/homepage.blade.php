@@ -71,28 +71,31 @@
                         <img src="{{ asset('assets/image/people/' . $DIRECTOR_IMG) }}"
                             class="rounded mx-auto d-block {{ $STYLE_IMG }} ">
                     </div>
-                    <div class="col-xl-7 d-flex align-items-stretch">
-                        <div class="icon-boxes d-flex flex-column justify-content-center">
-                            <div class="card">
-                                <div class="card-body text-black">
-                                    <h2 class="text-center">
-                                        <b>สาส์นจากผู้อำนวยการ <br></b>
-                                    </h2>
-                                    <h5 class="indent">
-                                        {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT) ? $DATA_DIRCETOR->DIRCETOR_TEXT : '' }}
-                                        <br>
-                                        <br>
-                                    </h5>
-                                    <h3 class="text-center text-primary">
-                                        {{ isset($DATA_DIRCETOR->DIRCETOR_NAME) ? $DATA_DIRCETOR->DIRCETOR_NAME : '' }}
-                                        <br>
-                                        {{ isset($DATA_DIRCETOR->DIRCETOR_SCHOOL) ? $DATA_DIRCETOR->DIRCETOR_SCHOOL : '' }}
-                                        <br>
-                                    </h3>
+                    @if (isset($DATA_DIRCETOR))
+                        <div class="col-xl-7 d-flex align-items-stretch">
+                            <div class="icon-boxes d-flex flex-column justify-content-center">
+                                <div class="card">
+                                    <div class="card-body text-black">
+                                        <h2 class="text-center">
+                                            <b>สาส์นจากผู้อำนวยการ <br></b>
+                                        </h2>
+                                        <h5 class="indent">
+                                            {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT) ? $DATA_DIRCETOR->DIRCETOR_TEXT : '' }}
+                                            <br>
+                                            <br>
+                                        </h5>
+                                        <h3 class="text-center text-primary">
+                                            {{ isset($DATA_DIRCETOR->DIRCETOR_NAME) ? $DATA_DIRCETOR->DIRCETOR_NAME : '' }}
+                                            <br>
+                                            {{ isset($DATA_DIRCETOR->DIRCETOR_SCHOOL) ? $DATA_DIRCETOR->DIRCETOR_SCHOOL : '' }}
+                                            <br>
+                                        </h3>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!-- End .content-->
-                    </div>
+                            </div><!-- End .content-->
+                        </div>
+                    @endif
+
                 </div>
 
             </div>
@@ -143,7 +146,7 @@
                                     <div class="col-lg-6 order-2 order-lg-1 text-center" data-aos="fade-up"
                                         data-aos-delay="100">
                                         <img src="{{ asset('assets/image/about/' . $row_subabout->ABOUT_IMG . $row_subabout->ABOUT_IMG_EXT) }}"
-                                            alt="{{ $row_subabout->ABOUT_NAME }}" class="img-fluid">
+                                            alt="{{ $row_subabout->ABOUT_NAME }}" style="width:416px;height:312px">
                                     </div>
                                     <div class="col-lg-6 order-1 order-lg-2 mt-3 mt-lg-0" data-aos="fade-up"
                                         data-aos-delay="100">
@@ -210,6 +213,14 @@
                         text-overflow: ellipsis;
                     }
 
+                    .title-check-long {
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
                 </style>
                 <div class="SHOW_POST">
                     <div class="row portfolio-container " data-aos="fade-up" data-aos-delay="200">
@@ -224,13 +235,17 @@
                                     </div>
                                     <div class="card-footer">
                                         <h2 class="entry-title text-center">
-                                            <a href="blog-single.html"
+                                            <a href="blog-single.html" class="title-check-long"
                                                 style="font-size: 25px">{{ $row_post->POST_HEADER }}</a>
                                         </h2>
                                         <div class="entry-content ">
                                             <p class="text-check-long">
                                                 {{ $row_post->POST_BODY }}
                                             </p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="entry-content ">
                                             <i class="bi bi-clock me-2"></i>
                                             {{ $row_post->POST_DAY . ' ' . $months_full_th[$row_post->POST_MONTH] . ' ' . ($row_post->POST_YEAR + 543) }}
                                             <div class="read-more  my-3 text-center">

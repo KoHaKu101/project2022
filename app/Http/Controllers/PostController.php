@@ -36,8 +36,8 @@ class PostController extends Controller
         if(!file_exists($filePath)){
             File::makeDirectory($filePath,0777,true);
         }
-        $fix_w      =  267 ;
-        $fix_h      =  356 ;
+        $fix_w      =  1024 ;
+        $fix_h      =  768 ;
         $img        = Image::make($image->path());
         $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
         $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
@@ -99,10 +99,10 @@ class PostController extends Controller
         // if($POST_TAG != ''){
         //     dd($POST_TAG);
         // }
-        alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
-        return redirect()->back();
+
+        return response()->json(['pass'=>true]);
     }
-     public function insert_default(Request $request){
+    public function insert_default(Request $request){
         $POST_TYPE = $request->POST_TYPE_DEFAULT;
         $POST_HEADER = $request->POST_HEADER;
         $POST_BODY = $request->POST_BODY;
@@ -132,11 +132,11 @@ class PostController extends Controller
             'CREATE_TIME' => Carbon::now(),
         ]);
         //save img post mutiple file
-         foreach($POST_IMG as $index => $row){
+        foreach($POST_IMG as $index => $row){
             $image = $row;
             $POST_IMG_NAME = date('ymdhis') . uniqid() . time();
             $POST_IMG_EXT = '.'.$image->extension();
-             $this->save_img($image,$POST_IMG_NAME,$POST_IMG_EXT);
+            $this->save_img($image,$POST_IMG_NAME,$POST_IMG_EXT);
                 PostImg::insert([
                 'UNID'=> $this->randUNID('POST_IMG'),
                 'UNID_REF'=> $UNID,
@@ -145,9 +145,60 @@ class PostController extends Controller
                 'CREATE_BY' => Auth::user()->USERNAME,
                 'CREATE_TIME' => Carbon::now(),
                 ]);
-         }
-
-         alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
-         return redirect()->back();
         }
+
+                return response()->json(['pass'=>true]);
+        }
+    public function checkform_default(Request $request){
+        $pass = false;
+        $POST_LOGO = $request->file('POST_LOGO') ? '' : 'กรุณาใส่รูปภาพหัวข้อ' ;
+        $POST_HEADER = isset($request->POST_HEADER) ? '' : 'กรุณาใส่ส่วนหัวข้อ' ;
+        $POST_BODY = isset($request->POST_BODY) ? '' : 'กรุณาใส่เนื้อหาข้อมูล' ;
+        $POST_IMG = '';
+        if($request->file('POST_LOGO')){
+            $allowed = array('.png', '.jpg','.jpeg');
+            $img = $request->file('POST_LOGO');
+            $img_ext = '.'.$img->extension();
+            if (!in_array($img_ext, $allowed)) {
+                $POST_LOGO = 'กรุณาใส่ไฟล์ที่เป็นรูปภาพเท่านั้น';
+            }
+        }
+        if($request->file('POST_IMG')){
+            $allowed = array('.png', '.jpg','.jpeg');
+            $images = $request->file('POST_IMG');
+            foreach($images as $index =>$row){
+            $image = $row;
+            $image_ext = '.'.$image->extension();
+                if (!in_array($image_ext, $allowed)) {
+                    $POST_IMG = 'กรุณาใส่ไฟล์ที่เป็นรูปภาพเท่านั้น';
+                }
+            }
+
+        }
+        $text = array('POST_HEADER'=>$POST_HEADER,'POST_BODY'=>$POST_BODY,'POST_LOGO'=>$POST_LOGO ,'POST_IMG' => $POST_IMG);
+        if($POST_HEADER == ''&&$POST_BODY == ''&&$POST_LOGO == '' && $POST_IMG == ''){
+            $pass = true;
+        }
+        return response()->json(['pass'=>$pass,'text'=>$text]);
+    }
+    public function checkform_pdf(Request $request){
+        $pass = false;
+        $POST_HEADER = isset($request->POST_HEADER) ? '' : 'กรุณาใส่ส่วนหัวข้อ' ;
+        $POST_BODY = isset($request->POST_BODY) ? '' : 'กรุณาใส่คำอธิบาย' ;
+        $POST_LOGO = $request->file('POST_LOGO') ? '' : 'กรุณาใส่รูปภาพหัวข้อ' ;
+        $POST_FILE = $request->file('POST_FILE') ? '' : 'กรุณาใส่ข้อมูล' ;
+        if($request->file('POST_LOGO')){
+            $allowed = array('.png', '.jpg','.jpeg');
+            $img = $request->file('POST_LOGO');
+            $img_ext = '.'.$img->extension();
+            if (!in_array($img_ext, $allowed)) {
+                $POST_LOGO = 'กรุณาใส่ไฟล์ที่เป็นรูปภาพเท่านั้น';
+            }
+        }
+        $text = array('POST_HEADER'=>$POST_HEADER,'POST_BODY'=>$POST_BODY,'POST_LOGO'=>$POST_LOGO,'POST_FILE'=>$POST_FILE);
+        if($POST_HEADER == ''&&$POST_BODY == ''&&$POST_LOGO == ''&&$POST_FILE == ''){
+            $pass = true;
+        }
+        return response()->json(['pass'=>$pass,'text'=>$text]);
+    }
 }

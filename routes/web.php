@@ -50,7 +50,8 @@ Route::post('post/insert/default',[PostController::class,'insert_default'])->nam
 Route::post('post/insert/pdf',[PostController::class,'insert_pdf'])->name('post.insert.pdf');
 Route::post('post/update')->name('post.update');
 Route::post('post/delete')->name('post.delete');
-Route::post('post/checkform',[PostController::class,'checkform'])->name('post.checkform');
+Route::post('post/checkform/default',[PostController::class,'checkform_default'])->name('post.checkform.default');
+Route::post('post/checkform/pdf',[PostController::class,'checkform_pdf'])->name('post.checkform.pdf');
 
 //about
 Route::post('about/insert',[AboutSchoolController::class,'insert'])->name('about.insert');

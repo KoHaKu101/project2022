@@ -100,8 +100,7 @@ class DirectorController extends Controller
                 'DIRCETOR_TEXT_NAME' => $DIRCETOR_NAME,
                 'DIRCETOR_SCHOOL' => $DIRCETOR_SCHOOL,
                 'STATUS' => 'OPEN',
-                'DIRCETOR_IMG' => '',
-                'DIRCETOR_IMG_EXT' => '',
+
                 'CREATE_BY' => Auth::user()->UNSERNAME,
                 'CREATE_TIME' => carbon::now(),
             ]);
@@ -110,4 +109,5 @@ class DirectorController extends Controller
         alert()->success('บันทึกข้อมูลสำเร็จ')->autoClose(1500);
         return redirect()->back()->with(['FOCUS'=> 'DIRECTOR']);
     }
+
 }

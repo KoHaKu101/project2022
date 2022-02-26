@@ -34,6 +34,7 @@ class EditController extends Controller
     {
         $POST_MONTH = isset($request->select_month_post) ? $request->select_month_post : date('n') ;
         $POST_TYPE = isset($request->select_type_post) ? $request->select_type_post : 'DEFAULT' ;
+        $FOCUS = isset($request->select_type_post) ? $request->select_type_post : '';
         $DATA_SLIDE = Settingnumber::where('TYPE_SETTING', '=', 'SLIDE')->first();
         $IMG_SLIDE = isset($DATA_SLIDE->UNID) ? Img::where('UNID_SETTING_NUMBER','=',$DATA_SLIDE->UNID )->where('STATUS','=','OPEN')->get() : false;
         $LIMIT_NUMBER = isset($DATA_SLIDE->TYPE_NUMBER) ? $DATA_SLIDE->TYPE_NUMBER : '5';
@@ -45,7 +46,7 @@ class EditController extends Controller
         $DATA_POST      = Post::where('POST_MONTH','=',$POST_MONTH)->where('POST_TYPE','=',$POST_TYPE)->paginate(2);
         $DATA_CONTRACT  = Contract::where('CONTRACT_STATUS','=','OPEN')->get();
         return view('editpage.home',compact('LIMIT_NUMBER','IMG_SLIDE','DIRECTOR_IMG','DATA_DIRCETOR','ABOUT_SCHOOL'
-                                            ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT'));
+                                            ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT'))->with('FOCUS',$FOCUS);
     }
     public function fetchpost(Request $request){
         $POST_MONTH = $request->select_month_post ;
@@ -53,15 +54,39 @@ class EditController extends Controller
         $PAGE = $request->page;
         $DATA_POST      = Post::where('POST_MONTH','=',$POST_MONTH)->where('POST_TYPE','=',$POST_TYPE)->paginate(2);
         $fetchpost = '';
-        foreach($DATA_POST->items($PAGE) as $key => $row){
-            $fetchpost .= '<div class="col-sm-6 col-md-6 col-lg-4 text-center">
-                                <button type="button" class="btn btn-primary btn-lg my-2"
-                                    style="font-size: 1.1625rem;"
-                                    data-name="'.$row->POST_HEADER.'"
-                                    data-unid="'.$row->UNID.'" onclick="modal_about_data(this)">
-                                    '.$row->POST_HEADER.'
-                                </button>
-                            </div>';
+        foreach($DATA_POST->items($PAGE) as $key => $row_post){
+            $img = asset('assets/image/post/logo/' . $row_post->POST_IMG_LOGO . $row_post->POST_IMG_EXT);
+            $fetchpost .= '<div class="col-sm-6 col-md-4">
+                                                <div class="card card-stats card-info card-round">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                <div class="icon-big text-center">
+                                                                    <img src="'.$img.'"
+                                                                        style="width: 100px ">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-8 col-stats">
+                                                                <div class="numbers text-center">
+                                                                    <p class="card-title">
+                                                                        '.$row_post->POST_HEADER.'</p>
+                                                                    <p class="card-title">
+                                                                        '.$row_post->POST_DAY . '/' . $row_post->POST_MONTH . '/' . $row_post->POST_YEAR.'
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row my-2">
+                                                            <div class="col-md-12">
+                                                                <button type="button"
+                                                                    class="btn btn-warning btn-block btn-sm text-byme">
+                                                                    <i class="fas fa-edit"></i> แก้ไข
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>';
         }
         $next_page = $DATA_POST->currentPage()  < $DATA_POST->lastPage() ? $PAGE+1 : $PAGE;
         $previous_page = $DATA_POST->currentPage()  > 1 ? $PAGE-1 : $PAGE;

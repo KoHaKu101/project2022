@@ -19,7 +19,7 @@ class CreateDircetor extends Migration
             $table->string('DIRCETOR_TEXT_NAME')->nullable();
             $table->string('DIRCETOR_SCHOOL')->nullable();
             $table->string('STATUS',50);
-            $table->string('DIRCETOR_IMG');
+            $table->string('DIRCETOR_IMG')->nullable();
             $table->string('DIRCETOR_IMG_EXT',50)->nullable();
 
             $table->string('CREATE_BY', 200)->nullable();

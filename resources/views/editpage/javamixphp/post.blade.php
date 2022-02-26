@@ -25,6 +25,7 @@
                $('#FRM_POST_PDF').attr('hidden', true);
                $('#BTN_NEXT').data('step', 2);
            } else if (type_post == 'PDF') {
+
                $('#BTN_PDF').addClass('selected-btn');
                $('#BTN_DEFAULT').removeClass('selected-btn');
                $('#POST_TYPE_PDF').val(type_post);
@@ -113,6 +114,123 @@
                $('#step2_active').removeClass('nav-link-success');
            }
        }
+       $('#FRM_POST_PDF').on('submit', function(e) {
+           e.preventDefault();
+           var $inputs = $('#FRM_POST_PDF :input');
+           $inputs.each(function(index) {
+               var id = $(this).attr('id');
+               $('.' + id + 'PDF_DIV').removeClass('has-error');
+               $('.' + id + 'PDF_LABLE').attr('hidden', true);
+               $('.' + id + 'PDF_LABLE').html('');
+           });
+
+           var url = "{{ route('post.checkform.pdf') }}";
+           var formData = new FormData(this);
+           $.ajax({
+               type: "POST",
+               url: url,
+               data: formData,
+               success: function(response) {
+                   if (response.pass == false) {
+                       Swal.fire({
+                           icon: 'warning',
+                           title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                           timer: 1500,
+                       });
+                       $.each(response.text, function(id, text) {
+                           console.log(id + '=' + text);
+                           if (text != '') {
+                               $('.' + id + 'PDF_DIV').addClass('has-error');
+                               $('.' + id + 'PDF_LABLE').attr('hidden', false);
+                               $('.' + id + 'PDF_LABLE').html('***' + text + '***');
+                           }
+                       });
+                   } else if (response.pass == true) {
+                       var url = "{{ route('post.insert.pdf') }}";
+                       $.ajax({
+                           type: "POST",
+                           url: url,
+                           data: formData,
+                           success: function(response) {
+                               if (response.pass == true) {
+                                   Swal.fire({
+                                       icon: 'success',
+                                       title: 'บันทึกสำเร็จ',
+                                       timer: 1500,
+                                   }).then((result) => {
+                                       location.reload();
+                                   })
+                               }
+                           },
+                           cache: false,
+                           contentType: false,
+                           processData: false
+                       });
+                   }
+               },
+               cache: false,
+               contentType: false,
+               processData: false
+           });
+       });
+       $('#FRM_POST_DEFAULT').on('submit', function(e) {
+           e.preventDefault();
+           var $inputs = $('#FRM_POST_DEFAULT :input');
+           $inputs.each(function(index) {
+               var id = $(this).attr('id');
+               $('.' + id + 'DEFAULT_DIV').removeClass('has-error');
+               $('.' + id + 'DEFAULT_LABLE').attr('hidden', true);
+               $('.' + id + 'DEFAULT_LABLE').html('');
+           });
+           var url = "{{ route('post.checkform.default') }}";
+           var formData = new FormData(this);
+           $.ajax({
+               type: "POST",
+               url: url,
+               data: formData,
+               success: function(response) {
+                   if (response.pass == false) {
+                       Swal.fire({
+                           icon: 'warning',
+                           title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                           timer: 1500,
+                       });
+                       $.each(response.text, function(id, text) {
+                           console.log(id + '=' + text);
+                           if (text != '') {
+                               $('.' + id + 'DEFAULT_DIV').addClass('has-error');
+                               $('.' + id + 'DEFAULT_LABLE').attr('hidden', false);
+                               $('.' + id + 'DEFAULT_LABLE').html('***' + text + '***');
+                           }
+                       });
+                   } else if (response.pass == true) {
+                       var url = "{{ route('post.insert.default') }}";
+                       $.ajax({
+                           type: "POST",
+                           url: url,
+                           data: formData,
+                           success: function(response) {
+                               if (response.pass == true) {
+                                   Swal.fire({
+                                       icon: 'success',
+                                       title: 'บันทึกสำเร็จ',
+                                       timer: 1500,
+                                   }).then((result) => {
+                                       location.reload();
+                                   })
+                               }
+                           },
+                           cache: false,
+                           contentType: false,
+                           processData: false
+                       });
+                   }
+               },
+               cache: false,
+               contentType: false,
+               processData: false
+           });
+       });
 
        function post_submit() {
            var check_step_1_default = $('#POST_TYPE_DEFAULT').val();
