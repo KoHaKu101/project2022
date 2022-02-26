@@ -152,7 +152,6 @@
                                             {{ $row_subabout->ABOUT_TEXT }}
                                         </p>
                                     </div>
-
                                 @elseif($row_subabout->ABOUT_IMG_POSITION == 'RIGHT')
                                     <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0" data-aos="fade-up"
                                         data-aos-delay="100">
@@ -166,7 +165,6 @@
                                         <img src="{{ asset('assets/image/about/' . $row_subabout->ABOUT_IMG . $row_subabout->ABOUT_IMG_EXT) }}"
                                             alt="{{ $row_subabout->ABOUT_NAME }}" class="img-fluid">
                                     </div>
-
                                 @else
                                 @endif
 
@@ -187,13 +185,17 @@
                 <div class="row" data-aos="fade-up" data-aos-delay="100">
                     <div class="col-lg-12 d-flex justify-content-center">
                         <ul id="portfolio-flters">
-                            <li data-filter="*" class="filter-active">ทั้งหมด</li>
+                            <li data-filter="*" data-month="0" onclick="show_post(this)">ทั้งหมด</li>
                             @php
                                 $months_full_th = ['1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน', '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม'];
                                 $months_th = ['1' => 'ม.ค.', '2' => 'ก.พ.', '3' => 'มี.ค.', '4' => 'เม.ย', '5' => 'พ.ค.', '6' => 'มิ.ย.', '7' => 'ก.ค.', '8' => 'ส.ค.', '9' => 'ก.ย.', '10' => 'ต.ค.', '11' => 'พ.ย.', '12' => 'ธ.ค.'];
                             @endphp
                             @for ($i = 1; $i <= 12; $i++)
-                                <li data-filter=".month-{{ $i }}">{{ $months_th[$i] }}</li>
+                                <li data-filter=".month_{{ $i }}"
+                                    class="{{ $i == date('n') ? 'filter-active' : '' }}"
+                                    data-month="{{ $i }}" onclick="show_post(this)">
+                                    {{ $months_th[$i] }}
+                                </li>
                             @endfor
                         </ul>
                     </div>
@@ -209,119 +211,141 @@
                     }
 
                 </style>
-                <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                    @for ($post = 1; $post <= 12; $post++)
-                        <div class="col-lg-4 col-md-6 portfolio-item month-{{ $post }}">
-                            <article class="entry">
-                                <div class="entry-img">
-                                    <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
-                                </div>
-                                <h2 class="entry-title">
-                                    <a href="blog-single.html">ตรวจวัดอุณหภูมิ</a>
-                                </h2>
-                                <div class="entry-content">
-                                    <p class="text-check-long">
-                                        Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi
-                                        praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                                        Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi
-                                        praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                                    </p>
-                                    <i class="bi bi-clock me-2"></i>
-                                    {{ date('d ') . $months_full_th[$post] . date(' Y ') }}
-                                    <div class="read-more  my-3">
-                                        <a href="blog-single.html">Read More</a>
+                <div class="SHOW_POST">
+                    <div class="row portfolio-container " data-aos="fade-up" data-aos-delay="200">
+                        @foreach ($DATA_POST as $index_post => $row_post)
+                            <div class="col-lg-4 col-md-6 portfolio-item month_{{ $row_post->POST_MONTH }}">
+                                <article class="card ">
+                                    <div class="card-body">
+                                        <div class="entry-img text-center">
+                                            <img src="{{ asset('assets/image/post/logo/' . $row_post->POST_IMG_LOGO . $row_post->POST_IMG_EXT) }}"
+                                                alt="" class="img-fluid">
+                                        </div>
                                     </div>
-                                </div>
-                            </article>
-                        </div>
-                        @if ($post >= 6)
-                        @break
-                    @endif
-                @endfor
-            </div>
-            <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2 ">
-                    <a href="#" class="btn btn-primary mr-4">
-                        <i class="fas fa-hand-point-right me-2"></i>อ่านข่าวทั้งหมด</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-        <div class="container" data-aos="fade-up">
-            <div class="section-title">
-                <h2>ติดต่อ</h2>
-            </div>
-            @php
-                $locationmap = '16.051926472973367,103.64722590286577';
-            @endphp
-            <div class="row" data-aos="fade-up" data-aos-delay="100">
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="info-box">
-                                <i class="bx bx-map"></i>
-                                <h3>Our Address</h3>
-                                <iframe width="80%" height="460"
-                                    src="https://maps.google.com/maps?q={{ $locationmap }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
-                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                    <div class="card-footer">
+                                        <h2 class="entry-title text-center">
+                                            <a href="blog-single.html"
+                                                style="font-size: 25px">{{ $row_post->POST_HEADER }}</a>
+                                        </h2>
+                                        <div class="entry-content ">
+                                            <p class="text-check-long">
+                                                {{ $row_post->POST_BODY }}
+                                            </p>
+                                            <i class="bi bi-clock me-2"></i>
+                                            {{ $row_post->POST_DAY . ' ' . $months_full_th[$row_post->POST_MONTH] . ' ' . ($row_post->POST_YEAR + 543) }}
+                                            <div class="read-more  my-3 text-center">
+                                                <a href="blog-single.html">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
                             </div>
-                        </div>
-
+                        @endforeach
                     </div>
                 </div>
-                <div class="col-lg-6 ">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="info-box ">
-                                <i class="bx bx-envelope"></i>
-                                <h3>Email Us</h3>
-                                <p>info@example.com<br>contact@example.com</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="info-box ">
-                                <i class="bx bx-phone-call"></i>
-                                <h3>Call Us</h3>
-                                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt-4 ">
-                            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                                <div class="row">
-                                    <div class="col form-group">
-                                        <input type="text" name="name" class="form-control" id="name"
-                                            placeholder="Your Name" required>
-                                    </div>
-                                    <div class="col form-group">
-                                        <input type="email" class="form-control" name="email" id="email"
-                                            placeholder="Your Email" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="subject" id="subject"
-                                        placeholder="Subject" required>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" name="message" rows="5" placeholder="Message"
-                                        required></textarea>
-                                </div>
-                                <div class="my-3">
-                                    <div class="loading">Loading</div>
-                                    <div class="error-message"></div>
-                                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                                </div>
-                                <div class="text-center"><button type="submit">Send Message</button></div>
-                            </form>
-                        </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                    </div>
+                    <div class="col-md-2 ">
+                        <a href="#" class="btn btn-primary mr-4">
+                            <i class="fas fa-hand-point-right me-2"></i>อ่านข่าวทั้งหมด</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section><!-- End Contact Section -->
+        </section>
+        <!-- ======= Contact Section ======= -->
+        <section id="contact" class="contact">
+            <div class="container" data-aos="fade-up">
+                <div class="section-title">
+                    <h2>ติดต่อ</h2>
+                </div>
+                @php
+                    $locationmap = '16.051926472973367,103.64722590286577';
+                @endphp
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="info-box">
+                                    <i class="bx bx-map"></i>
+                                    <h3>Our Address</h3>
+                                    <iframe width="80%" height="460"
+                                        src="https://maps.google.com/maps?q={{ $locationmap }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                </div>
+                            </div>
 
-</main><!-- End #main -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-box ">
+                                    <i class="bx bx-envelope"></i>
+                                    <h3>Email Us</h3>
+                                    <p>info@example.com<br>contact@example.com</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box ">
+                                    <i class="bx bx-phone-call"></i>
+                                    <h3>Call Us</h3>
+                                    <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-4 ">
+                                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                                    <div class="row">
+                                        <div class="col form-group">
+                                            <input type="text" name="name" class="form-control" id="name"
+                                                placeholder="Your Name" required>
+                                        </div>
+                                        <div class="col form-group">
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="Your Email" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="subject" id="subject"
+                                            placeholder="Subject" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" rows="5" placeholder="Message"
+                                            required></textarea>
+                                    </div>
+                                    <div class="my-3">
+                                        <div class="loading">Loading</div>
+                                        <div class="error-message"></div>
+                                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                                    </div>
+                                    <div class="text-center"><button type="submit">Send Message</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Contact Section -->
+
+    </main><!-- End #main -->
+@endsection
+@section('addjava')
+    <script>
+        function show_post(thisdata) {
+            var month = $(thisdata).data('month');
+            var url = "{{ route('homepage.showpost') }}";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    MONTH: month
+                },
+                success: function(response) {
+                    $('#SHOW_POST').html(response.show_post);
+                }
+            });
+        }
+    </script>
 @endsection

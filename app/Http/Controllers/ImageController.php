@@ -32,14 +32,10 @@ class ImageController extends Controller
     public function img_resize($image,$filePath,$FILE_NAME,$fix_w,$fix_h,$UNID_SETTING_NUMBER,$type,$IMG_NUMBER){
         $img        = Image::make($image->path());
         $EXT        = '.'.$image->extension();
-        $width      = $img->width();
-        $height     = $img->height();
         if(!file_exists($filePath)){
             File::makeDirectory($filePath);
         }
-        if($width <= $fix_w || $height <= $fix_h){
-            $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$EXT);
-        }
+        $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$EXT);
         $img->save($filePath.'/'.$FILE_NAME.$EXT);
         $DATA_IMG     = Img::where('IMG_TYPE','=',$type)->where('IMG_NUMBER','=',$IMG_NUMBER)->first();
         if(!isset($DATA_IMG)){

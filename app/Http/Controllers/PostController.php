@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
+use App\Models\PostImg;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -42,6 +43,18 @@ class PostController extends Controller
         $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
 
     }
+    public function save_img($image,$FILE_NAME,$POST_LOGO_EXT){
+        $filePath   = public_path('assets/image/post/img/');
+        if(!file_exists($filePath)){
+            File::makeDirectory($filePath,0777,true);
+        }
+        $fix_w      =  552 ;
+        $fix_h      =  736 ;
+        $img        = Image::make($image->path());
+        $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
+        $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
+
+    }
     public function save_file($PDF_FILE,$FILE_NAME,$POST_FILE_EXT){
         $filePath   = public_path('assets/pdf/post/');
         if(!file_exists($filePath)){
@@ -57,12 +70,12 @@ class PostController extends Controller
         $POST_TAG = $request->POST_TAG ;
         // Save Logo post
         $POST_LOGO = $request->file('POST_LOGO');
-        $POST_LOGO_NAME = $this->randUNID('POST_IMG');
+        $POST_LOGO_NAME = date('ymdhis') . uniqid() . time();
         $POST_LOGO_EXT = '.'.$POST_LOGO->extension();
         $this->save_logo($POST_LOGO,$POST_LOGO_NAME,$POST_LOGO_EXT);
         // Save File PDF
         $POST_FILE = $request->file('POST_FILE');
-        $POST_FILE_NAME = date('ymdhis', time());
+        $POST_FILE_NAME = date('ymdhis') . uniqid() . time();
         $POST_FILE_EXT = '.'.$POST_FILE->extension();
         $this->save_file($POST_FILE,$POST_FILE_NAME,$POST_FILE_EXT);
         //Save Database
@@ -90,10 +103,51 @@ class PostController extends Controller
         return redirect()->back();
     }
      public function insert_default(Request $request){
-         dd($request);
-         $POST_TYPE = $request->POST_TYPE_PDF;
+        $POST_TYPE = $request->POST_TYPE_DEFAULT;
         $POST_HEADER = $request->POST_HEADER;
         $POST_BODY = $request->POST_BODY;
         $POST_TAG = $request->POST_TAG ;
-     }
+        $UNID = $this->randUNID('POST');
+        $POST_IMG = $request->file('POST_IMG');
+        //save logo img
+        $POST_LOGO = $request->file('POST_LOGO');
+        $POST_LOGO_NAME = date('ymdhis') . uniqid() . time();
+        $POST_LOGO_EXT = '.'.$POST_LOGO->extension();
+        $this->save_logo($POST_LOGO,$POST_LOGO_NAME,$POST_LOGO_EXT);
+        //save post
+        Post::insert([
+            'UNID' => $UNID,
+            'POST_TYPE' => $POST_TYPE,
+            'POST_HEADER' => $POST_HEADER,
+            'POST_BODY' => $POST_BODY,
+            'POST_IMG_LOGO' =>$POST_LOGO_NAME,
+            'POST_IMG_EXT'=>$POST_LOGO_EXT,
+            'POST_PDF' => '',
+            'POST_PDF_EXT' => '',
+            'POST_DAY' => date('d'),
+            'POST_MONTH' => date('n'),
+            'POST_YEAR' => date('Y'),
+            'POST_STATUS' => 'OPEN',
+            'CREATE_BY' => Auth::user()->USERNAME,
+            'CREATE_TIME' => Carbon::now(),
+        ]);
+        //save img post mutiple file
+         foreach($POST_IMG as $index => $row){
+            $image = $row;
+            $POST_IMG_NAME = date('ymdhis') . uniqid() . time();
+            $POST_IMG_EXT = '.'.$image->extension();
+             $this->save_img($image,$POST_IMG_NAME,$POST_IMG_EXT);
+                PostImg::insert([
+                'UNID'=> $this->randUNID('POST_IMG'),
+                'UNID_REF'=> $UNID,
+                'POST_IMG_NAME'=> $POST_IMG_NAME,
+                'POST_IMG_EXT'=> $POST_IMG_EXT,
+                'CREATE_BY' => Auth::user()->USERNAME,
+                'CREATE_TIME' => Carbon::now(),
+                ]);
+         }
+
+         alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
+         return redirect()->back();
+        }
 }

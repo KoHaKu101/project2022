@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AboutSchoolController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\EditController;
@@ -25,6 +26,8 @@ use App\Models\Dircetor;
 Route::get('/', [HomepageController::class, 'homepage']);
 
 Route::get('homepage', [HomepageController::class, 'homepage'])->name('homepage');
+Route::post('homepage/showpost', [HomepageController::class, 'showpost'])->name('homepage.showpost');
+
 //login and Register
 Route::post("login", [LoginController::class, 'login'])->name("login");
 Route::post("register", [LoginController::class, 'register'])->name("register");
@@ -54,3 +57,7 @@ Route::post('about/insert',[AboutSchoolController::class,'insert'])->name('about
 Route::post('about/update',[AboutSchoolController::class,'update'])->name('about.update');
 Route::post('about/delete',[AboutSchoolController::class,'delete'])->name('about.delete');
 Route::get('about/show',[AboutSchoolController::class,'show'])->name('about.show');
+//contract
+Route::post('contract/insert/map',[ContractController::class,'insert_map'])->name('contract.insert.map');
+Route::post('contract/insert/data',[ContractController::class,'insert_data'])->name('contract.insert.data');
+Route::post('contract/delete/data',[ContractController::class,'delete_data'])->name('contract.delete.data');

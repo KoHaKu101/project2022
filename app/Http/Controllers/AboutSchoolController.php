@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AboutSchoolController extends Controller
 {
-    public function randUNID($table)
-    {
+    public function randUNID($table){
         $number = date('ymdhis', time());
         $length = 7;
         do {
@@ -36,12 +35,12 @@ class AboutSchoolController extends Controller
         if($ABOUT_NAME == null || $ABOUT_TEXT == null ){
             $text_1 = $ABOUT_NAME == null ? 'กรุณากรอกส่วนหัว' : '' ;
             $text_2 = $ABOUT_TEXT == null ? 'กรุณากรอกส่วนข้อมูล' : '' ;
-            alert()->error('เกิดข้อผิดพลาด',$text_1,$text_2);
-            return redirect()->back();
+            alert()->error("เกิดข้อผิดพลาด","1.".$text_1." 2.".$text_2)->autoClose(3000);
+            return redirect()->back()->with(['FOCUS'=>'ABOUT_SCHOOL']);
         }
-        $DATA_ABOUT = AboutSchool::select('ABOUT_NUMBER')->get();
+        $DATA_ABOUT   = AboutSchool::select('ABOUT_NUMBER')->get();
         $NUMBER_ABOUT = count($DATA_ABOUT)+1 ;
-        $image      = $request->file('ABOUT_IMG');
+        $image        = $request->file('ABOUT_IMG');
         if($image != null){
         $FILE_NAME  = 'About'.$NUMBER_ABOUT;
             $this->imgupload($image,$FILE_NAME);
@@ -62,8 +61,8 @@ class AboutSchoolController extends Controller
                 'CREATE_BY' => Auth::user()->USERNAME,
                 'CREATE_TIME' => Carbon::now(),
             ]);
-        alert()->success('บันทึกสำเร็จ');
-        return redirect()->back();
+        alert()->success('บันทึกสำเร็จ')->autoClose(1500);
+        return redirect()->back()->with(['FOCUS'=>'ABOUT_SCHOOL']);
     }
     public function update(Request $request){
         $UNID       = $request->ABOUT_UNID;
@@ -99,8 +98,8 @@ class AboutSchoolController extends Controller
             ]);
         }
 
-        alert()->success('แก้ไขสำเร็จ');
-        return redirect()->back();
+        alert()->success('แก้ไขสำเร็จ')->autoClose(1500);
+        return redirect()->back()->with(['FOCUS'=>'ABOUT_SCHOOL']);
     }
     public function delete(Request $request){
         $UNID = $request->UNID;

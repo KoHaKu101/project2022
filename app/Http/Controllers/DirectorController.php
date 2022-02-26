@@ -32,8 +32,8 @@ class DirectorController extends Controller
   public function upload(Request $request){
         $image = $request->file('DIRECTOR_IMG');
            if(!getimagesize($image)){
-            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น')->autoClose($milliseconds = 1000);
-            return redirect()->back();
+            alert()->error('เกิดข้อผิดพลาด','กรุณาอัพโหลดเป็นไฟล์รูปภาพเท่านั้น')->autoClose(1500);
+            return redirect()->back()->with(['FOCUS'=> 'DIRECTOR']);
            }
         $FILE_NAME  = 'director';
         $filePath   = public_path('assets/image/people');
@@ -69,15 +69,19 @@ class DirectorController extends Controller
                 'MODIFY_TIME' => carbon::now(),
             ]);
         }
-         alert()->success('บันทึกสำเร็จ')->autoClose($milliseconds = 1000);
-        return redirect()->back();
+         alert()->success('บันทึกสำเร็จ')->autoClose(1500);
+        return redirect()->back()->with(['FOCUS'=> 'DIRECTOR']);
 
     }
     public function post(Request $request){
-        $DIRCETOR_TEXT = $request->DIRCETOR_TEXT;
-        $DIRCETOR_NAME = $request->DIRCETOR_NAME;
+        $DIRCETOR_TEXT   = $request->DIRCETOR_TEXT;
+        $DIRCETOR_NAME   = $request->DIRCETOR_NAME;
         $DIRCETOR_SCHOOL = $request->DIRCETOR_SCHOOL;
         $DATA_POST = Dircetor::select('UNID')->first();
+        if(!isset($DIRCETOR_TEXT) && !isset($DIRCETOR_NAME) && !isset($DIRCETOR_SCHOOL)){
+            alert()->error('กรุณากรอกข้อมูลให้ครบถ้วน')->autoClose(1500);
+            return redirect()->back()->with(['FOCUS'=> 'DIRECTOR']);
+        }
         if(isset($DATA_POST->UNID)){
             $UNID = $DATA_POST->UNID;
             Dircetor::where('UNID','=',$UNID)->update([
@@ -103,7 +107,7 @@ class DirectorController extends Controller
             ]);
         }
 
-        alert()->success('บันทึกข้อมูลสำเร็จ')->autoClose($milliseconds = 1000);
-        return redirect()->back();
+        alert()->success('บันทึกข้อมูลสำเร็จ')->autoClose(1500);
+        return redirect()->back()->with(['FOCUS'=> 'DIRECTOR']);
     }
 }

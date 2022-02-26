@@ -66,11 +66,6 @@
     <script src="{{ asset('assets/js/master.js') }}"></script>
     <script src="{{ asset('assets/js/register.js') }}"></script>
     <script src="{{ asset('assets/js/login.js') }}"></script>
-    <script>
-        function closemodallogin() {
-
-        }
-    </script>
     @include('sweetalert::alert')
     @yield("addjava")
 

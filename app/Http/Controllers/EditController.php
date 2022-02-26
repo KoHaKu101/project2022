@@ -9,6 +9,7 @@ use App\Models\Settingnumber;
 use App\Models\Img;
 use App\Models\Dircetor;
 use App\Models\AboutSchool;
+use App\Models\Contract;
 use App\Models\Post;
 class EditController extends Controller
 {
@@ -42,9 +43,9 @@ class EditController extends Controller
 
         $ABOUT_SCHOOL   = AboutSchool::select('UNID','ABOUT_NAME','ABOUT_NUMBER')->orderBy('ABOUT_NUMBER')->get();
         $DATA_POST      = Post::where('POST_MONTH','=',$POST_MONTH)->where('POST_TYPE','=',$POST_TYPE)->paginate(2);
-
+        $DATA_CONTRACT  = Contract::where('CONTRACT_STATUS','=','OPEN')->get();
         return view('editpage.home',compact('LIMIT_NUMBER','IMG_SLIDE','DIRECTOR_IMG','DATA_DIRCETOR','ABOUT_SCHOOL'
-                                            ,'DATA_POST','POST_MONTH','POST_TYPE'));
+                                            ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT'));
     }
     public function fetchpost(Request $request){
         $POST_MONTH = $request->select_month_post ;
