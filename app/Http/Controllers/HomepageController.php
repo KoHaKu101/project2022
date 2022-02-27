@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AboutSchool;
+use App\Models\Contract;
 use App\Models\Dircetor;
 use App\Models\Img;
 use App\Models\Post;
@@ -24,17 +25,16 @@ class HomepageController extends Controller
             ->orderBy('ABOUT_NUMBER', 'ASC')->get();
         $DATA_POST = Post::where('POST_MONTH', '=', date('n'))->where('POST_YEAR', '=', date('Y'))->where('POST_STATUS', '=', 'OPEN')
             ->orderby('POST_DAY')->limit(6)->get();
-        return view('homepage', compact('COUNT_SLIDE', 'IMG_SLIDE', 'DIRECTOR_IMG', 'DATA_DIRCETOR', 'ABOUT_SCHOOL', 'DATA_POST'));
+        $DATA_CONTRACT = Contract::where('CONTRACT_STATUS','=', 'OPEN')->get();
+        return view('homepage', compact('COUNT_SLIDE', 'IMG_SLIDE', 'DIRECTOR_IMG', 'DATA_DIRCETOR', 'ABOUT_SCHOOL', 'DATA_POST','DATA_CONTRACT'));
     }
-    public function showpost(Request $request)
-    {
+    public function showpost(Request $request){
         $DATA_POST = Post::where('POST_MONTH', '=', $request->MONTH)->where('POST_YEAR', '=', date('Y'))->where('POST_STATUS', '=', 'OPEN')
             ->orderby('POST_DAY')->limit(6)->get();
         if ($request->MONTH == 0) {
             $DATA_POST = Post::where('POST_YEAR', '=', date('Y'))->where('POST_STATUS', '=', 'OPEN')
                 ->orderby('POST_DAY')->limit(6)->get();
         }
-
         $months_full_th = ['1' => 'มกราคม', '2' => 'กุมภาพันธ์', '3' => 'มีนาคม', '4' => 'เมษายน', '5' => 'พฤษภาคม', '6' => 'มิถุนายน', '7' => 'กรกฎาคม', '8' => 'สิงหาคม', '9' => 'กันยายน', '10' => 'ตุลาคม', '11' => 'พฤศจิกายน', '12' => 'ธันวาคม'];
         $show_post = '<div class="row portfolio-container " data-aos="fade-up" data-aos-delay="200">';
         foreach ($DATA_POST as $index => $row_post) {

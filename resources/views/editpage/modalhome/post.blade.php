@@ -139,17 +139,7 @@
                                                             <label class="float-right POST_BODYDEFAULT_LABLE" hidden>
                                                             </label>
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <label>
-                                                                <h3>ประเภทข่าวสาร</h3>
-                                                            </label>
-                                                            <select class="form-control" id="POST_TAG"
-                                                                name="POST_TAG">
-                                                                @foreach ($DATA_TAG as $index => $row)
-                                                                    <option value="{{ $row->UNID }}">
-                                                                        {{ $row->TAG_NAME }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                        <div class="col-md-12 POST_TAGDEFAULT_DIV">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -200,18 +190,8 @@
                                                             <label class="float-right POST_BODYPDF_LABLE" hidden>
                                                             </label>
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <label>
-                                                                <h3>ประเภทข่าวสาร</h3>
-                                                            </label>
+                                                        <div class="col-md-12 POST_TAGPDF_DIV">
 
-                                                            <select class="form-control" id="POST_TAG"
-                                                                name="POST_TAG">
-                                                                @foreach ($DATA_TAG as $index => $row)
-                                                                    <option value="{{ $row->UNID }}">
-                                                                        {{ $row->TAG_NAME }}</option>
-                                                                @endforeach
-                                                            </select>
                                                         </div>
                                                     </div>
                                                 </form>

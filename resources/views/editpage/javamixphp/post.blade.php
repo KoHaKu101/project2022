@@ -1,4 +1,35 @@
    <script>
+       function post_select(id) {
+           $('div .' + id).html("<label><h3>ประเภทข่าวสาร</h3> </label>" +
+               "<select class = 'form-control js-example-basic-multiple'" +
+               "id = 'POST_TAG' name = 'POST_TAG[]' multiple = 'multiple' > " +
+               " </select>");
+           $('.js-example-basic-multiple').select2({
+               width: '100%',
+               ajax: {
+                   url: "{{ route('edit.tag.ajaxshow') }}",
+                   dataType: 'json',
+                   type: "POST",
+                   quietMillis: 50,
+                   processResults: function(data) {
+                       return {
+                           results: $.map(data, function(item) {
+                               console.log(data)
+                               console.log(item)
+                               return {
+                                   text: item.TAG_NAME,
+                                   id: item.UNID
+                               }
+                           })
+                       };
+                   },
+                   cache: true
+               }
+           });
+       }
+
+
+
        function modal_post(thisdata) {
            var title = $(thisdata).data('name');
            var title = "เพิ่มข่าวสาร";
@@ -52,6 +83,7 @@
                } else if (step == 3) {
                    var check_position = $('#POST_IMG_POSITION').val();
                    if (check_step_1_pdf != '') {
+                       post_select("POST_TAGPDF_DIV");
                        $('#POST_BTN_CLOSE,#BTN_NEXT').attr('hidden', true);
                        $('#POST_BTN_SUBMIT,#BTN_RETURN').attr('hidden', false);
                        $('#BTN_RETURN').data('step', 1);
@@ -59,6 +91,7 @@
                        $('#step3,#step3_active').addClass('active');
                        $('#step1_active,#step2_active').addClass('nav-link-success');
                    } else if (check_position != '') {
+                       post_select("POST_TAGDEFAULT_DIV");
                        $('#POST_BTN_SUBMIT').attr('hidden', false);
                        $('#BTN_NEXT').attr('hidden', true);
                        $('#BTN_RETURN').data('step', 2);
@@ -86,13 +119,13 @@
        function return_step(thisdata) {
            var step = $(thisdata).data('step');
            var check_step_1_pdf = $('#POST_TYPE_PDF').val();
+           $('.POST_TAGPDF_DIV').empty();
+           $('.POST_TAGDEFAULT_DIV').empty();
            if (step == 1) {
                if (check_step_1_pdf != '') {
                    $('#BTN_NEXT').data('step', 3);
-
                    $('#POST_BTN_CLOSE,#POST_BTN_SUBMIT').attr('hidden', true);
                    $('#BTN_RETURN,#BTN_NEXT').attr('hidden', false);
-
                    $('#step2_active').removeClass('nav-link-success');
                    $('#step3,#step3_active').removeClass('active');
                } else {

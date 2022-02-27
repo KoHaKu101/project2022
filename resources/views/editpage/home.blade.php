@@ -1,6 +1,7 @@
 @extends("masteredit.master")
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/css/edithome.css') }}">
+    <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="content">
@@ -411,8 +412,6 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-
-
                                                                 @foreach ($CONTRACT_TEL as $index_tel => $row_tel)
                                                                     <tr>
                                                                         <td>
@@ -467,7 +466,7 @@
 @section('java')
     <script src="{{ asset('assets/js/edit/home/director.js') }}"></script>
     <script src="{{ asset('assets/js/edit/home/imgshow.js') }}"></script>
-
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     @include('editpage.javamixphp.about')
     @include('editpage.javamixphp.slide')
     @include('editpage.javamixphp.post')

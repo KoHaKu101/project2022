@@ -167,7 +167,7 @@
                                                             <i class="fas fa-edit mx-2"></i>
                                                             แก้ไข
                                                         </button>
-                                                        <a href="{{ route('edit.settingpage.remove') . '?UNID=' . $row->UNID }}"
+                                                        <a href="{{ route('edit.tag.remove') . '?UNID=' . $row->UNID }}"
                                                             class="btn btn-danger ml-auto mr-auto">
                                                             <i class="fas fa-trash mx-2"></i>
                                                             ลบ
@@ -189,7 +189,7 @@
     <!-- Modal -->
     <div class="modal fade" id="show_tag" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog  modal-lg" role="document">
-            <form action="{{ route('edit.settingpage.save') }}" method="post" id="FRM_TAG">
+            <form action="{{ route('edit.tag.save') }}" method="post" id="FRM_TAG">
                 @csrf
                 <input type="hidden" id="TAG_UNID" name="TAG_UNID">
                 <div class="modal-content">
@@ -238,7 +238,7 @@
             $('#head_tag').html(title_tag);
             $('#label_tag').html(label_tag);
 
-            var url = "{{ route('edit.settingpage.show') }}";
+            var url = "{{ route('edit.tag.show') }}";
             if (unid != null) {
                 $.ajax({
                     type: "POST",
@@ -247,14 +247,14 @@
                         UNID: unid
                     },
                     success: function(response) {
-                        $('#FRM_TAG').attr('action', "{{ route('edit.settingpage.edit') }}");
+                        $('#FRM_TAG').attr('action', "{{ route('edit.tag.edit') }}");
                         $('#btn_tag').html('<i class="fas fa-edit mx-1 "></i>แก้ไข');
                         $("#TAG_UNID").val(unid);
                         $('#TAG_NAME').val(response.TAG_NAME);
                     }
                 });
             } else {
-                $('#FRM_TAG').attr('action', "{{ route('edit.settingpage.save') }}");
+                $('#FRM_TAG').attr('action', "{{ route('edit.tag.save') }}");
                 $('#TAG_NAME').val('');
                 $('#TAG_UNID').val('');
                 $('#btn_tag').html('<i class="fas fa-save mx-1 "></i>เพิ่ม');
@@ -267,7 +267,7 @@
             var id_btn = $(thisdata).data('id_number');
             var unid = $(thisdata).data('unid');
             var src = "{{ asset('assets/image/common/') }}";
-            var url = "{{ route('edit.settingpage.status') }}";
+            var url = "{{ route('edit.tag.status') }}";
             $.ajax({
                 type: "POST",
                 url: url,

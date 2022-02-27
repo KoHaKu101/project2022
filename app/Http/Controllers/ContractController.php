@@ -28,7 +28,9 @@ class ContractController extends Controller
         return $number;
     }
     public function first_data($TYPE,$VALUE){
-
+        if($TYPE == 'TEL'){
+            $VALUE =  sprintf('%s-%s-%s', substr($VALUE, 0, 3), substr($VALUE, 3, 3), substr($VALUE, 6));
+        }
         Contract::insert([
             'UNID' => $this->randUNID('CONTRACT'),
             'CONTRACT_TYPE' => $TYPE,
@@ -83,10 +85,11 @@ class ContractController extends Controller
                 alert()->error('กรุณากรอกข้อมูลให้ครบถ้วน')->autoClose(1500);
                 break;
             case Contract::where('CONTRACT_TYPE','=',$CONTRACT_TYPE)->where('CONTRACT_DATA','=',$CONTRACT_DATA)->count() > 0 :
+                $TEXT_ALERT = $CONTRACT_TYPE == 'EMAIL' ? 'มีอีเมล์นี้อยู่แล้ว' : 'เบอร์นี้มีแล้ว' ;
                 if($request->ajax()){
-                    return response()->json(['icon' => 'error','title' => 'มีอีเมล์นี้อยู่แล้ว']);
+                    return response()->json(['icon' => 'error','title' => $TEXT_ALERT]);
                 }else{
-                    alert()->error('มีอีเมล์นี้อยู่แล้ว')->autoClose(1500);
+                    alert()->error($TEXT_ALERT)->autoClose(1500);
                 }
                 break;
             case !isset($DATA_CONTRACT->UNID) :
@@ -94,6 +97,9 @@ class ContractController extends Controller
                 alert()->success('เพิ่มรายการสำเร็จ')->autoClose(1500);
                 break;
             case isset($DATA_CONTRACT->UNID) :
+                if($CONTRACT_TYPE == 'TEL'){
+                    $CONTRACT_DATA =  sprintf('%s-%s-%s', substr($CONTRACT_DATA, 0, 3), substr($CONTRACT_DATA, 3, 3), substr($CONTRACT_DATA, 6));
+                }
                 $DATA_CONTRACT->update([
                     'CONTRACT_DATA' => $CONTRACT_DATA ,
                     'MODIFY_BY' => Auth::user()->USERNAME,

@@ -276,7 +276,10 @@
                     <h2>ติดต่อ</h2>
                 </div>
                 @php
-                    $locationmap = '16.051926472973367,103.64722590286577';
+                    $CONTRACT_MAP = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'MAP')->first();
+                    $locationmap = isset($CONTRACT_MAP->CONTRACT_DATA) ? $CONTRACT_MAP->CONTRACT_DATA : '';
+                    $CONTRACT_EMAIL = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'EMAIL');
+                    $CONTRACT_TEL = $DATA_CONTRACT->where('CONTRACT_TYPE', '=', 'TEL');
                 @endphp
                 <div class="row" data-aos="fade-up" data-aos-delay="100">
                     <div class="col-lg-6">
@@ -298,15 +301,19 @@
                             <div class="col-md-6">
                                 <div class="info-box ">
                                     <i class="bx bx-envelope"></i>
-                                    <h3>Email Us</h3>
-                                    <p>info@example.com<br>contact@example.com</p>
+                                    <h3>อีเมลติดต่อ</h3>
+                                    @foreach ($CONTRACT_EMAIL as $index_email => $row_email)
+                                        <p>{{ $row_email->CONTRACT_DATA }}<br></p>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-box ">
                                     <i class="bx bx-phone-call"></i>
-                                    <h3>Call Us</h3>
-                                    <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
+                                    <h3>เบอร์โทรติดต่อ</h3>
+                                    @foreach ($CONTRACT_TEL as $index_tel => $row_tel)
+                                        <p>{{ $row_tel->CONTRACT_DATA }}<br></p>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="col-md-12 mt-4 ">

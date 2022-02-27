@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\PostImg;
+use App\Models\PostTag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -31,7 +32,7 @@ class PostController extends Controller
         );
         return $number;
     }
-    public function save_logo($image,$FILE_NAME,$POST_LOGO_EXT){
+    private function save_logo($image,$FILE_NAME,$POST_LOGO_EXT){
         $filePath   = public_path('assets/image/post/logo/');
         if(!file_exists($filePath)){
             File::makeDirectory($filePath,0777,true);
@@ -43,7 +44,7 @@ class PostController extends Controller
         $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
 
     }
-    public function save_img($image,$FILE_NAME,$POST_LOGO_EXT){
+    private function save_img($image,$FILE_NAME,$POST_LOGO_EXT){
         $filePath   = public_path('assets/image/post/img/');
         if(!file_exists($filePath)){
             File::makeDirectory($filePath,0777,true);
@@ -55,14 +56,24 @@ class PostController extends Controller
         $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
 
     }
-    public function save_file($PDF_FILE,$FILE_NAME,$POST_FILE_EXT){
+    private function save_file($PDF_FILE,$FILE_NAME,$POST_FILE_EXT){
         $filePath   = public_path('assets/pdf/post/');
         if(!file_exists($filePath)){
             File::makeDirectory($filePath,0777,true);
         }
             $PDF_FILE->move($filePath, $FILE_NAME.$POST_FILE_EXT);
     }
-
+    private function save_tag($POST_TAG,$UNID){
+        foreach($POST_TAG as $index => $row){
+            PostTag::insert([
+            'UNID'=> $this->randUNID('POST_TAG'),
+            'UNID_POST' => $UNID,
+            'UNID_TAG' => $row,
+            'CREATE_BY' => Auth::user()->USERNAME,
+            'CREATE_TIME' => Carbon::now(),
+        ]);
+        }
+    }
     public function insert_pdf(Request $request){
         $POST_TYPE = $request->POST_TYPE_PDF;
         $POST_HEADER = $request->POST_HEADER;
@@ -79,8 +90,9 @@ class PostController extends Controller
         $POST_FILE_EXT = '.'.$POST_FILE->extension();
         $this->save_file($POST_FILE,$POST_FILE_NAME,$POST_FILE_EXT);
         //Save Database
+        $UNID = $this->randUNID('POST');
         Post::insert([
-            'UNID' => $this->randUNID('POST'),
+            'UNID' => $UNID,
             'POST_TYPE' => $POST_TYPE,
             'POST_HEADER' => $POST_HEADER,
             'POST_BODY' => $POST_BODY,
@@ -95,11 +107,8 @@ class PostController extends Controller
             'CREATE_BY' => Auth::user()->USERNAME,
             'CREATE_TIME' => Carbon::now(),
         ]);
-        //Save Tag
-        // if($POST_TAG != ''){
-        //     dd($POST_TAG);
-        // }
-
+        //save tag
+        $this->save_tag($POST_TAG,$UNID);
         return response()->json(['pass'=>true]);
     }
     public function insert_default(Request $request){
@@ -146,7 +155,8 @@ class PostController extends Controller
                 'CREATE_TIME' => Carbon::now(),
                 ]);
         }
-
+        //save tag
+        $this->save_tag($POST_TAG,$UNID);
                 return response()->json(['pass'=>true]);
         }
     public function checkform_default(Request $request){

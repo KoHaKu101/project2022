@@ -9,7 +9,7 @@ use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class SettingPageController extends Controller
+class TagController extends Controller
 {
 
     public function save(Request $request){
@@ -71,5 +71,10 @@ class SettingPageController extends Controller
         }
         alert()->success('ลบรายการสำเร็จ')->autoClose(1500);
         return redirect()->back();
+    }
+    public function ajaxshow(){
+        $data = Tag::select('UNID','TAG_NAME')->where('TAG_STATUS','=','OPEN')->get();
+
+        return response()->json($data);
     }
 }
