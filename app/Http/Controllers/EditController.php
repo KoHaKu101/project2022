@@ -11,25 +11,10 @@ use App\Models\Dircetor;
 use App\Models\AboutSchool;
 use App\Models\Contract;
 use App\Models\Post;
+use App\Http\Controllers\CommonFuntionController;
+use App\Models\Tag;
 class EditController extends Controller
 {
-    public function randUNID($table)
-    {
-        $number = date('ymdhis', time());
-        $length = 7;
-        do {
-            for ($i = $length; $i--; $i > 0) {
-                $number .= mt_rand(0, 9);
-            }
-        } while (
-            !empty(
-                DB::table($table)
-                ->where('UNID', $number)
-                ->first(['UNID'])
-            )
-        );
-        return $number;
-    }
     public function home(Request $request)
     {
         $POST_MONTH = isset($request->select_month_post) ? $request->select_month_post : date('n') ;
@@ -45,8 +30,13 @@ class EditController extends Controller
         $ABOUT_SCHOOL   = AboutSchool::select('UNID','ABOUT_NAME','ABOUT_NUMBER')->orderBy('ABOUT_NUMBER')->get();
         $DATA_POST      = Post::where('POST_MONTH','=',$POST_MONTH)->where('POST_TYPE','=',$POST_TYPE)->paginate(2);
         $DATA_CONTRACT  = Contract::where('CONTRACT_STATUS','=','OPEN')->get();
+        $DATA_TAG       = Tag::where('TAG_STATUS','=','OPEN')->get();
         return view('editpage.home',compact('LIMIT_NUMBER','IMG_SLIDE','DIRECTOR_IMG','DATA_DIRCETOR','ABOUT_SCHOOL'
-                                            ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT'))->with('FOCUS',$FOCUS);
+                                            ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT','DATA_TAG'))->with('FOCUS',$FOCUS);
+    }
+    public function settingpage(){
+        $DATA_TAG = Tag::orderby('TAG_NAME','ASC')->paginate();
+        return view('editpage.setting',compact('DATA_TAG'));
     }
     public function fetchpost(Request $request){
         $POST_MONTH = $request->select_month_post ;

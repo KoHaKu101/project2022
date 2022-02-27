@@ -9,42 +9,6 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <style>
-                            .nav-link-success {
-                                background-color: #31ce36 !important;
-                                border-color: #31ce36 !important;
-                                color: #fff !important;
-                            }
-
-                            .btn-clay {
-                                background-color: #7c7c7c !important;
-                                border-color: #7c7c7c !important;
-                                color: #fff !important;
-
-                            }
-
-                            .btn-clay:hover {
-                                background-color: #31ce36 !important;
-                                border-color: #31ce36 !important;
-                                color: #fff !important;
-
-                            }
-
-                            .selected-btn {
-                                background-color: #31ce36 !important;
-                                border-color: #31ce36 !important;
-                                color: #fff !important;
-                            }
-
-                            .text-byme-lg {
-                                font-size: 20px;
-                            }
-
-                            .a-nopoint {
-                                cursor: default;
-                            }
-
-                        </style>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="wizard-container wizard-round col-md-12">
@@ -181,8 +145,10 @@
                                                             </label>
                                                             <select class="form-control" id="POST_TAG"
                                                                 name="POST_TAG">
-                                                                <option value="PR">ประชาสัมพันธ์</option>
-                                                                <option value="EMP">งานบุคคล</option>
+                                                                @foreach ($DATA_TAG as $index => $row)
+                                                                    <option value="{{ $row->UNID }}">
+                                                                        {{ $row->TAG_NAME }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -238,10 +204,13 @@
                                                             <label>
                                                                 <h3>ประเภทข่าวสาร</h3>
                                                             </label>
+
                                                             <select class="form-control" id="POST_TAG"
                                                                 name="POST_TAG">
-                                                                <option value="PR">ประชาสัมพันธ์</option>
-                                                                <option value="EMP">งานบุคคล</option>
+                                                                @foreach ($DATA_TAG as $index => $row)
+                                                                    <option value="{{ $row->UNID }}">
+                                                                        {{ $row->TAG_NAME }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>

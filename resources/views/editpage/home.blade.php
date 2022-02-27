@@ -1,4 +1,7 @@
 @extends("masteredit.master")
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/edithome.css') }}">
+@endsection
 @section('content')
     <div class="content">
         <div class="page-inner py-3">
@@ -61,16 +64,6 @@
                     </div>
                 </div>
             </div>
-            <style>
-                .indent {
-                    text-indent: 2.5em;
-                }
-
-                .text-byme {
-                    font-size: 16px;
-                }
-
-            </style>
             <div class="row">
                 <div class="col-md-5">
                     <div class="card">

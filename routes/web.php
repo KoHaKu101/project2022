@@ -9,6 +9,7 @@ use App\Http\Controllers\EditController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SettingPageController;
 use App\Models\AboutSchool;
 use App\Models\Dircetor;
 
@@ -36,7 +37,13 @@ Route::get("logout", [LoginController::class, 'logout'])->name("logout");
 // editpage
 Route::get('edit/home',[EditController::class,'home'])->name('edit.home');
 Route::post('edit/fetch/post',[EditController::class,'fetchpost'])->name('edit.fetch.post');
-//
+Route::get('edit/settingpage',[EditController::class,'settingpage'])->name('edit.settingpage');
+//settingpage
+Route::post('edit/settingpage/save',[SettingPageController::class,'save'])->name('edit.settingpage.save');
+Route::post('edit/settingpage/edit',[SettingPageController::class,'edit'])->name('edit.settingpage.edit');
+Route::get('edit/settingpage/remove',[SettingPageController::class,'remove'])->name('edit.settingpage.remove');
+Route::post('edit/settingpage/status',[SettingPageController::class,'status'])->name('edit.settingpage.status');
+Route::post('edit/settingpage/show',[SettingPageController::class,'show'])->name('edit.settingpage.show');
 // slide
 Route::post('slide/number',[SlideController::class,'number'])->name('slide.number');
 Route::post('slide/upload',[SlideController::class,'upload'])->name('slide.upload');

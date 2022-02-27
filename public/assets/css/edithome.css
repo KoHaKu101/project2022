@@ -1,0 +1,46 @@
+ .indent {
+     text-indent: 2.5em;
+ }
+
+
+ .btn-disabled {
+     cursor: not-allowed;
+ }
+
+ .nav-link-success {
+     background-color: #31ce36 !important;
+     border-color: #31ce36 !important;
+     color: #fff !important;
+ }
+
+ .btn-clay {
+     background-color: #7c7c7c !important;
+     border-color: #7c7c7c !important;
+     color: #fff !important;
+
+ }
+
+ .btn-clay:hover {
+     background-color: #31ce36 !important;
+     border-color: #31ce36 !important;
+     color: #fff !important;
+
+ }
+
+ .selected-btn {
+     background-color: #31ce36 !important;
+     border-color: #31ce36 !important;
+     color: #fff !important;
+ }
+
+ .text-byme {
+     font-size: 16px;
+ }
+
+ .text-byme-lg {
+     font-size: 20px;
+ }
+
+ .a-nopoint {
+     cursor: default;
+ }

@@ -17,7 +17,6 @@ class CreateTag extends Migration
             $table->BigInteger('UNID')->primary();
             $table->string('TAG_NAME',150);
             $table->string('TAG_STATUS',50);
-
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();

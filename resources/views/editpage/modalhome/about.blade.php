@@ -23,12 +23,7 @@
                                             placeholder="กรุณาใส่หัวขอ เช่น ความเป็นมาของศูนย์" required>
                                     </div>
                                 </div>
-                                <style>
-                                    .btn-disabled {
-                                        cursor: not-allowed;
-                                    }
 
-                                </style>
                                 <div class="col-md-5">
                                     <div class="row">
                                         <div class="form-group">

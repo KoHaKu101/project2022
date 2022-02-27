@@ -15,9 +15,8 @@ class CreatePostTag extends Migration
     {
         Schema::create('POST_TAG', function (Blueprint $table) {
             $table->BigInteger('UNID')->primary();
-            $table->BigInteger('POST_TAG');
-            $table->BigInteger('TAG_UNID');
-
+            $table->BigInteger('UNID_POST');
+            $table->BigInteger('UNID_TAG');
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();
