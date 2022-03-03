@@ -49,7 +49,6 @@ class LoginController extends Controller
 
         if($Validated->fails()){
             $response = $Validated->messages();
-
             return response()->json(['id'=>$response,'massage' => 'กรุณาตรวจสอบข้อมูลให้ครบถ้วน','alert'=>'error'],200);
         }
         $USERNAME = $request->USERNAME;

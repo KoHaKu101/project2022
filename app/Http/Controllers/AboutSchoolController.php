@@ -9,24 +9,13 @@ use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\CommonFuntionController;
 class AboutSchoolController extends Controller
 {
-    public function randUNID($table){
-        $number = date('ymdhis', time());
-        $length = 7;
-        do {
-            for ($i = $length; $i--; $i > 0) {
-                $number .= mt_rand(0, 9);
-            }
-        } while (
-            !empty(
-                DB::table($table)
-                ->where('UNID', $number)
-                ->first(['UNID'])
-            )
-        );
-        return $number;
+    public function UNID($table){
+        $FUNCTION = new CommonFuntionController;
+        $UNID = $FUNCTION->randUNID($table);
+        return $UNID;
     }
 
     public function insert(Request $request){
@@ -49,8 +38,9 @@ class AboutSchoolController extends Controller
             $FILE_NAME= '';
             $EXT = '';
         }
+
             AboutSchool::insert([
-                'UNID' => $this->randUNID('ABOUT_SCHOOL'),
+                'UNID' => $this->UNID('ABOUT_SCHOOL'),
                 'ABOUT_NUMBER' => $NUMBER_ABOUT,
                 'ABOUT_NAME' => $request->ABOUT_NAME,
                 'ABOUT_TEXT' => $request->ABOUT_TEXT,
@@ -72,7 +62,7 @@ class AboutSchoolController extends Controller
         $ABOUT_POSITION = $request->ABOUT_POSITION;
         if(!isset($image)){
             AboutSchool::where('UNID','=',$UNID)->update([
-            'UNID' => $this->randUNID('ABOUT_SCHOOL'),
+            'UNID' => $this->UNID('ABOUT_SCHOOL'),
                 'ABOUT_NAME' => $ABOUT_NAME,
                 'ABOUT_TEXT' => $ABOUT_TEXT,
                 'ABOUT_IMG_POSITION' => $ABOUT_POSITION,
@@ -86,7 +76,7 @@ class AboutSchoolController extends Controller
             $EXT        = '.'.$image->extension();
             $this->imgupload($image,$FILE_NAME);
             AboutSchool::where('UNID','=',$UNID)->update([
-            'UNID' => $this->randUNID('ABOUT_SCHOOL'),
+            'UNID' => $this->UNID('ABOUT_SCHOOL'),
                 'ABOUT_NAME' => $ABOUT_NAME,
                 'ABOUT_TEXT' => $ABOUT_TEXT,
                 'ABOUT_IMG_POSITION' => $ABOUT_POSITION,
@@ -124,14 +114,10 @@ class AboutSchoolController extends Controller
             }
             $img        = Image::make($image->path());
             $EXT        = '.'.$image->extension();
-            $width      = $img->width();
-            $height     = $img->height();
             if(!file_exists($filePath)){
                 File::makeDirectory($filePath);
             }
-            if($width != $w || $height != $h){
-                $img->resize($w, $h)->save($filePath.'/'.$FILE_NAME.$EXT);
-            }
+            $img->resize($w, $h)->save($filePath.'/'.$FILE_NAME.$EXT);
             $img->save($filePath.'/'.$FILE_NAME.$EXT);
 
     }

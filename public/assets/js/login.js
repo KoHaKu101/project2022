@@ -29,10 +29,8 @@ $("#FRM_LOGIN").submit(function(e) {
                             title: 'เข้าสู่ระบบ สำเร็จ !',
                             text: 'ยินดีต้อนรับเข้าสู่ระบบ',
                             timer: 1500,
-                        }).then((result) => {
-                            if (result.isConfirmed) {
+                        }).then(function(){
                                 location.reload();
-                            }
                         });
                     }
 

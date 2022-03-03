@@ -85,6 +85,7 @@ h6 {
 }
 
 #header.header-scrolled {
+
     padding: 12px 0;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
@@ -512,7 +513,8 @@ section {
 # Breadcrumbs
 --------------------------------------------------------------*/
 .breadcrumbs {
-    padding: 15px 0;
+    padding-top: 55px;
+    padding-bottom: 20px;
     background: #2b2b2b;
     min-height: 40px;
     margin-top: 82px;
@@ -1492,7 +1494,7 @@ section {
 
 .blog .entry .entry-img {
     max-height: 440px;
-    margin: -30px -30px 20px -30px;
+    /* margin: -30px -30px 20px -30px; */
     overflow: hidden;
 }
 

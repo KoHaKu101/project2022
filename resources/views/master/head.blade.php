@@ -22,20 +22,21 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-                        <li><a href="#">Drop Down 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Drop Down</span>
-                                <i class="bi bi-chevron-right"></i></a>
-                            <ul>
-                                <li><a href="#">Deep Drop Down 1</a></li>
-                                <li><a href="#">Deep Drop Down 2</a></li>
-                                <li><a href="#">Deep Drop Down 3</a></li>
-                                <li><a href="#">Deep Drop Down 4</a></li>
-                                <li><a href="#">Deep Drop Down 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Drop Down 2</a></li>
-                        <li><a href="#">Drop Down 3</a></li>
-                        <li><a href="#">Drop Down 4</a></li>
+                        @php
+                            use App\Models\DetailSchool;
+                            use App\Models\DetailId;
+                            $DATA_DETAIL = DetailId::select('UNID', 'DETAIL_HEAD', 'DETAIL_TYPE')
+                                ->where('DETAIL_STATUS', '=', 'OPEN')
+                                ->get();
+                        @endphp
+                        @foreach ($DATA_DETAIL as $index_detail => $row_detail)
+                            <li>
+                                <a href="{{ route('homepage.detail', ['DETAIL_TYPE' => $row_detail->DETAIL_TYPE]) }}">
+                                    {{ $row_detail->DETAIL_HEAD }}
+                                </a>
+                            </li>
+                        @endforeach
+
                     </ul>
                 </li>
                 <li><a class="nav-link scrollto" href="#">บุคลากร</a></li>
@@ -45,7 +46,8 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-                        <li><a href="#">Drop Down 1</a></li>
+
+                        <li><a href="#">sss</a></li>
                         <li><a href="#">Drop Down 2</a></li>
                         <li><a href="#">Drop Down 3</a></li>
                         <li><a href="#">Drop Down 4</a></li>

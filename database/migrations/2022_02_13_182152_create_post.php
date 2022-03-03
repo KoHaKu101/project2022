@@ -17,7 +17,7 @@ class CreatePost extends Migration
             $table->BigInteger('UNID')->primary();
             $table->string('POST_TYPE',50);
             $table->string('POST_HEADER',150);
-            $table->string('POST_BODY',150)->nullable();
+            $table->text('POST_BODY')->nullable();
             $table->string('POST_IMG_LOGO',150);
             $table->string('POST_IMG_EXT',150);
 

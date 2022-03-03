@@ -11,8 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
-use Barryvdh\DomPDF\Facade\PDF;
-use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     public function randUNID($table)
@@ -49,8 +48,8 @@ class PostController extends Controller
         if(!file_exists($filePath)){
             File::makeDirectory($filePath,0777,true);
         }
-        $fix_w      =  552 ;
-        $fix_h      =  736 ;
+        $fix_w      =  1024 ;
+        $fix_h      =  768 ;
         $img        = Image::make($image->path());
         $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);
         $img->save($filePath.'/'.$FILE_NAME.$POST_LOGO_EXT);

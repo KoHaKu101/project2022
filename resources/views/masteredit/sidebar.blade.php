@@ -15,6 +15,9 @@
     }
 
 </style>
+@php
+$current_page = Request::segment(2);
+@endphp
 <div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
@@ -34,7 +37,7 @@
                 </div>
             </div>
             <ul class="nav nav-primary ">
-                <li class="nav-item active">
+                <li class="nav-item {{ $current_page == 'home' ? 'active' : '' }}">
                     <a href="{{ route('edit.home') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <p>หน้าหลัก</p>
@@ -46,14 +49,14 @@
                         <p>ข่าวสาร</p>
                     </a>
                 </li>
-                <li class="nav-item  ">
-                    <a href="#dashboard" class="collapsed" aria-expanded="false">
+                <li class="nav-item  {{ $current_page == 'school' ? 'active' : '' }}">
+                    <a href="{{ route('edit.school') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <p>ข้อมูลพื้นฐานโรงเรียน</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a href="#dashboard" class="collapsed" aria-expanded="false">
+                <li class="nav-item {{ $current_page == 'emp' ? 'active' : '' }}">
+                    <a href="{{ route('edit.emp') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-home"></i>
                         <p>บุคลากร</p>
                     </a>
@@ -64,7 +67,7 @@
                         <p>ภาพกิจกรรม</p>
                     </a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item {{ $current_page == 'settingpage' ? 'active' : '' }}">
                     <a href="{{ route('edit.settingpage') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-wrench"></i>
                         <p>ตั้งค่าตัวไป</p>

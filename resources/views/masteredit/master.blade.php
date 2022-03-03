@@ -43,9 +43,9 @@
         @include('masteredit.sidebar')
         <div class="main-panel">
             @yield('content')
+            @include('masteredit.footer')
 
         </div>
-
         <!--   Core JS Files   -->
         <script src="{{ asset('assets/atlantis/js/core/jquery.3.2.1.min.js') }}"></script>
         <script src="{{ asset('assets/atlantis/js/core/popper.min.js') }}"></script>

@@ -3,14 +3,16 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AboutSchoolController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\DetailSchoolController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\EditController;
+use App\Http\Controllers\EmpRankController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
-
+use App\Http\Controllers\EmpSchoolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,7 @@ use App\Http\Controllers\TagController;
 Route::get('/', [HomepageController::class, 'homepage']);
 
 Route::get('homepage', [HomepageController::class, 'homepage'])->name('homepage');
+Route::get('homepage/detail/{DETAIL_TYPE}', [HomepageController::class, 'detail'])->name('homepage.detail');
 Route::post('homepage/showpost', [HomepageController::class, 'showpost'])->name('homepage.showpost');
 
 //login and Register
@@ -37,6 +40,19 @@ Route::get("logout", [LoginController::class, 'logout'])->name("logout");
 Route::get('edit/home',[EditController::class,'home'])->name('edit.home');
 Route::post('edit/fetch/post',[EditController::class,'fetchpost'])->name('edit.fetch.post');
 Route::get('edit/settingpage',[EditController::class,'settingpage'])->name('edit.settingpage');
+Route::get('edit/school',[EditController::class,'school'])->name('edit.school');
+Route::get('edit/emp',[EditController::class,'emp'])->name('edit.emp');
+
+//detail school
+Route::post('edit/school/insert',[DetailSchoolController::class,'insert'])->name('edit.school.insert');
+Route::post('edit/school/insert_detail',[DetailSchoolController::class,'insert_detail'])->name('edit.school.insert_detail');
+Route::post('edit/school/update',[DetailSchoolController::class,'update'])->name('edit.school.update');
+Route::post('edit/school/update_detail',[DetailSchoolController::class,'update_detail'])->name('edit.school.update_detail');
+Route::post('edit/school/delete',[DetailSchoolController::class,'delete'])->name('edit.school.delete');
+Route::post('edit/school/delete_detail',[DetailSchoolController::class,'delete_detail'])->name('edit.school.delete_detail');
+Route::get('edit/school/show/{UNID}',[DetailSchoolController::class,'show'])->name('edit.school.show');
+Route::get('edit/school/show_edit/{UNID}',[DetailSchoolController::class,'show_edit'])->name('edit.school.show_edit');
+
 //settingpage
 Route::post('edit/tag/save',[tagController::class,'save'])->name('edit.tag.save');
 Route::post('edit/tag/edit',[tagController::class,'edit'])->name('edit.tag.edit');
@@ -69,3 +85,13 @@ Route::get('about/show',[AboutSchoolController::class,'show'])->name('about.show
 Route::post('contract/insert/map',[ContractController::class,'insert_map'])->name('contract.insert.map');
 Route::post('contract/insert/data',[ContractController::class,'insert_data'])->name('contract.insert.data');
 Route::post('contract/delete/data',[ContractController::class,'delete_data'])->name('contract.delete.data');
+//emp rank
+Route::post('emprank/insert',[EmpRankController::class,'insert'])->name('emprank.insert');
+Route::post('emprank/update',[EmpRankController::class,'update'])->name('emprank.update');
+Route::post('emprank/delete',[EmpRankController::class,'delete'])->name('emprank.delete');
+//emp
+Route::get('empschool/show',[EmpSchoolController::class,'show'])->name('empschool.show');
+Route::get('empschool/edit',[EmpSchoolController::class,'edit'])->name('empschool.edit');
+Route::post('empschool/insert',[EmpSchoolController::class,'insert'])->name('empschool.insert');
+Route::post('empschool/update',[EmpSchoolController::class,'update'])->name('empschool.update');
+Route::post('empschool/delete',[EmpSchoolController::class,'delete'])->name('empschool.delete');

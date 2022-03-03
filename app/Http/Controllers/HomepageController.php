@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutSchool;
 use App\Models\Contract;
+use App\Models\DetailId;
+use App\Models\DetailSchool;
 use App\Models\Dircetor;
 use App\Models\Img;
 use App\Models\Post;
@@ -26,7 +28,7 @@ class HomepageController extends Controller
         $DATA_POST = Post::where('POST_MONTH', '=', date('n'))->where('POST_YEAR', '=', date('Y'))->where('POST_STATUS', '=', 'OPEN')
             ->orderby('POST_DAY')->limit(6)->get();
         $DATA_CONTRACT = Contract::where('CONTRACT_STATUS','=', 'OPEN')->get();
-        return view('homepage', compact('COUNT_SLIDE', 'IMG_SLIDE', 'DIRECTOR_IMG', 'DATA_DIRCETOR', 'ABOUT_SCHOOL', 'DATA_POST','DATA_CONTRACT'));
+        return view('showpage.homepage', compact('COUNT_SLIDE', 'IMG_SLIDE', 'DIRECTOR_IMG', 'DATA_DIRCETOR', 'ABOUT_SCHOOL', 'DATA_POST','DATA_CONTRACT'));
     }
     public function showpost(Request $request){
         $DATA_POST = Post::where('POST_MONTH', '=', $request->MONTH)->where('POST_YEAR', '=', date('Y'))->where('POST_STATUS', '=', 'OPEN')
@@ -72,5 +74,10 @@ class HomepageController extends Controller
         }
         $show_post .= '</div>';
         return response()->json(['show_post' => $show_post]);
+    }
+    public function detail($DETAIL_TYPE){
+        $DATA_SCHOOL = DetailId::where('DETAIL_TYPE', '=',$DETAIL_TYPE)->where('DETAIL_STATUS','=','OPEN')->first();
+        $DETAIL_SCHOOL = DetailSchool::where('UNID_REF','=',$DATA_SCHOOL->UNID)->get();
+        return view('showpage.detail',compact('DATA_SCHOOL','DETAIL_SCHOOL'));
     }
 }

@@ -10,9 +10,11 @@ use App\Models\Img;
 use App\Models\Dircetor;
 use App\Models\AboutSchool;
 use App\Models\Contract;
+use App\Models\DetailId;
 use App\Models\Post;
-use App\Http\Controllers\CommonFuntionController;
 use App\Models\Tag;
+use App\Models\EmpRank;
+use App\Models\EmpSchool;
 class EditController extends Controller
 {
     public function home(Request $request)
@@ -37,6 +39,15 @@ class EditController extends Controller
     public function settingpage(){
         $DATA_TAG = Tag::orderby('TAG_NAME','ASC')->paginate();
         return view('editpage.setting',compact('DATA_TAG'));
+    }
+    public function school(){
+        $DATA_DETAIL_ID = DetailId::select('DETAIL_HEAD','UNID')->get();
+        return view('editpage.school',compact('DATA_DETAIL_ID'));
+    }
+    public function emp(){
+        $DATA_RANK = EmpRank::orderBy('RANK_NAME_TH','ASC')->get();
+        $DATA_EMP  = EmpSchool::orderby('EMP_RANK','ASC')->orderBy('EMP_FIRST_NAME_TH','ASC')->get();
+        return view('editpage.emp',compact('DATA_RANK','DATA_EMP'));
     }
     public function fetchpost(Request $request){
         $POST_MONTH = $request->select_month_post ;

@@ -85,7 +85,7 @@
                                             <br>
                                         </h5>
                                         <h3 class="text-center text-primary">
-                                            {{ isset($DATA_DIRCETOR->DIRCETOR_NAME) ? $DATA_DIRCETOR->DIRCETOR_NAME : '' }}
+                                            {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT_NAME) ? $DATA_DIRCETOR->DIRCETOR_TEXT_NAME : '' }}
                                             <br>
                                             {{ isset($DATA_DIRCETOR->DIRCETOR_SCHOOL) ? $DATA_DIRCETOR->DIRCETOR_SCHOOL : '' }}
                                             <br>

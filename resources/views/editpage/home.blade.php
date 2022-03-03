@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-inline">
-                                <h1>ภาพสไลด์ ทั้งหมด {{ $LIMIT_NUMBER }} </h1>
+                                <h1>ภาพสไลด์ ทั้งหมด {{ $LIMIT_NUMBER }} รูป</h1>
                                 <button class="btn btn-warning ml-auto" onclick="addnumber_slide()">เพิ่มจำนวนสไลด์</button>
                             </div>
                         </div>
@@ -112,15 +112,15 @@
                         <div class="card-body ">
                             <div class=" row">
                                 <div class="col-md-12">
-                                    <h3 class="indent" id="DIRECTOR_TEXT">
+                                    <h3 class="indent DIRECTOR_TEXT">
                                         {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT) ? $DATA_DIRCETOR->DIRCETOR_TEXT : '' }}
                                     </h3>
                                     <br>
                                     <br>
-                                    <h1 class="text-center text-primary" id="DIRECTOR_NAME">
+                                    <h1 class="text-center text-primary DIRECTOR_NAME">
                                         {{ isset($DATA_DIRCETOR->DIRCETOR_TEXT_NAME) ? $DATA_DIRCETOR->DIRCETOR_TEXT_NAME : '' }}
                                     </h1>
-                                    <h1 class="text-center text-primary" id="DIRECTOR_SCHOOL">
+                                    <h1 class="text-center text-primary DIRCETOR_SCHOOL">
                                         {{ isset($DATA_DIRCETOR->DIRCETOR_SCHOOL) ? $DATA_DIRCETOR->DIRCETOR_SCHOOL : '' }}
                                     </h1>
                                 </div>

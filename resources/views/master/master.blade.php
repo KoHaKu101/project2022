@@ -44,6 +44,17 @@
     <!-- ======= Header ======= -->
     @include("master.head")
     @yield("body")
+    <style>
+        .modal-open {
+            overflow: auto !important;
+            padding-right: 0px !important;
+        }
+
+        #header {
+            padding-right: 0px !important;
+        }
+
+    </style>
 
     @include("master.footer")
     @include("master.modal_login")
