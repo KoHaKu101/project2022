@@ -29,7 +29,10 @@ Route::get('/', [HomepageController::class, 'homepage']);
 
 Route::get('homepage', [HomepageController::class, 'homepage'])->name('homepage');
 Route::get('homepage/detail/{DETAIL_TYPE}', [HomepageController::class, 'detail'])->name('homepage.detail');
+Route::get('homepage/employee', [HomepageController::class, 'employee'])->name('homepage.employee');
+
 Route::post('homepage/showpost', [HomepageController::class, 'showpost'])->name('homepage.showpost');
+
 
 //login and Register
 Route::post("login", [LoginController::class, 'login'])->name("login");
@@ -91,7 +94,7 @@ Route::post('emprank/update',[EmpRankController::class,'update'])->name('emprank
 Route::post('emprank/delete',[EmpRankController::class,'delete'])->name('emprank.delete');
 //emp
 Route::get('empschool/show',[EmpSchoolController::class,'show'])->name('empschool.show');
-Route::get('empschool/edit',[EmpSchoolController::class,'edit'])->name('empschool.edit');
+Route::get('empschool/edit/{UNID}',[EmpSchoolController::class,'edit'])->name('empschool.edit');
 Route::post('empschool/insert',[EmpSchoolController::class,'insert'])->name('empschool.insert');
-Route::post('empschool/update',[EmpSchoolController::class,'update'])->name('empschool.update');
+Route::post('empschool/update/{UNID}',[EmpSchoolController::class,'update'])->name('empschool.update');
 Route::post('empschool/delete',[EmpSchoolController::class,'delete'])->name('empschool.delete');

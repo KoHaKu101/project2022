@@ -80,4 +80,7 @@ class HomepageController extends Controller
         $DETAIL_SCHOOL = DetailSchool::where('UNID_REF','=',$DATA_SCHOOL->UNID)->get();
         return view('showpage.detail',compact('DATA_SCHOOL','DETAIL_SCHOOL'));
     }
+    public function employee(){
+        return view('showpage.employee');
+    }
 }

@@ -29,8 +29,8 @@ $("#FRM_REGISTER").submit(function(e) {
                             icon: response.alert,
                             title: 'เข้าสู่ระบบ สำเร็จ !',
                             text: 'ยินดีต้อนรับเข้าสู่ระบบ',
+                            timer:1500,
                         }).then(function(){
-
                                 location.reload();
                         });
                     }

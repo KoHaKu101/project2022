@@ -24,8 +24,8 @@ class CreateEmpSchool extends Migration
             $table->string('EMP_MIDDLE_NAME_EN',200);
             $table->string('EMP_LAST_NAME_EN',200);
 
-            $table->string('EMP_IMG',200);
-            $table->string('EMP_IMG_EXT',200);
+            $table->string('EMP_IMG',200)->nullable();
+            $table->string('EMP_IMG_EXT',200)->nullable();
 
             $table->integer('EMP_AGE');
             $table->string('EMP_SEX',50);

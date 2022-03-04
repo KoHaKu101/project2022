@@ -79,10 +79,14 @@
                                                 <td>
                                                     <div class="row">
                                                         <div class="col-md-12 form-inline ">
-                                                            <button type="button" class="btn btn-warning ml-auto mr-auto">
+                                                            <a href="{{ route('empschool.edit', ['UNID' => $row_emp->UNID]) }}"
+                                                                class="btn btn-warning ml-auto mr-auto">
                                                                 <i class="fas fa-edit"></i>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger ml-ato mr-auto">
+                                                            </a>
+                                                            <button type="button" class="btn btn-danger ml-ato mr-auto"
+                                                                onclick="remove_emp(this)"
+                                                                data-unid="{{ $row_emp->UNID }}"
+                                                                data-name="{{ $row_emp->EMP_FIRST_NAME_TH }}">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </div>
@@ -198,6 +202,43 @@
                                 })
                             }
 
+                        }
+                    });
+                }
+            })
+        }
+
+        function remove_emp(thisdata) {
+            var unid = $(thisdata).data('unid');
+            var name = $(thisdata).data('name');
+            var url = "{{ route('empschool.delete') }}";
+            Swal.fire({
+                icon: 'warning',
+                title: 'ต้องการลบ ' + name + ' มั้ย?',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#31ce36',
+                cancelButtonColor: '#f25961',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            UNID: unid
+                        },
+                        success: function(response) {
+                            if (response.status == 'pass') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'ลบรายการสำเร็จ',
+                                    timer: '1500',
+                                }).then(function() {
+                                    location.reload();
+                                })
+                            }
                         }
                     });
                 }

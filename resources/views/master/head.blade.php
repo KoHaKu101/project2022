@@ -39,7 +39,7 @@
 
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="#">บุคลากร</a></li>
+                <li><a class="nav-link scrollto" href="{{ route('homepage.employee') }}">บุคลากร</a></li>
                 <li class="dropdown">
                     <a href="#">
                         <span>ข่าวสาร</span>
