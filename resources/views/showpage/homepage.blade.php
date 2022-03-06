@@ -69,7 +69,7 @@
                 <div class="row no-gutters">
                     <div class="content col-xl-5 d-flex align-items-stretch">
                         <img src="{{ asset('assets/image/people/' . $DIRECTOR_IMG) }}"
-                            class="rounded mx-auto d-block {{ $STYLE_IMG }} ">
+                            class="rounded mx-auto d-block {{ $STYLE_IMG }} img-fluid">
                     </div>
                     @if (isset($DATA_DIRCETOR))
                         <div class="col-xl-7 d-flex align-items-stretch">
