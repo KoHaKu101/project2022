@@ -75,7 +75,7 @@
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <img src="{{ asset('assets/image/people/' . $DIRECTOR_IMG) }}" id="SHOW_DIRECTOR"
-                                        style="height:299px;width:243px">
+                                        style="width: 245px;height: 249px;">
                                 </div>
                             </div>
                             <div class="row">
