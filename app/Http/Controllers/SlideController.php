@@ -31,8 +31,9 @@ class SlideController extends Controller
     }
     private function table_setting($NUMBER){
             $DATA_SETTING = Settingnumber::where("TYPE_SETTING",'=',"SLIDE")->first();
-            $NUMBER_SETTING = $DATA_SETTING->TYPE_NUMBER;
-            if(isset($NUMBER_SETTING)){
+
+            $NUMBER_SETTING = isset($DATA_SETTING->TYPE_NUMBER) ? $DATA_SETTING->TYPE_NUMBER : '';
+            if(isset($DATA_SETTING->TYPE_NUMBER)){
                 $UNID = $DATA_SETTING->UNID;
                 if($NUMBER < $NUMBER_SETTING){
                     Img::where('IMG_TYPE','=','SLIDE')->where('IMG_NUMBER','>',$NUMBER)->update([
