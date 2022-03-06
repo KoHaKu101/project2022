@@ -40,8 +40,8 @@ class DirectorController extends Controller
         if(!file_exists($filePath)){
             File::makeDirectory($filePath);
         }
-        $fix_w      =  243 ;
-        $fix_h      =  299 ;
+        $fix_w      =  1060 ;
+        $fix_h      =  1079 ;
         $img        = Image::make($image->path());
         $EXT        = '.'.$image->extension();
         $img->resize($fix_w, $fix_h)->save($filePath.'/'.$FILE_NAME.$EXT);
