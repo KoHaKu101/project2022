@@ -168,8 +168,8 @@
                                                                 <h3>อัปโหลดไฟล์PDF</h3>
                                                             </label>
                                                             <input type="file" class="form-control" id="POST_FILE"
-                                                                name="POST_FILE" required>
-                                                            <label class="float-right POST_FILEPDF_LABLE" hidden>
+                                                                name="POST_FILE" accept="application/pdf" required>
+                                                            <label class=" float-right POST_FILEPDF_LABLE" hidden>
                                                             </label>
                                                         </div>
                                                         <div class="col-md-12 POST_HEADERPDF_DIV">

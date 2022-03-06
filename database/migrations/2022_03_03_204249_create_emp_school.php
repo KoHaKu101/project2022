@@ -30,8 +30,8 @@ class CreateEmpSchool extends Migration
             $table->integer('EMP_AGE');
             $table->string('EMP_SEX',50);
             $table->string('EMP_NATION',100);
-            $table->string('EMP_RANK',100);
-            $table->BigInteger('EMP_RANK_REF');
+            $table->string('EMP_RANK',100)->nullable();
+            $table->BigInteger('EMP_RANK_REF')->nullable();
             $table->string('EMP_STATUS',100)->default('OPEN');
 
             $table->integer('EMP_IN_DAY')->nullable();

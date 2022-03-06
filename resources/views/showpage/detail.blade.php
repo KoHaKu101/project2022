@@ -1,7 +1,10 @@
 @extends("master.master")
 @section('body')
     <style>
-
+        .disabled {
+            pointer-events: none;
+            cursor: default;
+        }
 
     </style>
     <main id="main">
@@ -41,7 +44,7 @@
                                         </div>
                                     @endif
                                     <h2 class="entry-title">
-                                        <a href="blog-single.html">{{ $row->DETAIL_HEAD }}</a>
+                                        <a href="#" class="disabled">{{ $row->DETAIL_HEAD }}</a>
                                     </h2>
                                     <div class="entry-content">
                                         <p>
@@ -70,7 +73,7 @@
                                         @endif
                                         <div class="col-md-6">
                                             <h2 class="entry-title">
-                                                <a href="blog-single.html">{{ $row->DETAIL_HEAD }}</a>
+                                                <a href="#" class="disabled">{{ $row->DETAIL_HEAD }}</a>
                                             </h2>
                                             <div class="entry-content">
                                                 <p>

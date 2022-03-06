@@ -18,6 +18,7 @@ class CreatePostImg extends Migration
             $table->BigInteger('UNID_REF');
             $table->string('POST_IMG_NAME',150);
             $table->string('POST_IMG_EXT',150);
+
             $table->string('CREATE_BY', 200)->nullable();
             $table->string('CREATE_TIME', 50)->nullable();
             $table->string('MODIFY_BY', 200)->nullable();

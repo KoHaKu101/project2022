@@ -5,6 +5,85 @@
             font-size: 16px;
         }
 
+        .btn-status {
+            font-size: 0.1rem;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .btn-status__input {
+            display: none;
+        }
+
+        .btn-status__button {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+
+            width: 100px;
+            height: 45px;
+            background: #f25961;
+            color: rgb(255, 255, 255);
+            border: solid 1px #f25961;
+            border-radius: 7px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.65rem 1.4rem;
+            font-size: 14px;
+            opacity: 1;
+
+        }
+
+        .btn-status__button::before {
+            position: absolute;
+            width: 15px;
+            top: 12px;
+            left: 13px;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #FFF;
+            border-radius: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-status__button::after {
+            content: "ปิด";
+            position: absolute;
+            top: 10px;
+            left: 45px;
+            font-size: 1rem;
+        }
+
+        .btn-status__button--correct {
+            position: absolute;
+            width: 25px;
+            top: 10px;
+            left: 15px;
+            visibility: hidden;
+        }
+
+
+        .btn-status__input:checked+.btn-status__button {
+            background: #31ce36;
+            border: #31ce36;
+            color: white;
+        }
+
+        .btn-status__input:checked+.btn-status__button>.btn-status__button--correct {
+            visibility: visible;
+        }
+
+        .btn-status__input+.btn-status__button>.btn-status__button--correct {
+            visibility: visible;
+        }
+
+        .btn-status__input:checked+.btn-status__button::after {
+            content: "เปิด";
+        }
+
     </style>
     <div class="content">
         <div class="page-inner py-3">
@@ -41,87 +120,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <style>
-                                    .btn-status {
-                                        font-size: 0.1rem;
-                                        display: inline-block;
-                                        vertical-align: top;
-                                    }
 
-                                    .btn-status__input {
-                                        display: none;
-                                    }
-
-                                    .btn-status__button {
-                                        position: relative;
-                                        display: inline-block;
-                                        text-align: center;
-                                        white-space: nowrap;
-                                        vertical-align: middle;
-
-                                        width: 100px;
-                                        height: 45px;
-                                        background: #f25961;
-                                        color: rgb(255, 255, 255);
-                                        border: solid 1px #f25961;
-                                        border-radius: 7px;
-                                        transition: all 0.3s ease;
-                                        cursor: pointer;
-                                        padding: 0.65rem 1.4rem;
-                                        font-size: 14px;
-                                        opacity: 1;
-
-                                    }
-
-                                    .btn-status__button::before {
-                                        position: absolute;
-                                        width: 15px;
-                                        top: 12px;
-                                        left: 13px;
-                                        display: inline-block;
-                                        width: 20px;
-                                        height: 20px;
-                                        background: #FFF;
-                                        border-radius: 100%;
-                                        transition: all 0.3s ease;
-                                    }
-
-                                    .btn-status__button::after {
-                                        content: "ปิด";
-                                        position: absolute;
-                                        top: 10px;
-                                        left: 45px;
-                                        font-size: 1rem;
-                                    }
-
-                                    .btn-status__button--correct {
-                                        position: absolute;
-                                        width: 25px;
-                                        top: 10px;
-                                        left: 15px;
-                                        visibility: hidden;
-                                    }
-
-
-                                    .btn-status__input:checked+.btn-status__button {
-                                        background: #31ce36;
-                                        border: #31ce36;
-                                        color: white;
-                                    }
-
-                                    .btn-status__input:checked+.btn-status__button>.btn-status__button--correct {
-                                        visibility: visible;
-                                    }
-
-                                    .btn-status__input+.btn-status__button>.btn-status__button--correct {
-                                        visibility: visible;
-                                    }
-
-                                    .btn-status__input:checked+.btn-status__button::after {
-                                        content: "เปิด";
-                                    }
-
-                                </style>
                                 <tbody>
                                     @foreach ($DATA_TAG as $index => $row)
                                         @php
@@ -183,6 +182,73 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header bg-purple text-white">
+                    <div class="row">
+                        <div class="col-md-12 form-inline">
+                            <h1>ผู้ใช้งานระบบ</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-head-bg-info table-bordered-bd-info ">
+                                <thead>
+                                    <tr>
+                                        <th width="3%">
+                                            <h3>ลำดับ</h3>
+                                        </th>
+                                        <th width="45%">
+                                            <h3>ชื่อผู้ใช้</h3>
+                                        </th>
+                                        <th width="45%">
+                                            <h3>อีเมล</h3>
+                                        </th>
+                                        <th width="20%">
+                                            <h3>Action</h3>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach ($DATA_USER as $index_user => $row_user)
+                                        @php
+                                            $list_number = $DATA_USER->firstItem() + $index_user;
+                                            $status = $row_user->TAG_STATUS;
+                                            $status_check = $status == 'OPEN' ? 'checked' : '';
+                                            $img_check = $status == 'OPEN' ? 'correct.png' : 'incorrect.png';
+                                        @endphp
+                                        <tr>
+                                            <td class="text-center">
+                                                <h3>{{ $list_number }}</h3>
+                                            </td>
+                                            <td>
+                                                <h3>{{ $row_user->USERNAME }}</h3>
+                                            </td>
+                                            <td>
+                                                <h3>{{ $row_user->EMAIL }}</h3>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-12 form-inline">
+                                                        <button type="button" class="btn btn-success ml-auto mr-auto"
+                                                            data-unid="{{ $row_user->UNID }}"
+                                                            data-role="{{ $row_user->ROLE }}" onclick="show_user(this)">
+                                                            <i class="fas fa-edit mx-2"></i>
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Button trigger modal -->
@@ -221,6 +287,53 @@
                         <button type="submit" class="btn btn-success text-byme" id="btn_tag">
                             <i class="fas fa-save mx-1 "></i>
                             เพิ่ม
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="show_user" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document">
+            <form action="{{ route('user.update') }}" method="post" id="FRM_REGISTER">
+                @csrf
+                <input type="hidden" id="UNID_USER" name="UNID_USER">
+                <div class="modal-content">
+                    <div class="modal-header bg-purple text-white">
+                        <h2 class="modal-title" id="title_tag">แก้ไขสมาชิก</h2>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size:25px">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center" id="head_tag">
+                                <h3>แก้ไขสมาชิก</h3>
+                            </div>
+                            <div class="col-md-6 my-2  has-error">
+                                <label id="label_tag">รหัสผ่าน</label>
+                                <input type="password" class="form-control my-2" id="PASSWORD" name="PASSWORD">
+                            </div>
+                            <div class="col-md-6 my-2  has-error">
+                                <label id="label_tag">ระดับการแก้ไข</label>
+                                <select class="form-control my-2" id="ROLE" name="ROLE">
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="USER">USER</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger text-byme" data-dismiss="modal">
+                            <i class="fa fa-times mx-1 "></i>
+                            ยกเลิก
+                        </button>
+                        <button type="submit" class="btn btn-success text-byme">
+                            <i class="fas fa-edit mx-1 "></i>
+                            แก้ไข
                         </button>
                     </div>
                 </div>
@@ -284,6 +397,14 @@
                     }
                 }
             });
+        }
+
+        function show_user(thisdata) {
+            var unid = $(thisdata).data('unid');
+            var role = $(thisdata).data('role');
+            $('#UNID_USER').val(unid);
+            $('#ROLE').val(role);
+            $('#show_user').modal('show');
         }
     </script>
 @endsection

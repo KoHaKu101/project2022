@@ -74,7 +74,10 @@ class TagController extends Controller
     }
     public function ajaxshow(){
         $data = Tag::select('UNID','TAG_NAME')->where('TAG_STATUS','=','OPEN')->get();
-
-        return response()->json($data);
+        $data_array = array();
+        foreach($data as $index => $row){
+            $data_array[$index] = ['UNID' =>"".$row->UNID."",'TAG_NAME'=>$row->TAG_NAME];
+        }
+        return response()->json($data_array);
     }
 }

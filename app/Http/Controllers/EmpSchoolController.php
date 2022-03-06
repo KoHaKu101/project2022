@@ -15,12 +15,12 @@ class EmpSchoolController extends Controller
 {
     public function show(Request $request){
         $DATA_RANK = EmpRank::where('RANK_STATUS','=','OPEN')->get();
-        return view('editpage.empshow',compact('DATA_RANK'));
+        return view('editpage.emp.empshow',compact('DATA_RANK'));
     }
     public function edit($UNID){
         $DATA_RANK = EmpRank::where('RANK_STATUS','=','OPEN')->get();
         $DATA_EMP = EmpSchool::where('UNID','=',$UNID)->first();
-        return view('editpage.empedit',compact('DATA_RANK','DATA_EMP'));
+        return view('editpage.emp.empedit',compact('DATA_RANK','DATA_EMP'));
     }
     public function save_img($img,$file_name,$file_ext){
         $w = 1024;
@@ -40,8 +40,12 @@ class EmpSchoolController extends Controller
         $FUNCTION = new CommonFuntionController();
         $UNID = $FUNCTION->randUNID('EMP_SCHOOL');
         $EMP_PREFIX = $request->EMP_PREFIX;
-
+        //ลบคำนำหน้าชื่อ
         $EMP_FIRST_NAME_TH  = $request->EMP_FIRST_NAME_TH;
+        $EMP_FIRST_NAME_TH  = str_replace( "นาย", "", $EMP_FIRST_NAME_TH );
+        $EMP_FIRST_NAME_TH  = str_replace( "นาง", "", $EMP_FIRST_NAME_TH );
+        $EMP_FIRST_NAME_TH  = str_replace( "นางสาว", "", $EMP_FIRST_NAME_TH );
+        //
         $EMP_LAST_NAME_TH   = $request->EMP_LAST_NAME_TH;
 
         $EMP_FIRST_NAME_EN  = isset($request->EMP_FIRST_NAME_EN) ? $request->EMP_FIRST_NAME_EN : '';
@@ -102,11 +106,17 @@ class EmpSchoolController extends Controller
     public function update($UNID,Request $request){
         $EMP_PREFIX = $request->EMP_PREFIX;
 
-        $EMP_FIRST_NAME_TH  = $request->EMP_FIRST_NAME_TH;
-        $EMP_LAST_NAME_TH   = $request->EMP_LAST_NAME_TH;
+        $EMP_FIRST_NAME_TH = $request->EMP_FIRST_NAME_TH;
+        //ลบคำนำหน้าชื่อ
+        $EMP_FIRST_NAME_TH = str_replace( "นาย", "", $EMP_FIRST_NAME_TH );
+        $EMP_FIRST_NAME_TH = str_replace( "นาง", "", $EMP_FIRST_NAME_TH );
+        $EMP_FIRST_NAME_TH = str_replace( "นางสาว", "", $EMP_FIRST_NAME_TH );
+        //ลบคำนำหน้าชื่อ
 
-        $EMP_FIRST_NAME_EN  = isset($request->EMP_FIRST_NAME_EN) ? $request->EMP_FIRST_NAME_EN : '';
-        $EMP_LAST_NAME_EN   = isset($request->EMP_LAST_NAME_EN) ? $request->EMP_LAST_NAME_EN : '';
+        $EMP_LAST_NAME_TH  = $request->EMP_LAST_NAME_TH;
+
+        $EMP_FIRST_NAME_EN = isset($request->EMP_FIRST_NAME_EN) ? $request->EMP_FIRST_NAME_EN : '';
+        $EMP_LAST_NAME_EN  = isset($request->EMP_LAST_NAME_EN) ? $request->EMP_LAST_NAME_EN : '';
 
         $EMP_AGE    = $request->EMP_AGE;
         $EMP_NATION = $request->EMP_NATION;

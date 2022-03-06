@@ -11,10 +11,15 @@ use App\Models\Dircetor;
 use App\Models\AboutSchool;
 use App\Models\Contract;
 use App\Models\DetailId;
+use App\Models\DetailSchool;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\EmpRank;
 use App\Models\EmpSchool;
+use App\Models\Register;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class EditController extends Controller
 {
     public function home(Request $request)
@@ -37,17 +42,25 @@ class EditController extends Controller
                                             ,'DATA_POST','POST_MONTH','POST_TYPE','DATA_CONTRACT','DATA_TAG'))->with('FOCUS',$FOCUS);
     }
     public function settingpage(){
-        $DATA_TAG = Tag::orderby('TAG_NAME','ASC')->paginate();
-        return view('editpage.setting',compact('DATA_TAG'));
+        $DATA_TAG = Tag::orderby('TAG_NAME','ASC')->paginate(10);
+        $DATA_USER = Register::orderby('USERNAME','ASC')->paginate(10);
+
+        return view('editpage.setting',compact('DATA_TAG','DATA_USER'));
     }
     public function school(){
-        $DATA_DETAIL_ID = DetailId::select('DETAIL_HEAD','UNID')->get();
-        return view('editpage.school',compact('DATA_DETAIL_ID'));
+        $DATA_DETAIL_ID = DetailId::select('DETAIL_HEAD','UNID','DETAIL_TYPE')->paginate(20);
+        $DATA_DETAIL = DetailSchool::select('UNID_REF','DETAIL_HEAD')->get();
+        return view('editpage.school.school',compact('DATA_DETAIL_ID','DATA_DETAIL'));
     }
     public function emp(){
-        $DATA_RANK = EmpRank::orderBy('RANK_NAME_TH','ASC')->get();
+        $DATA_RANK = EmpRank::orderBy('RANK_NAME_TH','DESC')->get();
         $DATA_EMP  = EmpSchool::orderby('EMP_RANK','ASC')->orderBy('EMP_FIRST_NAME_TH','ASC')->get();
-        return view('editpage.emp',compact('DATA_RANK','DATA_EMP'));
+        return view('editpage.emp.emp',compact('DATA_RANK','DATA_EMP'));
+    }
+    public function post(Request $request){
+        $DATA_POST = Post::orderBy('POST_YEAR','ASC')->orderBy('POST_MONTH','ASC')->orderBy('POST_DAY','ASC')->get();
+
+        return view('editpage.post.post',compact('DATA_POST'));
     }
     public function fetchpost(Request $request){
         $POST_MONTH = $request->select_month_post ;

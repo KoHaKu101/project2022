@@ -108,7 +108,21 @@ class DetailSchoolController extends Controller
         }
     }
     public function update(Request $request){
-        dd($request);
+        $UNID = $request->UNID;
+        $DETAIL_TYPE = $request->DETAIL_TYPE;
+        $DETAIL_HEAD = $request->DETAIL_HEAD;
+        $folder_name = DetailId::where('UNID','=',$UNID)->first()->DETAIL_TYPE;
+        DetailId::where('UNID','=',$UNID)->update([
+            'DETAIL_TYPE' => $DETAIL_TYPE,
+            'DETAIL_HEAD' => $DETAIL_HEAD,
+            'MODIFY_BY' => Auth::user()->USERNAME,
+            'MODIFY_TIME' => Carbon::now(),
+        ]);
+        $filePath   = public_path('assets/image/school/'.$folder_name);
+        $newfilePath = public_path('assets/image/school/'.$DETAIL_TYPE);
+        rename($filePath,$newfilePath);
+        alert()->success('แก้ไขรายการสำเร็จ')->autoClose(1500);
+        return redirect()->back();
     }
      public function update_detail(Request $request){
         $UNID = $request->UNID;
@@ -169,12 +183,28 @@ class DetailSchoolController extends Controller
         return redirect()->route('edit.school.show',[$UNID=>$UNID_REF]);
     }
     public function delete(Request $request){
-        dd($request);
+        $UNID = $request->UNID;
+        $DETAIL_SCHOOL = DetailSchool::where('UNID_REF',$UNID)->count();
+        $icon = 'success';
+        $title = 'ลบรายการสำเร็จ';
+        $text = '';
+        if($DETAIL_SCHOOL > 0){
+            $icon = 'error';
+            $title = 'ไม่สามารถลบรายการนี้ได้';
+            $text = 'เนื่องจากมีข้อมูลอยู่';
+            return response()->json(['status'=>'nopass','icon' => $icon,'title' => $title,'text' => $text]);
+        }
+        $DETAIL_ID = DetailId::where('UNID','=',$UNID)->first();
+        $filePath = public_path('assets/image/school/'.$DETAIL_ID->DETAIL_TYTPE);
+        File::delete($filePath);
+        DetailId::where('UNID','=',$UNID)->delete();
+        return response()->json(['status'=>'pass','icon' => $icon,'title' => $title,'text' => $text]);
     }
     public function delete_detail(Request $request){
         $UNID = $request->UNID;
         $DETAIL_SCHOOL = DetailSchool::where('UNID','=',$UNID)->first();
         $check = $this->remove_img($UNID,$DETAIL_SCHOOL->UNID_REF);
+
         if($check){
             $DETAIL_SCHOOL->delete();
             $return_array = ['status'=>true,'icon'=>'success','title'=>'ลบรายการสำเร็จ'];
@@ -186,12 +216,12 @@ class DetailSchoolController extends Controller
     public function show($UNID){
         $DATA_DETAIL = DetailId::where('UNID','=',$UNID)->first();
         $DATA_DETAIL_SCHOOL = DetailSchool::where('UNID_REF','=',$UNID)->get();
-        return view('editpage.schoolshow',compact('DATA_DETAIL','DATA_DETAIL_SCHOOL'));
+        return view('editpage.school.schoolshow',compact('DATA_DETAIL','DATA_DETAIL_SCHOOL'));
     }
     public function show_edit($UNID){
         $DATA_DETAIL_SCHOOL = DetailSchool::where('UNID','=',$UNID)->first();
         $DETAIL_TYPE = DetailId::where('UNID','=',$DATA_DETAIL_SCHOOL->UNID_REF)->first()->DETAIL_TYPE;
-        return view('editpage.schooledit',compact('DATA_DETAIL_SCHOOL','DETAIL_TYPE'));
+        return view('editpage.school.schooledit',compact('DATA_DETAIL_SCHOOL','DETAIL_TYPE'));
 
     }
 }

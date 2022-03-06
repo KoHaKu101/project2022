@@ -21,6 +21,7 @@ class PostImg extends Model
         'UNID_REF',
         'POST_IMG_NAME',
         'POST_IMG_EXT',
+        'POST_IMG_POSITION',
         'CREATE_BY',
         'CREATE_TIME',
         'MODIFY_BY',

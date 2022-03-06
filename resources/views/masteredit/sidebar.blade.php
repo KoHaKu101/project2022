@@ -43,8 +43,8 @@ $current_page = Request::segment(2);
                         <p>หน้าหลัก</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a href="#dashboard" class="collapsed" aria-expanded="false">
+                <li class="nav-item {{ $current_page == 'post' ? 'active' : '' }}">
+                    <a href="{{ route('edit.post') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-newspaper"></i>
                         <p>ข่าวสาร</p>
                     </a>
@@ -57,20 +57,14 @@ $current_page = Request::segment(2);
                 </li>
                 <li class="nav-item {{ $current_page == 'emp' ? 'active' : '' }}">
                     <a href="{{ route('edit.emp') }}" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-home"></i>
+                        <i class="fas fa-user-graduate"></i>
                         <p>บุคลากร</p>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a href="#dashboard" class="collapsed" aria-expanded="false">
-                        <i class="fas fa-home"></i>
-                        <p>ภาพกิจกรรม</p>
                     </a>
                 </li>
                 <li class="nav-item {{ $current_page == 'settingpage' ? 'active' : '' }}">
                     <a href="{{ route('edit.settingpage') }}" class="collapsed" aria-expanded="false">
                         <i class="fas fa-wrench"></i>
-                        <p>ตั้งค่าตัวไป</p>
+                        <p>ตั้งค่าทั่วไป</p>
                     </a>
                 </li>
             </ul>

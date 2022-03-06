@@ -20,7 +20,7 @@ $("#FRM_LOGIN").submit(function(e) {
                         Swal.fire({
                             icon: response.alert,
                             title: 'เกิดข้อผิดพลาด !',
-                            timer: 1000,
+                            timer: '1000',
                             text: response.massage,
                         })
                     } else if (response.alert == 'success') {
@@ -28,7 +28,7 @@ $("#FRM_LOGIN").submit(function(e) {
                             icon: response.alert,
                             title: 'เข้าสู่ระบบ สำเร็จ !',
                             text: 'ยินดีต้อนรับเข้าสู่ระบบ',
-                            timer: 1500,
+                            timer: '1500',
                         }).then(function(){
                                 location.reload();
                         });

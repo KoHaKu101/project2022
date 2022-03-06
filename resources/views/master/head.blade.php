@@ -5,7 +5,9 @@
     }
 
 </style>
-
+@php
+$current_page = Request::segment(2);
+@endphp
 <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center">
         <h1 class="logo me-auto">
@@ -15,9 +17,10 @@
         </h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="nav-link scrollto active" href="{{ route('homepage') }}">หน้าแรก</a></li>
+                <li><a class="nav-link scrollto {{ $current_page == '' ? 'active' : '' }}"
+                        href="{{ route('homepage') }}">หน้าแรก</a></li>
                 <li class="dropdown">
-                    <a href="#">
+                    <a href="#" class="{{ $current_page == 'detail' ? 'active' : '' }}">
                         <span>ข้อมูลพื้นฐานโรงเรียน</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
@@ -25,9 +28,11 @@
                         @php
                             use App\Models\DetailSchool;
                             use App\Models\DetailId;
+                            use App\Models\Tag;
                             $DATA_DETAIL = DetailId::select('UNID', 'DETAIL_HEAD', 'DETAIL_TYPE')
                                 ->where('DETAIL_STATUS', '=', 'OPEN')
                                 ->get();
+                            $DATA_TAG = Tag::where('TAG_STATUS', '=', 'OPEN')->get();
                         @endphp
                         @foreach ($DATA_DETAIL as $index_detail => $row_detail)
                             <li>
@@ -39,21 +44,32 @@
 
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="{{ route('homepage.employee') }}">บุคลากร</a></li>
+                <li><a class="nav-link scrollto {{ $current_page == 'employee' ? 'active' : '' }}"
+                        href="{{ route('homepage.employee') }}">บุคลากร</a></li>
                 <li class="dropdown">
-                    <a href="#">
+                    <a href="#" class="nav-link scrollto {{ $current_page == 'post' ? 'active' : '' }}">
                         <span>ข่าวสาร</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-
-                        <li><a href="#">sss</a></li>
-                        <li><a href="#">Drop Down 2</a></li>
-                        <li><a href="#">Drop Down 3</a></li>
-                        <li><a href="#">Drop Down 4</a></li>
+                        @foreach ($DATA_TAG as $index => $row)
+                            <li>
+                                <a href="{{ route('homepage.post_tag') . '?TAG=' . $row->TAG_NAME }}">
+                                    {{ $row->TAG_NAME }}
+                                </a>
+                            </li>
+                        @endforeach
+                        <li>
+                            <a href="{{ route('homepage.post_tag') }}">
+                                ทั้งหมด
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto" href="#">ติดต่อ</a></li>
+                <li>
+                    <a class="nav-link scrollto {{ $current_page == 'contract' ? 'active' : '' }}"
+                        href="{{ route('homepage.contract') }}">ติดต่อ</a>
+                </li>
 
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
@@ -67,7 +83,6 @@
                     @if (Auth::user()->ROLE == 'ADMIN')
                         <li><a class="dropdown-item" href="{{ route('edit.home') }}">แก้ไขเว็บไซต์</a></li>
                     @endif
-                    <li><a class="dropdown-item" href="#">Action</a></li>
                     <li><a class="dropdown-item" href="{{ route('logout') }}">ออกจากระบบ</a></li>
                 </ul>
             </div>

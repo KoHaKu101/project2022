@@ -32,8 +32,7 @@ class LoginController extends Controller
         return $number;
     }
 
-    public function login(Request $request)
-    {
+    public function login(Request $request){
         $message = [
             'USERNAME.required' => 'กรุณากรอกชื่อผู้ใช้',
             'password.required' => 'กรุณากรอกรหัสผ่าน',
@@ -62,8 +61,7 @@ class LoginController extends Controller
         $request->session()->regenerate();
         return response()->json(['massage' => 'เข้าสู่ระบบสำเร็จ','alert'=>"success"]);
     }
-    public function register(Request $request)
-    {
+    public function register(Request $request){
 
         $message = [
             'required' => 'กรุณากรอกข้อมูลให้ครบถ้วน',
@@ -115,9 +113,25 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
-    {
+    public function logout(){
         Auth::logout();
         return redirect()->route('homepage');
+    }
+    public function update(Request $request){
+        $UNID = $request->UNID_USER;
+        $ROLE = $request->ROLE;
+        $PASSWORD = $request->PASSWORD;
+        $DATA_SET = [
+            "ROLE" => $ROLE,
+        ];
+        if(isset($PASSWORD)){
+            $DATA_SET = [
+                "ROLE" => $ROLE,
+                "password" => Hash::make($PASSWORD)
+            ];
+        }
+        Register::where('UNID','=',$UNID)->update($DATA_SET);
+        alert()->success('แก้ไขสำเร็จ')->autoClose(1500);
+        return redirect()->back();
     }
 }

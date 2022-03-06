@@ -8,14 +8,14 @@
                width: '100%',
                ajax: {
                    url: "{{ route('edit.tag.ajaxshow') }}",
-                   dataType: 'json',
+                   dataType: 'JSON',
                    type: "POST",
                    quietMillis: 50,
                    processResults: function(data) {
+                       console.log(data);
                        return {
                            results: $.map(data, function(item) {
-                               console.log(data)
-                               console.log(item)
+                               console.log(item.UNID);
                                return {
                                    text: item.TAG_NAME,
                                    id: item.UNID
@@ -171,7 +171,6 @@
                            timer: 1500,
                        });
                        $.each(response.text, function(id, text) {
-                           console.log(id + '=' + text);
                            if (text != '') {
                                $('.' + id + 'PDF_DIV').addClass('has-error');
                                $('.' + id + 'PDF_LABLE').attr('hidden', false);
@@ -229,7 +228,6 @@
                            timer: 1500,
                        });
                        $.each(response.text, function(id, text) {
-                           console.log(id + '=' + text);
                            if (text != '') {
                                $('.' + id + 'DEFAULT_DIV').addClass('has-error');
                                $('.' + id + 'DEFAULT_LABLE').attr('hidden', false);
@@ -278,7 +276,6 @@
            var month = $('#SELECT_MONTH_POST').val();
            var type = $('#SELECT_TYPE_POST').val();
            url = "{{ route('edit.home') }}?select_month_post=" + month + "&select_type_post=" + type + "";
-           console.log(url);
            location.href = url;
        })
 

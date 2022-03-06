@@ -23,6 +23,7 @@ $("#FRM_REGISTER").submit(function(e) {
                             icon: response.alert,
                             title: 'เกิดข้อผิดพลาด !',
                             text: 'กรุณาตรวจสอบข้อมูลให้ถูกต้อง',
+                            timer: '1500',
                         })
                     } else if (response.alert == 'success') {
                         Swal.fire({

@@ -21,6 +21,7 @@ class CreatePost extends Migration
             $table->string('POST_IMG_LOGO',150);
             $table->string('POST_IMG_EXT',150);
 
+
             $table->string('POST_PDF',150)->nullable();
             $table->string('POST_PDF_EXT',150)->nullable();
             $table->integer('POST_DAY');
