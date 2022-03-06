@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use App\Models\DIRCETOR;
+use App\Models\Dircetor;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
